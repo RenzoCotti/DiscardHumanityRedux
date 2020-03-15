@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const outputDirectory = "dist";
 
@@ -29,22 +29,20 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use:
-          ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
-              loader: 'css-loader'
-            }]
-
-          })
-
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            {
+              loader: "css-loader"
+            }
+          ]
+        })
       },
       {
         test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'file-loader?name=[name].[ext]'  // <-- retain original file name
-      },
-
-    ],
+        loader: "file-loader?name=[name].[ext]" // <-- retain original file name
+      }
+    ]
   },
   devServer: {
     port: 3000,
@@ -59,13 +57,12 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin({ filename: 'bundle.css' }),
+    new ExtractTextPlugin({ filename: "bundle.css" }),
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      favicon: 'public/images/leaf192.png'
-
-    }),
+      favicon: "public/images/icon192.png"
+    })
   ],
   resolve: {
     extensions: [".js", ".jsx"]
