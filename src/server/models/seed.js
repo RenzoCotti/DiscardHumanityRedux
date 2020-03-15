@@ -31,11 +31,12 @@ let decks = [
 ];
 
 mongoose.connect(config.dbURL, {
-  auth: {
-    user: config.uname,
-    password: config.pword
-  },
-  useNewUrlParser: true
+  // auth: {
+  //   user: config.uname,
+  //   password: config.pword
+  // },
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 Deck.collection.drop();
 

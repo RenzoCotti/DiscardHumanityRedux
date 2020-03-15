@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const definitions = require("../../utility/definitions");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 

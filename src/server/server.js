@@ -18,12 +18,13 @@ try {
 
 //setting up mongoose
 mongoose.connect(process.env.dbURL || config.dbURL, {
-  auth: {
-    user: process.env.uname || config.uname,
-    password: process.env.pword || config.pword
-  },
+  // auth: {
+  //   user: process.env.uname || config.uname,
+  //   password: process.env.pword || config.pword
+  // },
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
 });
 //Using default promises
 mongoose.Promise = global.Promise;
