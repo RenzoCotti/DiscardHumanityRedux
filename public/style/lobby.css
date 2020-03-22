@@ -1,0 +1,39 @@
+.lobby-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.lobby-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  margin-right: 60px;
+  margin-bottom: 20px;
+  min-width: 350px;
+  border-bottom: 1px solid var(--text);
+}
+
+.lobby-info {
+  min-width: 200px;
+}
+
+.lobby-join {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.lobby-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.create-lobby {
+  position: fixed;
+  right: 200px;
+}

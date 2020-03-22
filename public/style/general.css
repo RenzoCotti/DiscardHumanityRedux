@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=Tangerine&display=swap");
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  background-color: var(--text);
+}
+
+.nav-element {
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background-color: var(--text);
+  color: var(--background);
+  /* border-radius: 50px 0 0; */
+}
+
+.nav-element::before {
+  border-left: 20px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid red;
+}
+
+.nav-element.link.active {
+  color: var(--text);
+  background-color: var(--background);
+}
+
+.nav-element:visited,
+.nav-element {
+  /* color: inherit; */
+}
+
+.foot {
+  z-index: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 10px 150px;
+  opacity: 0.3;
+  width: 800px;
+}
+
+.nav-element:hover {
+  background-color: var(--selected);
+}
+
+.home {
+  font-size: 72pt;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+  padding-top: 200px;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-quote {
+  color: var(--selected);
+  font-family: Tangerine, cursive;
+  font-size: 42px;
+}
+
+.home-attribution {
+  color: var(--selected);
+}
+
+.about {
+  max-width: 800px;
+}

@@ -17,7 +17,7 @@ class Socket extends Component {
   }
 
   render() {
-    return <div>hi</div>;
+    return <div />;
   }
 }
 export default Socket;

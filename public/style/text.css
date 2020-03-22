@@ -1,0 +1,35 @@
+.sub-title {
+  font-size: 12pt;
+  font-style: italic;
+  line-height: 1.5em;
+}
+
+.title {
+  font-size: 16pt;
+  font-weight: 600;
+}
+
+.super-title {
+  font-weight: 600;
+  font-size: 24pt;
+  color: var(--yellow);
+}
+
+.super-title {
+  text-align: center;
+}
+
+.foot-note {
+  font-size: 8pt;
+  font-style: italic;
+}
+
+.errormsg {
+  color: #bb0000;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.error {
+  color: #bb0000;
+}

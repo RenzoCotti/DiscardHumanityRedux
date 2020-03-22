@@ -1,0 +1,70 @@
+.main-container {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  /* justify-content: center; */
+  padding: 100px 50px;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow-y: auto;
+
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+  background-color: var(--background);
+  /* margin: 0 50px; */
+  /* box-shadow: 0px 0px 5px rgba(var(--background), 0.8); */
+}
+
+.main-container::-webkit-scrollbar {
+  width: 0px;
+}
+
+.secondary-container {
+  padding: 40px 20px;
+  margin: 0;
+}
+
+.padded-top {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.padded-bottom {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.padded-left {
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.padded-right {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.padded {
+  padding: 10px;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}

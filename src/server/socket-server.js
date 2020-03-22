@@ -12,7 +12,34 @@ module.exports = function(httpServer) {
       userList: []
     },
     {
-      name: "Linda puzza",
+      name: "Linda puzza1",
+      password: "asd",
+      blackCards: [],
+      whiteCards: [],
+      maxUsers: 20,
+      currentUsers: 0,
+      userList: []
+    },
+    {
+      name: "Linda puzza2",
+      password: "asd",
+      blackCards: [],
+      whiteCards: [],
+      maxUsers: 20,
+      currentUsers: 0,
+      userList: []
+    },
+    {
+      name: "Linda puzza3",
+      password: "asd",
+      blackCards: [],
+      whiteCards: [],
+      maxUsers: 20,
+      currentUsers: 0,
+      userList: []
+    },
+    {
+      name: "Linda puzza4",
       password: "asd",
       blackCards: [],
       whiteCards: [],
@@ -31,22 +58,38 @@ module.exports = function(httpServer) {
     return false;
   }
 
-  function disconnectFromLobby(lobbyName) {
+  function disconnectFromLobby(lobbyName, username) {
     let toRemove;
     for (let i = 0; i < lobbies.length; i++) {
       let lobby = lobbies[i];
       if (lobby.name === lobbyName) {
         lobby.currentUsers--;
-        if (lobby.currentUsers == 0) {
+        let index;
+
+        //remove user from userlist
+        for (let j = 0; j < lobby.userList.length; j++) {
+          let user = lobby.userList[j];
+          if (user === username) {
+            index = j;
+          }
+        }
+        lobby.userList.splice(index, 1);
+        // console.log(lobby.userList);
+
+        // console.log(lobby);
+        // console.log(lobby.currentUsers);
+        if (lobby.currentUsers === 0) {
           toRemove = i;
         }
       }
     }
 
-    if (toRemove) {
+    console.log(lobbies);
+    if (toRemove === 0) {
+      console.log("lobby empty now, removing " + toRemove);
       lobbies.splice(toRemove, 1);
     }
-    return false;
+    // console.log(lobbies);
   }
 
   //logins to a new lobby
@@ -93,13 +136,7 @@ module.exports = function(httpServer) {
 
   //adds name of lobby to socket for disconnect
   function socketJoinLobby(socket, lobbyName) {
-    if (socket.lobby) {
-      socket.lobby.push(lobbyName);
-    } else {
-      let lobby = [];
-      lobby.push(lobbyName);
-      socket.lobby = lobby;
-    }
+    socket.lobby = lobbyName;
   }
 
   function getLobbyList() {
@@ -160,7 +197,8 @@ module.exports = function(httpServer) {
       console.log("user disconnected " + socket.id);
 
       if (socket.lobby) {
-        disconnectFromLobby(socket.lobby.lobbyName, socket.userName);
+        console.log("disconnecting from " + socket.lobby);
+        disconnectFromLobby(socket.lobby, socket.userName);
       }
     });
   });

@@ -1,0 +1,121 @@
+.input,
+.button,
+.textArea,
+.search,
+.select-wrapper input {
+  display: block !important;
+  background-color: transparent !important;
+  border: 0;
+  transition: all 0.2s ease;
+  padding: 0 7px !important;
+  color: var(--text);
+  font-size: 16pt !important;
+  height: 1.5em !important;
+  max-width: 200px;
+  min-width: 100px;
+  /* width: 90% !important; */
+  /* font-family: "Montserrat", arial !important; */
+}
+
+.createForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.input-field {
+  margin: 0 !important;
+}
+
+.input,
+.search,
+.select-wrapper input {
+  border-bottom: 1px solid var(--text) !important;
+}
+
+.textArea {
+  height: 5em !important;
+  resize: none;
+  padding: 5px 7px !important;
+}
+
+.button {
+  margin: 5px;
+  padding: 7px !important;
+  height: 2em !important;
+  width: 200px !important;
+}
+
+.short-button {
+  max-width: 100px !important;
+}
+
+.button:hover,
+.select-wrapper input:hover {
+  cursor: pointer;
+}
+
+.input:hover,
+.button:hover,
+.textArea:hover,
+.select-wrapper input:hover {
+  background-color: var(--selected) !important;
+}
+
+.input:focus,
+.search:focus,
+.button:focus,
+.textArea:focus,
+.selectMulti:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0 transparent !important;
+}
+
+.textArea,
+.button {
+  background-color: rgba(var(--backgroundRGB), 0.6) !important;
+}
+
+.shortForm {
+  width: 40% !important;
+}
+
+.select-wrapper ul .selected {
+  background-color: var(--selected) !important;
+}
+
+.select-wrapper ul li:hover {
+  background-color: var(--selected) !important;
+}
+
+.caret {
+  position: relative;
+  /* right: 20px !important; */
+  fill: var(--text) !important;
+}
+
+.search {
+  margin-bottom: 20px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+}
+
+.dropdown-trigger {
+  width: 94% !important;
+}
+
+.dropdown-content {
+  max-width: 300px;
+  overflow-x: hidden;
+}
+
+.dropdown-content,
+.dropdown-content span {
+  color: var(--text) !important;
+}
+
+.dropdown-content {
+  background-color: rgb(var(--backgroundRGB)) !important;
+}
