@@ -2,13 +2,11 @@ import React from "react";
 
 const AboutPage = props => (
   <div className="secondary-container">
-    <div className="super-title padded-bottom">About</div>
-
     <div className="about">
-      Discard Humanity Redux is a remake of the original Discard Humanity made
-      by Amedeo Zucchetti, Aron Fiechter, Lara Bruseghini, Renzo Cotti and
-      Valerie Burgener.
-      <h2>Original Credits</h2>
+      Discard Humanity Redux is a remake of an old university project.
+      <br />
+      <br />
+      <div className="title">Original Credits</div>
       Developers of the platform:
       <ul>
         <li>
@@ -27,36 +25,44 @@ const AboutPage = props => (
           <a href="http://atelier.inf.unisi.ch/~zuccha">Amedeo Zucchetti</a>
         </li>
       </ul>
-      <p>
-        JSON Files used for the database can be found here:
-        <a href="http://www.crhallberg.com/cah/json">JSON Against Humanity</a>.
-        The decks have been modified to make them compatible with our platform
-        (removed pick 3 cards and added underscores where necessary). The
-        "Internet Pack" is composed by the Official World Wide Web Pack and
-        "Hackers Against Humanity"; The "Fantasy and D&amp;D" is composed by the
-        Official Fantasy Pack and the "Grognards Against Humanity (RPG fandom
-        pack)"; The Totally Censored Deck is just a censored version of the
-        Official Expansions 4-6.
+      <p style={{ color: "red" }}>
+        {" "}
+        By using this platform, you agree not to consider us, the authors,
+        liable for any offence caused to you. Enjoy!
       </p>
-      <p>
-        Crown icon can be found on this website:
-        <a href="https://icons8.com/license/">Icons8.com</a>
-      </p>
-      By using this platform, you agree not to consider us, the authors, liable
-      for any offence caused to you. Enjoy!
       <p id="footer">
         <a href="https://www.cardsagainsthumanity.com/">
           Card against Humanity
         </a>{" "}
-        used under a
+        used under a{" "}
         <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">
           Creative Commons BY-NC-SA 2.0 license
         </a>
-        . Discard Humanity distributed under a
+        . Discard Humanity distributed under a{" "}
         <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">
           Creative Commons BY-NC-SA 2.0 license
         </a>
         . “Cards Against Humanity” is a trademark of Cards Against Humanity LLC.
+      </p>
+      <p>
+        JSON Files used for the database can be found here:
+        <a href="http://www.crhallberg.com/cah/json"> JSON Against Humanity</a>.
+        <br />
+        The decks have been modified to make them compatible with our platform
+        (removed pick 3 cards and added underscores where necessary).
+        <br />
+        The "Internet Pack" is composed by the Official World Wide Web Pack and
+        "Hackers Against Humanity".
+        <br /> The "Fantasy and D&amp;D" is composed by the Official Fantasy
+        Pack and the "Grognards Against Humanity (RPG fandom pack)".
+        <br />
+        The Totally Censored Deck is just a censored version of the Official
+        Expansions 4-6, made in order to present the project in front our
+        university :v
+      </p>
+      <p>
+        The crown icon can be found on this website:
+        <a href="https://icons8.com/license/"> Icons8.com</a>
       </p>
       <div className="sub-title">Powered by React/Redux and Node.js</div>
     </div>

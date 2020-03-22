@@ -47,8 +47,14 @@ module.exports = {
   devServer: {
     port: 3000,
     open: true,
+    https: true,
     proxy: {
       "/api": {
+        target: "http://localhost:5000",
+        secure: false,
+        changeOrigin: true
+      },
+      "/socket.io": {
         target: "http://localhost:5000",
         secure: false,
         changeOrigin: true

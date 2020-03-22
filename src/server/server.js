@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+// const fs = require("fs");
+const http = require("http");
 
 //constants for server
 const app = express();
@@ -15,6 +17,16 @@ try {
 } catch (e) {
   console.log(e);
 }
+
+// var privateKey = fs.readFileSync(
+//   __dirname + "/config/certs/server.key",
+//   "utf8"
+// );
+// var certificate = fs.readFileSync(
+//   __dirname + "/config/certs/server.crt",
+//   "utf8"
+// );
+// var credentials = { key: privateKey, cert: certificate };
 
 //setting up mongoose
 mongoose.connect(process.env.dbURL || config.dbURL, {
@@ -46,6 +58,10 @@ const adminRouter = require("./router/adminRouter");
 app.use("/api/deck", deckRouter);
 app.use("/api/admin", adminRouter);
 
+// app.get("/", function(req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve("dist")));
   app.use(express.static(path.resolve("public")));
@@ -57,5 +73,9 @@ if (process.env.NODE_ENV === "production") {
 
 let port = process.env.PORT || 5000;
 
-app.listen(port);
-console.log(`Server running on port ${port}!`);
+var httpServer = require("http").Server(app);
+// var httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(port, () => console.log(`Server running on port ${port}!`));
+
+require("./socket-server")(httpServer);
