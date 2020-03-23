@@ -4,6 +4,7 @@ const AboutPage = props => (
   <div className="secondary-container">
     <div className="about">
       Discard Humanity Redux is a remake of an old university project.
+      <div className="sub-title">Powered by React/Redux and Node.js</div>
       <br />
       <br />
       <div className="title">Original Credits</div>
@@ -64,7 +65,6 @@ const AboutPage = props => (
         The crown icon can be found on this website:
         <a href="https://icons8.com/license/"> Icons8.com</a>
       </p>
-      <div className="sub-title">Powered by React/Redux and Node.js</div>
     </div>
   </div>
 );

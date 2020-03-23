@@ -59,7 +59,7 @@ module.exports = function(httpServer) {
   }
 
   function disconnectFromLobby(lobbyName, username) {
-    let toRemove;
+    let toRemove = -1;
     for (let i = 0; i < lobbies.length; i++) {
       let lobby = lobbies[i];
       if (lobby.name === lobbyName) {
@@ -84,9 +84,8 @@ module.exports = function(httpServer) {
       }
     }
 
-    console.log(lobbies);
-    if (toRemove === 0) {
-      console.log("lobby empty now, removing " + toRemove);
+    if (toRemove !== -1) {
+      console.log("lobby empty now, removing.");
       lobbies.splice(toRemove, 1);
     }
     // console.log(lobbies);
@@ -161,32 +160,46 @@ module.exports = function(httpServer) {
 
     //allows creation of a lobby
     socket.on("lobby-new", function(info) {
-      if (roomExists(info.lobbyName)) {
+      if (lobbyExists(info.lobbyName)) {
+        console.log("lobby esists.");
         socket.emit("lobby-exists-already");
       } else {
-        socketJoinLobby(socket, info.lobbyName);
-        let lobby = {
-          name: info.lobbyName,
-          password: info.password,
-          blackCards: info.blackCards,
-          whiteCards: info.whiteCards,
-          maxUsers: info.maxUsers,
-          currentUsers: 1,
-          userList: [info.userName]
-        };
+        if (
+          !info.lobbyName ||
+          !info.password ||
+          // !info.blackCards ||
+          // !info.whiteCards ||
+          !info.maxUsers ||
+          !info.username
+        ) {
+          console.log("lobby missing info.");
+          socket.emit("lobby-missing-info");
+        } else {
+          socketJoinLobby(socket, info.lobbyName);
+          let lobby = {
+            name: info.lobbyName,
+            password: info.password,
+            blackCards: info.blackCards,
+            whiteCards: info.whiteCards,
+            maxUsers: info.maxUsers,
+            currentUsers: 1,
+            userList: [info.username]
+          };
 
-        lobbies.push(lobby);
-        socket.emit("lobby-created", info.lobbyName);
+          lobbies.push(lobby);
+          console.log("lobby created: " + info.lobbyName);
+          socket.emit("lobby-created", info.lobbyName);
+        }
       }
     });
 
     //joins a lobby
     socket.on("lobby-login", function(info) {
-      loginLobby(socket, info.lobbyName, info.password, info.userName);
+      loginLobby(socket, info.lobbyName, info.password, info.username);
     });
 
     socket.on("lobby-leave", function(info) {
-      disconnectFromLobby(info.lobbyName, socket.userName);
+      disconnectFromLobby(info.lobbyName, socket.username);
     });
 
     socket.on("lobby-get-list", () => {
@@ -198,7 +211,7 @@ module.exports = function(httpServer) {
 
       if (socket.lobby) {
         console.log("disconnecting from " + socket.lobby);
-        disconnectFromLobby(socket.lobby, socket.userName);
+        disconnectFromLobby(socket.lobby, socket.username);
       }
     });
   });

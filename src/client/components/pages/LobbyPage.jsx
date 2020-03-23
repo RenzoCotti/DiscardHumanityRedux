@@ -46,7 +46,7 @@ class LobbyPage extends Component {
           <div className="lobby-list">{list ? list : "No entries here"}</div>
         </div>
 
-        <CreateLobby></CreateLobby>
+        <CreateLobby socket={this.socket}></CreateLobby>
 
         {/* <div className="errormsg"></div> */}
 

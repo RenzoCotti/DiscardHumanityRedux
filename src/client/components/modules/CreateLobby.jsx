@@ -4,19 +4,73 @@ import Button from "./input/Button";
 import Input from "./input/Input";
 
 class CreateLobby extends Component {
-  state = { query: "" };
+  state = {};
 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.socket = this.props.socket;
+
+    this.socket.on("lobby-created", () => {
+      this.socket.emit("lobby-get-list");
+    });
   }
 
   onSubmit(e) {
     if (e) e.preventDefault();
-    if (!this.state.query) {
-      this.setState({ error: "Please input a query." });
-      return;
+
+    let arr = [];
+
+    if (!this.state.lobbyName || this.state.lobbyName.length === 0) {
+      arr.push({ name: "lobbyName" });
+    } else if (this.state.lobbyName.length > 64) {
+      arr.push({
+        name: "lobbyName",
+        errorMessage: "Please input a shorter lobby name."
+      });
+    }
+
+    if (!this.state.username || this.state.username.length === 0) {
+      arr.push({ name: "username" });
+    } else if (this.state.username.length > 64) {
+      arr.push({
+        name: "username",
+        errorMessage: "Please input a shorter username."
+      });
+    }
+
+    if (!this.state.password || this.state.password.length === 0) {
+      arr.push({ name: "password" });
+    } else if (this.state.password.length > 64) {
+      arr.push({
+        name: "password",
+        errorMessage: "Please input a shorter password."
+      });
+    }
+
+    if (this.state.password !== this.state.confirmPassword) {
+      arr.push({
+        name: "confirmPassword",
+        errorMessage: "The two passwords don't match"
+      });
+    }
+
+    if (!this.state.maxUsers) {
+      arr.push({ name: "maxUsers" });
+    } else if (this.state.maxUsers > 20 || this.state.maxUsers < 4) {
+      arr.push({
+        name: "maxUsers",
+        errorMessage: "The number of players have to be 4-20"
+      });
+    }
+
+    if (arr.length === 0) {
+      delete this.state.errors;
+      console.log("creating lobby...");
+      this.socket.emit("lobby-new", this.state);
+    } else {
+      this.setState({ errors: arr });
     }
   }
 
@@ -63,7 +117,7 @@ class CreateLobby extends Component {
               />
               <Input
                 label="Confirm password"
-                name="password"
+                name="confirmPassword"
                 password={true}
                 obj={this.state}
                 fn={this.handleChange}

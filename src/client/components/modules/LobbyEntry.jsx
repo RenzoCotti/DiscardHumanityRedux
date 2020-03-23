@@ -85,39 +85,7 @@ class LobbyEntry extends Component {
           </div>
 
           {this.state.selected === this.props.name ? (
-            ""
-          ) : (
-            <Button
-              value="Details"
-              short="true"
-              fn={() => {
-                this.setState({ selected: this.props.name });
-              }}
-            />
-          )}
-        </div>
-
-        {this.state.selected === this.props.name ? (
-          <div className="lobby-join">
             <div className="flex-column">
-              <Input
-                label="Username"
-                name="username"
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
-              <Input
-                label="Password"
-                name="password"
-                password={true}
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
-            </div>
-
-            <div className="lobby-buttons">
               <Button
                 value="Join"
                 short="true"
@@ -133,6 +101,34 @@ class LobbyEntry extends Component {
                 }}
               />
             </div>
+          ) : (
+            <Button
+              value="Details"
+              short="true"
+              fn={() => {
+                this.setState({ selected: this.props.name });
+              }}
+            />
+          )}
+        </div>
+
+        {this.state.selected === this.props.name ? (
+          <div className="flex-column">
+            <Input
+              label="Username"
+              name="username"
+              obj={this.state}
+              fn={this.handleChange}
+              errors={this.state.errors}
+            />
+            <Input
+              label="Password"
+              name="password"
+              password={true}
+              obj={this.state}
+              fn={this.handleChange}
+              errors={this.state.errors}
+            />
           </div>
         ) : (
           ""
