@@ -430,7 +430,7 @@ module.exports = {
     "Six gummy bears and some scotch",
     "Situational awareness",
     "Shut up and take my money",
-    "Schr&ouml;dinger's cat",
+    "Schrödinger's cat",
     "Shenanigans",
     "Security theater",
     "Security Evangelist",

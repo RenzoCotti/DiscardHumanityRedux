@@ -3,7 +3,7 @@ module.exports = {
     {
       pick: 2,
       text:
-        "In line with our predictions, we find a robust correlation between _ and _ (p&gt;.05)."
+        "In line with our predictions, we find a robust correlation between _ and _ (p>.05)."
     },
     {
       pick: 1,

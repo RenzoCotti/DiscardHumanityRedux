@@ -243,7 +243,7 @@ module.exports = {
     },
     {
       text:
-        "Call the law offices of Goldstein &amp; Goldstein, because no one should have to tolerate _ in the workplace.",
+        "Call the law offices of Goldstein & Goldstein, because no one should have to tolerate _ in the workplace.",
       pick: 1
     },
     {
@@ -286,7 +286,7 @@ module.exports = {
       pick: 2
     },
     {
-      text: "And what did <i>you<\\/i> bring for show and tell?",
+      text: "And what did <i>you</i> bring for show and tell?",
       pick: 1
     },
     {
@@ -335,7 +335,7 @@ module.exports = {
     "Media coverage.",
     "Making the penises kiss.",
     "Moral ambiguity.",
-    "Medieval Times&reg; Dinner &amp; Tournament.",
+    "Medieval Times® Dinner & Tournament.",
     "Mad hacky-sack skills.",
     "Just the tip.",
     "Literally eating shit.",
@@ -369,7 +369,7 @@ module.exports = {
     "The hiccups.",
     "The harsh light of day.",
     "The Gulags.",
-    "The Fanta&reg; girls.",
+    "The Fanta® girls.",
     "A big black dick.",
     "A beached whale.",
     "A low standard of living.",
@@ -401,7 +401,7 @@ module.exports = {
     "A sweaty, panting leather daddy.",
     "Intimacy problems.",
     "The new Radiohead album.",
-    "Pretty Pretty Princess Dress-Up Board Game&reg;.",
+    "Pretty Pretty Princess Dress-Up Board Game®.",
     "A man in yoga pants with a ponytail and feather earrings.",
     "An army of skeletons.",
     "A squadron of moles wearing aviator goggles.",
@@ -433,9 +433,9 @@ module.exports = {
     "Fetal alcohol syndrome.",
     "Graphic violence, adult language, and some sexual content.",
     "A bigger, blacker dick.",
-    "The mere concept of Applebee's&reg;.",
+    "The mere concept of Applebee's®.",
     "A sad fat dragon with no friends.",
-    "A pi&ntilde;ata full of scorpions.",
+    "A piñata full of scorpions.",
     "Existing.",
     "Hillary Clinton's death stare.",
     "Catastrophic urethral trauma.",
@@ -483,7 +483,7 @@ module.exports = {
     "Samuel L. Jackson.",
     "Self-flagellation.",
     "The systematic destruction of an entire people and their way of life.",
-    "The Quesadilla Explosion Salad&trade; from Chili's&reg;.",
+    "The Quesadilla Explosion Salad™ from Chili's®.",
     "Reverse cowgirl.",
     "Vietnam flashbacks.",
     "Actually getting shot, for real.",
@@ -519,7 +519,7 @@ module.exports = {
     "A vagina that leads to another dimension.",
     "Disco fever.",
     "Getting your dick stuck in a Chinese finger trap with another dick.",
-    "Drinking ten 5-hour ENERGYs&reg; to get fifty continuous hours of energy.",
+    "Drinking ten 5-hour ENERGYs® to get fifty continuous hours of energy.",
     "Sneezing, farting, and coming at the same time.",
     "Some douche with an acoustic guitar.",
     "Spending lots of money.",
@@ -531,7 +531,7 @@ module.exports = {
     "Crying into the pages of Sylvia Plath.",
     "The moist, demanding chasm of his mouth.",
     "Filling every orifice with butterscotch pudding.",
-    "An all-midget production of Shakespeare's <i>Richard III<\\/i>.",
+    "An all-midget production of Shakespeare's <i>Richard III</i>.",
     "Screaming like a maniac.",
     "Not contributing to society in any meaningful way.",
     "A pile of squirming bodies.",
@@ -540,7 +540,7 @@ module.exports = {
     "That ass.",
     "A surprising amount of hair.",
     "Eating Tom Selleck's mustache to gain his powers.",
-    "Velcro&trade;.",
+    "Velcro",
     "A PowerPoint presentation."
   ],
   name: "Official Expansions 1-3"

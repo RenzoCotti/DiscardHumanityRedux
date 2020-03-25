@@ -75,7 +75,7 @@ class LobbyEntry extends Component {
 
   render() {
     return (
-      <div className="lobby-entry">
+      <div className="lobby-entry border-bottom">
         <div className="flex-row">
           <div className="lobby-info">
             <div>{this.props.name}</div>

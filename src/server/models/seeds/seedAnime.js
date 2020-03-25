@@ -130,7 +130,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "What is mo&eacute;?",
+      text: "What is moé?",
       pick: 1
     },
     {
@@ -263,7 +263,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "Coming to Neon Alley: _, completely UNCUT &amp; UNCENSORED.",
+      text: "Coming to Neon Alley: _, completely UNCUT & UNCENSORED.",
       pick: 1
     },
     {
@@ -285,7 +285,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "_. So kawaii!! &lt;3 &lt;3",
+      text: "_. So kawaii!! <3 <3",
       pick: 1
     },
     {
@@ -348,7 +348,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "From the creators of Tiger &amp; Bunny: _ &amp; _!!",
+      text: "From the creators of Tiger & Bunny: _ & _!!",
       pick: 2
     },
     {
@@ -474,7 +474,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "The rarest Pok&eacute;mon in my collection is _.",
+      text: "The rarest Pokémon in my collection is _.",
       pick: 1
     },
     {
@@ -615,8 +615,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "The mo&eacute; debate was surprisingly civil until someone mentioned _.",
+      text: "The moé debate was surprisingly civil until someone mentioned _.",
       pick: 1
     },
     {
@@ -710,7 +709,7 @@ module.exports = {
     "The One Piece rap.",
     "CENTURY SOOOOUUUP!!!!!",
     "Stupid fucking Kululu.",
-    "Thinking Misty from Pok&eacute;mon is... kinda sexy.",
+    "Thinking Misty from Pokémon is... kinda sexy.",
     "The Gripper.",
     "Reverse harems.",
     "Garzey's Wing.",
@@ -766,7 +765,7 @@ module.exports = {
     "Creamy Mami.",
     "The ungodly abomination that is Robotech.",
     "Carl Macek.",
-    "Panty &amp; Stocking with Garterbelt.",
+    "Panty & Stocking with Garterbelt.",
     "Punching a man so hard his clothes fly off.",
     "Banana sushi.",
     "Oro?",
@@ -844,7 +843,7 @@ module.exports = {
     "Tachikoma-kun.",
     "Naoki Urasawa.",
     "Stupid sexy Johan.",
-    "Bear punching, tiger chopping, shark suplexing, &amp; helicopter bodyslamming.",
+    "Bear punching, tiger chopping, shark suplexing, & helicopter bodyslamming.",
     "Juvijuvibro.",
     "Jacuzzi Splot.",
     "The Tsukihime anime.",
@@ -960,7 +959,7 @@ module.exports = {
     "Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora! Ora!",
     "Getting in a fistfight with an earthquake.",
     "WcDonald's.",
-    "Black&#x2605;Star",
+    "Black Star",
     "Octopus balls.",
     "My badass numchucks.",
     "Trying to get your die-cast Gundam model through airport security.",
@@ -975,7 +974,7 @@ module.exports = {
     "My Johnny!",
     "Petite Princess Yucie.",
     'Kotetsu T. Kaburagi, aka. "The D.I.L.F."',
-    "An argument lasting over an hour about what mo&eacute; really is.",
+    "An argument lasting over an hour about what moé really is.",
     "Saber Starblast.",
     "A succubus living inside your testes.",
     "Raping Tokyo Tower.",
@@ -1031,7 +1030,7 @@ module.exports = {
     "Robots with tits.",
     "Red bean paste.",
     "Gender-swapped Oda Nobunaga.",
-    "Henry Goto's massive peyote &amp; wine cooler addiction.",
+    "Henry Goto's massive peyote & wine cooler addiction.",
     "Henry Goto, John Sirabella, and Stu Levy in a three man fight to the death.",
     "Henry Goto.",
     "Henry Goto having an accident in his pants during the live Aniplex of America panel.",
@@ -1042,7 +1041,7 @@ module.exports = {
     "Cute stuff.",
     "An artbox that feels like human skin.",
     "Polygamy jokes in a kid's show.",
-    "Dangling Pok&eacute;balls.",
+    "Dangling Pokéballs.",
     "Having a giant drill for a dick.",
     "A robot having an orgasm.",
     "Villagulio.",
@@ -1112,8 +1111,8 @@ module.exports = {
     "The Chupacabra.",
     "Blowing a child's head off with a rocket launcher.",
     "Erotic incestuous toothbrushing.",
-    "Pok&eacute;mon tears.",
-    "Pok&eacute;sexuality.",
+    "Pokémon tears.",
+    "Pokésexuality.",
     "Chopstick-based martial arts.",
     "All the gayness in GetBackers.",
     'Gen "The Uro-Butcher".',
@@ -1132,7 +1131,7 @@ module.exports = {
     "SHAFT being SHAFT.",
     'One a them bamboo things that goes "doonk".',
     "Shotas.",
-    "Mo&eacute; schoolgirl Hitler.",
+    "Moé schoolgirl Hitler.",
     "Romance of the Three Kingdoms, but everyone is gender-swapped.",
     "A washpan falling onto someone's head from out of nowhere.",
     "Franken Fran.",

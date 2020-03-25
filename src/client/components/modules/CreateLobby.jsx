@@ -14,6 +14,13 @@ class CreateLobby extends Component {
 
     this.socket.on("lobby-created", () => {
       this.socket.emit("lobby-get-list");
+      this.setState({
+        lobbyName: "",
+        password: "",
+        maxUsers: "",
+        username: "",
+        confirmPassword: ""
+      });
     });
   }
 
@@ -88,59 +95,63 @@ class CreateLobby extends Component {
       <div className="create-lobby">
         <div className="title padded-bottom">Create Lobby</div>
         <form onSubmit={this.onSubmit}>
-          <div className="flex-row">
-            <div className="flex-column padded-right">
-              <Input
-                label="Lobby name"
-                name="lobbyName"
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
-              <Input
-                label="Max Players"
-                name="maxUsers"
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
+          <div className="flex-column">
+            <div className="flex-row">
+              <div className="flex-column padded-right">
+                <Input
+                  label="Lobby name"
+                  name="lobbyName"
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+                <Input
+                  label="Max Players"
+                  name="maxUsers"
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+              </div>
+
+              <div className="flex-column">
+                <Input
+                  label="Lobby password"
+                  name="password"
+                  password={true}
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+                <Input
+                  label="Confirm password"
+                  name="confirmPassword"
+                  password={true}
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+              </div>
             </div>
 
-            <div className="flex-column">
+            <br />
+            <br />
+
+            <div className="padded-right">
               <Input
-                label="Lobby password"
-                name="password"
-                password={true}
+                label="Username"
+                name="username"
                 obj={this.state}
                 fn={this.handleChange}
                 errors={this.state.errors}
               />
-              <Input
-                label="Confirm password"
-                name="confirmPassword"
-                password={true}
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
+              <div className="errormsg" style={{ height: "30px" }}>
+                {this.state.error}
+              </div>
+
+              <Button value="Create Lobby" fn={this.onSubmit} />
             </div>
           </div>
-
-          <br />
-          <br />
-
-          <Input
-            label="Username"
-            name="username"
-            obj={this.state}
-            fn={this.handleChange}
-            errors={this.state.errors}
-          />
-          <div className="errormsg" style={{ height: "30px" }}>
-            {this.state.error}
-          </div>
-
-          <Button value="Create Lobby" fn={this.onSubmit} />
         </form>
       </div>
     );

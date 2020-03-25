@@ -74,7 +74,7 @@ module.exports = {
     },
     {
       text:
-        "2 AM in the city that never sleeps. The door swings open and <i>she<\\/i> walks in, legs up to here. Something in her eyes tells me she's looking for _.",
+        "2 AM in the city that never sleeps. The door swings open and <i>she</i> walks in, legs up to here. Something in her eyes tells me she's looking for _.",
       pick: 1
     },
     {
@@ -86,7 +86,7 @@ module.exports = {
       pick: 2
     },
     {
-      text: "Do <i>not<\\/i> fuck with me! I am literally _ right now.",
+      text: "Do <i>not</i> fuck with me! I am literally _ right now.",
       pick: 1
     },
     {
@@ -135,7 +135,7 @@ module.exports = {
     },
     {
       text:
-        "Do the Dew &reg; with our most extreme flavor yet! Get ready for Mountain Dew _!",
+        "Do the Dew ® with our most extreme flavor yet! Get ready for Mountain Dew _!",
       pick: 1
     },
     {
@@ -231,7 +231,7 @@ module.exports = {
     },
     {
       text:
-        "Do you lack energy? Does it sometimes feel like the whole world is _? Zoloft.&reg;",
+        "Do you lack energy? Does it sometimes feel like the whole world is _? Zoloft.®",
       pick: 1
     },
     {
@@ -379,7 +379,7 @@ module.exports = {
     "Fucking a corpse back to life.",
     "Neil Diamond's Greatest Hits.",
     "Calculating every mannerism so as not to suggest homosexuality.",
-    "Whatever a McRib&reg; is made of.",
+    "Whatever a McRib® is made of.",
     "No clothes on, penis in vagina.",
     "All the single ladies.",
     "Whispering all sexy.",
@@ -423,7 +423,7 @@ module.exports = {
     "Interspecies marriage.",
     "A gender identity that can only be conveyed through slam poetry.",
     "Almost giving money to a homeless person.",
-    "Stuff a child's face with Fun Dip&reg; until he starts having fun.",
+    "Stuff a child's face with Fun Dip® until he starts having fun.",
     "What Jesus would do.",
     "A for-real lizard that spits blood from its eyes.",
     "Blackula.",
@@ -452,7 +452,7 @@ module.exports = {
     "The eight gay warlocks who dictate the rules of fashion.",
     "Being nine years old.",
     "The unbelievable world of mushrooms.",
-    "The Abercrombie &amp; Fitch lifestyle.",
+    "The Abercrombie & Fitch lifestyle.",
     "Vegetarian options.",
     "My first period.",
     "Having been dead for a while.",
@@ -495,7 +495,7 @@ module.exports = {
     "A one-way ticket to Gary, Indiana.",
     "Daddy's credit card.",
     "September 11th, 2001.",
-    "An unforgettable quincea&ntilde;era.",
+    "An unforgettable quinceañera.",
     "Deez nuts.",
     "Social justice warriors with flamethrowers of compassion.",
     "Some shit-hot guitar licks.",
@@ -562,7 +562,7 @@ module.exports = {
     "Robots who just want to party.",
     "A self-microwaving burrito.",
     "Forgetting grandma's first name.",
-    "Our new Buffalo Chicken Dippers&reg;!",
+    "Our new Buffalo Chicken Dippers®!",
     "Treasures beyond your wildest dreams.",
     "Getting shot out of a cannon.",
     "The sweet song of sword against and the braying of mighty war beasts.",

@@ -14,7 +14,6 @@
   margin-right: 60px;
   margin-bottom: 20px;
   min-width: 350px;
-  border-bottom: 1px solid var(--text);
 }
 
 .lobby-info {
@@ -24,4 +23,25 @@
 .create-lobby {
   position: fixed;
   right: 200px;
+}
+
+.card-title {
+  width: 300px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--text);
+}
+
+.deck-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.deck-list-buttons {
+  position: fixed;
+  right: 100px;
+  bottom: 100px;
+  z-index: 1000;
 }

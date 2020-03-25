@@ -62,7 +62,7 @@ module.exports = {
     },
     {
       text:
-        "2 AM in the city that never sleeps. The door swings open and <i>she<\\/i> walks in, legs up to here. Something in her eyes tells me she's looking for _.",
+        "2 AM in the city that never sleeps. The door swings open and <i>she</i> walks in, legs up to here. Something in her eyes tells me she's looking for _.",
       pick: 1
     },
     {
@@ -74,7 +74,7 @@ module.exports = {
       pick: 2
     },
     {
-      text: "Do <i>not<\\/i> mess with me! I am literally _ right now.",
+      text: "Do <i>not</i> mess with me! I am literally _ right now.",
       pick: 1
     },
     {
@@ -123,7 +123,7 @@ module.exports = {
     },
     {
       text:
-        "Do the Dew &reg; with our most extreme flavor yet! Get ready for Mountain Dew _!",
+        "Do the Dew ® with our most extreme flavor yet! Get ready for Mountain Dew _!",
       pick: 1
     },
     {
@@ -215,7 +215,7 @@ module.exports = {
     },
     {
       text:
-        "Do you lack energy? Does it sometimes feel like the whole world is _? Zoloft.&reg;",
+        "Do you lack energy? Does it sometimes feel like the whole world is _? Zoloft.®",
       pick: 1
     },
     {
@@ -355,7 +355,7 @@ module.exports = {
     "The complex geopolitical quagmire that is the Middle East.",
     "Neil Diamond's Greatest Hits.",
     "Calculating every mannerism so as not to suggest homosexuality.",
-    "Whatever a McRib&reg; is made of.",
+    "Whatever a McRib® is made of.",
     "All the single ladies.",
     "Whispering all sexy.",
     "How awesome I am.",
@@ -410,7 +410,7 @@ module.exports = {
     "The swim team, all at once.",
     "Being nine years old.",
     "The unbelievable world of mushrooms.",
-    "The Abercrombie &amp; Fitch lifestyle.",
+    "The Abercrombie & Fitch lifestyle.",
     "Vegetarian options.",
     // "My first period.",
     "Having been dead for a while.",
@@ -446,7 +446,7 @@ module.exports = {
     "A one-way ticket to Gary, Indiana.",
     "Daddy's credit card.",
     "September 11th, 2001.",
-    "An unforgettable quincea&ntilde;era.",
+    "An unforgettable quinceañera.",
     "Deez nuts.",
     "Social justice warriors with flamethrowers of compassion.",
     "Butt stuff.",
@@ -492,7 +492,7 @@ module.exports = {
     "Robots who just want to party.",
     "A self-microwaving burrito.",
     "Forgetting grandma's first name.",
-    "Our new Buffalo Chicken Dippers&reg;!",
+    "Our new Buffalo Chicken Dippers®!",
     "Treasures beyond your wildest dreams.",
     "Getting shot out of a cannon.",
     "The sweet song of sword against and the braying of mighty war beasts.",

@@ -1,53 +1,7 @@
 module.exports = function(httpServer) {
   const io = require("socket.io").listen(httpServer);
 
-  var lobbies = [
-    {
-      name: "Test1",
-      password: "asd",
-      blackCards: [],
-      whiteCards: [],
-      maxUsers: 5,
-      currentUsers: 0,
-      userList: []
-    },
-    {
-      name: "Linda puzza1",
-      password: "asd",
-      blackCards: [],
-      whiteCards: [],
-      maxUsers: 20,
-      currentUsers: 0,
-      userList: []
-    },
-    {
-      name: "Linda puzza2",
-      password: "asd",
-      blackCards: [],
-      whiteCards: [],
-      maxUsers: 20,
-      currentUsers: 0,
-      userList: []
-    },
-    {
-      name: "Linda puzza3",
-      password: "asd",
-      blackCards: [],
-      whiteCards: [],
-      maxUsers: 20,
-      currentUsers: 0,
-      userList: []
-    },
-    {
-      name: "Linda puzza4",
-      password: "asd",
-      blackCards: [],
-      whiteCards: [],
-      maxUsers: 20,
-      currentUsers: 0,
-      userList: []
-    }
-  ];
+  var lobbies = [];
 
   function lobbyExists(lobbyName) {
     for (let lobby of lobbies) {
@@ -74,10 +28,7 @@ module.exports = function(httpServer) {
           }
         }
         lobby.userList.splice(index, 1);
-        // console.log(lobby.userList);
 
-        // console.log(lobby);
-        // console.log(lobby.currentUsers);
         if (lobby.currentUsers === 0) {
           toRemove = i;
         }
@@ -88,7 +39,6 @@ module.exports = function(httpServer) {
       console.log("lobby empty now, removing.");
       lobbies.splice(toRemove, 1);
     }
-    // console.log(lobbies);
   }
 
   //logins to a new lobby
@@ -167,8 +117,6 @@ module.exports = function(httpServer) {
         if (
           !info.lobbyName ||
           !info.password ||
-          // !info.blackCards ||
-          // !info.whiteCards ||
           !info.maxUsers ||
           !info.username
         ) {
@@ -179,8 +127,6 @@ module.exports = function(httpServer) {
           let lobby = {
             name: info.lobbyName,
             password: info.password,
-            blackCards: info.blackCards,
-            whiteCards: info.whiteCards,
             maxUsers: info.maxUsers,
             currentUsers: 1,
             userList: [info.username]

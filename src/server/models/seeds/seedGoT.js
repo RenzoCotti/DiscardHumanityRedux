@@ -122,7 +122,7 @@ module.exports = {
     "House Lannister.",
     "House Targaryen.",
     "George R. R. Martin.",
-    "Gratuitous nudity, the way only HBO&reg; can provide.",
+    "Gratuitous nudity, the way only HBO® can provide.",
     "Throwing a boy out of a window to cover up incest.",
     "Joining the Night's Watch.",
     "Selling your sister to Dothraki nomads.",

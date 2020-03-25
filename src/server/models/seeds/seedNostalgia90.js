@@ -37,7 +37,7 @@ module.exports = {
     "Sucking the President's dick.",
     "Sunny D! Alright!",
     "A mulatto, an albino, a mosquito, and my libido.",
-    "Log&trade;.",
+    "Log™.",
     "Jerking off to a 10-second RealMedia clip.",
     "The Y2K bug.",
     "Deregulating the mortgage market.",
@@ -51,7 +51,7 @@ module.exports = {
     "Pure Moods, Vol. 1.",
     "Pizza in the morning, pizza in the evening, pizza at supper time.",
     "Pamela Anderson's boobs running in slow motion.",
-    "Getting caught up in the CROSSFIRE&trade;.",
+    "Getting caught up in the CROSSFIRE™.",
     "Angels interfering in an otherwise fair baseball game.",
     "Cool 90s up-in-the-front hair.",
     "Patti Mayonnaise."
