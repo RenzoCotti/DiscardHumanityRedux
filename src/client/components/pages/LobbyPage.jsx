@@ -19,22 +19,29 @@ class LobbyPage extends Component {
       this.setState({ lobbies: list });
     });
 
-    this.socket.on("lobby-joined", () => {
-      console.log("lobby joined!");
-      this.setState({ joined: true });
-      // this.socket.emit("lobby-get-list");
+    this.socket.on("lobby-created", info => {
+      console.log("lobby created!");
+      this.setState({ joinAdmin: info });
     });
 
-    this.socket.on("lobby-created", () => {
-      console.log("lobby created!");
-      this.setState({ joined: true });
-      // this.socket.emit("lobby-get-list");
+    this.socket.on("lobby-joined", () => {
+      console.log("lobby joined!");
+
+      this.setState({ joinUser: true });
+    });
+
+    this.socket.on("lobby-incorrect-credentials", () => {
+      console.log("incorrect creds");
     });
   }
 
   render() {
-    if (this.state.joined) {
-      return <Redirect push to="/lounge" />;
+    if (this.state.joinAdmin) {
+      return <Redirect push to={"/lobby/" + this.state.joinAdmin + "/deck"} />;
+    }
+
+    if (this.state.joinUser) {
+      return <Redirect push to={"/lounge/"} />;
     }
 
     let list;

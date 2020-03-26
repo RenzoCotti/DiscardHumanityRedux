@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Button from "../modules/input/Button";
 import Card from "../modules/Card";
 
-class LoungePage extends Component {
+class GamePage extends Component {
   state = {};
 
   constructor(props) {
@@ -31,4 +31,4 @@ class LoungePage extends Component {
   }
 }
 
-export default LoungePage;
+export default GamePage;

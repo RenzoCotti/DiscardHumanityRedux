@@ -29,9 +29,9 @@
 }
 
 .input,
-.search,
 .select-wrapper input {
   border-bottom: 1px solid var(--text) !important;
+  background-color: transparent !important;
 }
 
 .textArea {

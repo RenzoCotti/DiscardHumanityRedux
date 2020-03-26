@@ -49,7 +49,7 @@ module.exports = function(httpServer) {
         if (lobbyName === lobby.name) {
           if (password === lobby.password) {
             let alreadyJoined = false;
-            console.log(lobby.userList);
+            // console.log(lobby.userList);
             for (let user of lobby.userList) {
               if (user === username) {
                 //user has already joined, assume reconnect
@@ -65,6 +65,7 @@ module.exports = function(httpServer) {
                 lobby.currentUsers++;
                 lobby.userList.push(username);
                 socket.emit("lobby-joined");
+                io.to(lobby.lobbyName).emit("join-user", username);
                 console.log("lobby joined.");
               } else {
                 socket.emit("lobby-full");
@@ -114,34 +115,42 @@ module.exports = function(httpServer) {
         console.log("lobby esists.");
         socket.emit("lobby-exists-already");
       } else {
-        if (
-          !info.lobbyName ||
-          !info.password ||
-          !info.maxUsers ||
-          !info.username
-        ) {
-          console.log("lobby missing info.");
-          socket.emit("lobby-missing-info");
-        } else {
-          socketJoinLobby(socket, info.lobbyName);
-          let lobby = {
-            name: info.lobbyName,
-            password: info.password,
-            maxUsers: info.maxUsers,
-            currentUsers: 1,
-            userList: [info.username]
-          };
+        socketJoinLobby(socket, info.lobbyName);
+        let lobby = {
+          name: info.lobbyName,
+          password: info.password,
+          maxUsers: info.maxUsers,
+          currentUsers: 1,
+          userList: [info.username]
+        };
 
-          lobbies.push(lobby);
-          console.log("lobby created: " + info.lobbyName);
-          socket.emit("lobby-created", info.lobbyName);
-        }
+        lobbies.push(lobby);
+        console.log("lobby created: " + info.lobbyName);
+        socket.emit("lobby-created", info.lobbyName);
       }
     });
 
     //joins a lobby
     socket.on("lobby-login", function(info) {
       loginLobby(socket, info.lobbyName, info.password, info.username);
+    });
+
+    socket.on("set-decks", function(info) {
+      console.log("setting decks...");
+      for (let lobby of lobbies) {
+        if (lobby.name === info.name) {
+          lobby.blackCards = info.blackCards;
+          lobby.whiteCards = info.whiteCards;
+          console.log("decks set.");
+
+          if (lobby.userList.length > 1) {
+            socket.emit("game-start");
+          } else {
+            socket.emit("game-lounge");
+          }
+          break;
+        }
+      }
     });
 
     socket.on("lobby-leave", function(info) {

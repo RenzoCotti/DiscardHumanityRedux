@@ -4,7 +4,9 @@ import Button from "./input/Button";
 import Input from "./input/Input";
 
 class CreateLobby extends Component {
-  state = {};
+  state = {
+    maxUsers: 4
+  };
 
   constructor(props) {
     super(props);
@@ -12,15 +14,19 @@ class CreateLobby extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.socket = this.props.socket;
 
-    this.socket.on("lobby-created", () => {
-      this.socket.emit("lobby-get-list");
-      this.setState({
-        lobbyName: "",
-        password: "",
-        maxUsers: "",
-        username: "",
-        confirmPassword: ""
-      });
+    // this.socket.on("lobby-created", () => {
+    //   // this.socket.emit("lobby-get-list");
+    //   this.setState({
+    //     lobbyName: "",
+    //     password: "",
+    //     maxUsers: "",
+    //     username: "",
+    //     confirmPassword: ""
+    //   });
+    // });
+
+    this.socket.on("lobby-exists-already", () => {
+      this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
     });
   }
 
@@ -65,10 +71,10 @@ class CreateLobby extends Component {
 
     if (!this.state.maxUsers) {
       arr.push({ name: "maxUsers" });
-    } else if (this.state.maxUsers > 20 || this.state.maxUsers < 4) {
+    } else if (this.state.maxUsers > 20 || this.state.maxUsers < 2) {
       arr.push({
         name: "maxUsers",
-        errorMessage: "The number of players have to be 4-20"
+        errorMessage: "The number of players has to be 2-20"
       });
     }
 

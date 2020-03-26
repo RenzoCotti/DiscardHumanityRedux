@@ -17,10 +17,10 @@ class LobbyEntry extends Component {
   }
 
   setupSocket() {
-    this.socket.on("lobby-joined", () => {
-      console.log("lobby joined!");
-      this.socket.emit("lobby-get-list");
-    });
+    // this.socket.on("lobby-joined", () => {
+    //   console.log("lobby joined!");
+    //   this.socket.emit("lobby-get-list");
+    // });
   }
 
   joinLobby(lobbyName) {

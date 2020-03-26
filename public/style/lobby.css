@@ -41,17 +41,21 @@
   border-bottom: 1px solid var(--text);
 }
 
-.deck-list {
+.deck-preview {
   position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* overflow: scroll; */
-  margin-top: 60px;
+  margin-left: 300px;
+  width: 1000px;
 }
 
-.deck-list-buttons {
+.deck-list {
+  overflow: scroll;
+  height: 495px;
+}
+
+.deck-container {
   position: fixed;
-  right: 500px;
   top: 100px;
 }
