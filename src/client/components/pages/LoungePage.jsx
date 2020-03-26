@@ -15,8 +15,8 @@ class LoungePage extends Component {
     this.setupSocket();
 
     this.selectDeck = this.selectDeck.bind(this);
-    this.addDeck = this.addDeck.bind(this);
-    this.removeDeck = this.removeDeck.bind(this);
+    this.toggleDeck = this.toggleDeck.bind(this);
+    // this.removeDeck = this.removeDeck.bind(this);
   }
 
   setupSocket() {
@@ -57,24 +57,13 @@ class LoungePage extends Component {
     this.setState({ selected: index });
   }
 
-  addDeck(index) {
-    let old = this.state.addedDecks;
-
-    let found = false;
-    for (let el of old) {
-      if (el === index) found = true;
-    }
-
-    if (!found) old.push(index);
-
-    this.setState({ addedDecks: old });
-  }
-
-  removeDeck(index) {
+  toggleDeck(index) {
     let old = this.state.addedDecks;
 
     let toRemove = old.indexOf(index);
-    old.splice(toRemove, 1);
+
+    if (toRemove == -1) old.push(index);
+    else old.splice(toRemove, 1);
 
     this.setState({ addedDecks: old });
   }
@@ -84,17 +73,17 @@ class LoungePage extends Component {
     if (this.state.decks) {
       list = this.state.decks.map((el, index) => {
         return (
-          <div className="flex-row border-bottom padded-top" key={el.name}>
-            <div className="card-title">
-              {el.name} {this.state.addedDecks.indexOf(index) > -1 ? "X" : ""}
-            </div>
-            <Button
-              value="Show"
-              fn={() => {
-                this.selectDeck(index);
-              }}
-              short="true"
-            />
+          <div
+            className={
+              this.state.addedDecks.indexOf(index) > -1
+                ? "flex-row border-bottom padded deck-title deck-selected"
+                : "flex-row border-bottom padded deck-title "
+            }
+            key={el.name}
+            onMouseEnter={() => this.selectDeck(index)}
+            onClick={() => this.toggleDeck(index)}
+          >
+            <div>{el.name}</div>
           </div>
         );
       });
@@ -114,6 +103,7 @@ class LoungePage extends Component {
 
       deckList = whiteCards.concat(blackCards);
     }
+
     return (
       <React.Fragment>
         <div className="flex-row">
@@ -123,25 +113,31 @@ class LoungePage extends Component {
           </div>
 
           <div className="flex-column">
-            <div className="deck-list">{deckList}</div>
-            <div className="deck-list-buttons">
-              {this.state.addedDecks.indexOf(this.state.selected) == -1 ? (
-                <Button
-                  value="Add"
-                  fn={() => {
-                    this.addDeck(this.state.selected);
-                  }}
-                  short="true"
-                />
+            {/* <div className="deck-list-buttons" style={{ zIndex: 5 }}>
+              {this.state.selected !== undefined ? (
+                this.state.addedDecks.indexOf(this.state.selected) == -1 ? (
+                  <Button
+                    value="Add"
+                    fn={() => {
+                      this.addDeck(this.state.selected);
+                    }}
+                    short="true"
+                  />
+                ) : (
+                  <Button
+                    value="Remove"
+                    fn={() => {
+                      this.removeDeck(this.state.selected);
+                    }}
+                    short="true"
+                  />
+                )
               ) : (
-                <Button
-                  value="Remove"
-                  fn={() => {
-                    this.removeDeck(this.state.selected);
-                  }}
-                  short="true"
-                />
+                ""
               )}
+            </div> */}
+            <div className="deck-list" style={{ zIndex: 1 }}>
+              {deckList}
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@
 .search,
 .select-wrapper input {
   display: block !important;
-  background-color: transparent !important;
+  background-color: gray !important;
   border: 0;
   transition: all 0.2s ease;
   padding: 0 7px !important;
@@ -72,10 +72,10 @@
   box-shadow: 0 0 0 0 transparent !important;
 }
 
-.textArea,
+/* .textArea,
 .button {
   background-color: rgba(var(--backgroundRGB), 0.6) !important;
-}
+} */
 
 .shortForm {
   width: 40% !important;

@@ -1,0 +1,30 @@
+html {
+  /*palette*/
+  --text: white;
+  --backgroundRGB: 255, 255, 255;
+  --background: black;
+  --selected: gray;
+  font-size: 14pt !important;
+  font-weight: 200;
+  background-color: var(--background);
+  height: 100%;
+}
+
+::selection {
+  background: var(--selected);
+}
+
+body {
+  /*remove basic padding from document*/
+  padding: 0;
+  margin: 0;
+
+  /* height: 100vh; */
+
+  color: var(--text);
+
+  position: relative;
+  z-index: -2;
+  /* background-position: left top; */
+  min-height: 100%;
+}

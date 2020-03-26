@@ -25,8 +25,16 @@
   right: 200px;
 }
 
-.card-title {
+.deck-title {
   width: 300px;
+  cursor: pointer;
+}
+.deck-selected {
+  background-color: gray;
+}
+
+.deck-title:hover {
+  background-color: gray;
 }
 
 .border-bottom {
@@ -34,14 +42,16 @@
 }
 
 .deck-list {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  /* overflow: scroll; */
+  margin-top: 60px;
 }
 
 .deck-list-buttons {
   position: fixed;
-  right: 100px;
-  bottom: 100px;
-  z-index: 1000;
+  right: 500px;
+  top: 100px;
 }
