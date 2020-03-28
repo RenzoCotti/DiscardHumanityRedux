@@ -32,6 +32,8 @@ class Card extends Component {
 
   //this adds to the list all the fill gaps in the right place, instead of the _
   addCompletions(text) {
+    if (text.length === 0) return [];
+
     let newText = [];
     if (this.props.fillGaps) {
       let first = this.formatFillGaps(this.props.fillGaps[0]);
@@ -76,7 +78,7 @@ class Card extends Component {
   }
 
   generateHTML(text) {
-    if (!text) return "";
+    if (text.length === 0) return "";
 
     let list = [];
 
@@ -116,8 +118,9 @@ class Card extends Component {
   }
 
   generateText(text) {
-    if (!text) return "";
+    if (text.length === 0) return "";
     let string = "";
+
     for (let s of text) {
       if (s.tag === "i" || s.tag === "text") {
         string += s.text;
@@ -128,7 +131,6 @@ class Card extends Component {
 
   render() {
     let textArray = this.addCompletions(this.props.content);
-
     let text = this.generateText(textArray);
     let len = text.length;
 
