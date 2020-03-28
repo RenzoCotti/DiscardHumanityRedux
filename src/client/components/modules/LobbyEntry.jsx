@@ -84,7 +84,8 @@ class LobbyEntry extends Component {
             </div>
           </div>
 
-          {this.state.selected === this.props.name ? (
+          {this.state.selected === this.props.name &&
+          this.props.currentUsers < this.props.maxUsers ? (
             <div className="flex-column">
               <Button
                 value="Join"

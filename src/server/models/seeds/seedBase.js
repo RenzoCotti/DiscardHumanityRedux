@@ -284,10 +284,10 @@ module.exports = {
       text: "Lifetime® presents _, the story of _.",
       pick: 2
     },
-    // {
-    //   "text": "Make a haiku.",
-    //   "pick": 3
-    // },
+    {
+      text: "Make a haiku.",
+      pick: 3
+    },
     {
       text:
         "In M. Night Shyamalan's new movie, Bruce Willis discovers that _ had really been _ all along.",
@@ -309,10 +309,10 @@ module.exports = {
       text: "When I was tripping on acid, _ turned into _.",
       pick: 2
     },
-    // {
-    //   "text": "_ + _ = _.",
-    //   "pick": 3
-    // },
+    {
+      text: "_ + _ = _.",
+      pick: 3
+    },
     {
       text: "What's the next superhero\\/sidekick duo? _ and _",
       pick: 2

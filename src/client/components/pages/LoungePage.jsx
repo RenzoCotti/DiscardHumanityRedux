@@ -9,7 +9,7 @@ class LoungePage extends Component {
     super(props);
     this.socket = this.props.socket;
 
-    // this.setupSocket();
+    this.setupSocket();
 
     // this.selectDeck = this.selectDeck.bind(this);
     // this.toggleDeck = this.toggleDeck.bind(this);
@@ -17,17 +17,24 @@ class LoungePage extends Component {
   }
 
   setupSocket() {
-    // this.socket.on("game-start", () => {});
-    // this.socket.on("game-lounge", () => {
-    //   this.setState({ waiting: true });
-    // });
-    // this.socket.on("user-join", () => {});
+    this.socket.on("start-game", () => {
+      this.setState({ start: true });
+    });
+
+    this.socket.on("user-join", () => {
+      console.log("user joined");
+      this.socket.emit("check-start", this.props.name);
+    });
   }
 
   startGame() {}
 
   render() {
-    return <div>Waiting for players to join...</div>;
+    return this.state.start ? (
+      <div>Started! :D </div>
+    ) : (
+      <div>Waiting for players to join...</div>
+    );
   }
 }
 

@@ -16,13 +16,13 @@ class DeckSelectionPage extends Component {
 
     this.selectDeck = this.selectDeck.bind(this);
     this.toggleDeck = this.toggleDeck.bind(this);
-    this.startGame = this.startGame.bind(this);
+    this.goToLobby = this.goToLobby.bind(this);
   }
 
   setupSocket() {
     this.socket.on("game-start", () => {});
-    this.socket.on("game-lounge", () => {
-      this.setState({ waiting: true });
+    this.socket.on("game-lounge", info => {
+      this.setState({ waiting: info });
     });
   }
 
@@ -50,7 +50,7 @@ class DeckSelectionPage extends Component {
     }
   }
 
-  startGame() {
+  goToLobby() {
     let blackCards = [];
     let whiteCards = [];
 
@@ -87,7 +87,7 @@ class DeckSelectionPage extends Component {
 
   render() {
     if (this.state.waiting) {
-      return <Redirect push to={"/lounge/"} />;
+      return <Redirect push to={"/lounge/" + this.state.waiting} />;
     }
 
     // console.log(this.props.location);
@@ -130,9 +130,9 @@ class DeckSelectionPage extends Component {
       <React.Fragment>
         <div className="flex-column deck-container">
           <div className="title">{this.props.name}</div>
-          <div className="sub-title padded-bottom"> Select decks</div>
+          <div className="sub-title padded-bottom">Select decks</div>
           <div className="flex-column deck-list margin-bottom">{list}</div>
-          <Button value="Start game" fn={this.startGame} />
+          <Button value="Start game" fn={this.goToLobby} />
         </div>
 
         <div className="deck-preview">{deckList}</div>

@@ -10,11 +10,14 @@ class LobbyPage extends Component {
     super(props);
     this.socket = this.props.socket;
 
-    this.socket.emit("lobby-get-list");
     this.setupSocket();
   }
 
   setupSocket() {
+    this.socket.on("lobby-update", () => {
+      this.socket.emit("lobby-get-list");
+    });
+
     this.socket.on("lobby-list", list => {
       this.setState({ lobbies: list });
     });
@@ -24,10 +27,10 @@ class LobbyPage extends Component {
       this.setState({ joinAdmin: info });
     });
 
-    this.socket.on("lobby-joined", () => {
+    this.socket.on("lobby-joined", info => {
       console.log("lobby joined!");
 
-      this.setState({ joinUser: true });
+      this.setState({ joinUser: info });
     });
 
     this.socket.on("lobby-incorrect-credentials", () => {
@@ -41,7 +44,7 @@ class LobbyPage extends Component {
     }
 
     if (this.state.joinUser) {
-      return <Redirect push to={"/lounge/"} />;
+      return <Redirect push to={"/lounge/" + this.state.joinUser} />;
     }
 
     let list;
@@ -63,7 +66,9 @@ class LobbyPage extends Component {
       <React.Fragment>
         <div className="flex-column">
           <div className="title padded-bottom">List of lobbies</div>
-          <div className="lobby-list">{list ? list : "No entries here"}</div>
+          <div className="lobby-list">
+            {list ? list : "No lobbies available."}
+          </div>
         </div>
 
         <CreateLobby socket={this.socket}></CreateLobby>

@@ -40,12 +40,91 @@ mongoose.connect(config.dbURL, {
 });
 Deck.collection.drop();
 
+function formatText(text) {
+  if (!text) return { text: "", tag: "text" };
+  let splitForI = text.split(/<i>(.+)/);
+  if (splitForI.length > 1) {
+    //there is an <i>
+
+    let splitForIEnd = splitForI[1].split(/<\/i>(.*)/);
+    if (splitForIEnd.length == 1) {
+      //string is at the end
+      splitForIEnd[1] = "";
+    }
+
+    return [
+      { text: splitForI[0], tag: "text" },
+      { text: splitForIEnd[0], tag: "i" },
+      formatText(splitForIEnd[1])
+    ];
+  } else {
+    //no <i>
+    return { text: text, tag: "text" };
+  }
+}
+
 let arr = [];
+
 for (let deck of decks) {
   let whitecards = [];
   for (let text of deck.whiteCards) {
-    whitecards.push({ text: text, jolly: false });
+    let temp = [];
+
+    let s = text.split("<br>");
+    //can contain <br> or <i>
+
+    if (s.length > 1) {
+      //there's a <br>
+      for (let a of s) {
+        temp.push(formatText(a));
+        temp.push({ text: "", tag: "br" });
+      }
+    } else {
+      //there might be an i
+      if (text) {
+        temp.push(formatText(text));
+      }
+    }
+
+    whitecards.push({ content: temp, jolly: false });
   }
+
+  for (let card of deck.blackCards) {
+    let temp = [];
+    let arr = card.text.split("_");
+    //case there's no _, meaning implied at the end.
+    if (arr.length == 1) {
+      arr.push("");
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      let s = arr[i];
+      s = s.split("<br>");
+      //can contain <br> or <i>
+
+      if (s.length > 1) {
+        //there's a <br>
+        for (let a of arr) {
+          temp.push(formatText(a));
+          temp.push({ text: "", tag: "br" });
+        }
+      } else {
+        s = arr[i];
+        //there might be an i
+        if (s) {
+          temp.push(formatText(s));
+        }
+        if (i + 1 !== arr.length) {
+          temp.push({ text: "", tag: "_" });
+        }
+      }
+    }
+    card.content = temp;
+
+    // console.log(temp);
+  }
+
+  console.log(whitecards[17]);
   arr.push({
     whiteCards: whitecards,
     blackCards: deck.blackCards,

@@ -5,72 +5,141 @@ class Card extends Component {
 
   constructor(props) {
     super(props);
-    this.formatText = this.formatText.bind(this);
   }
 
-  formatText(text, key) {
-    if (!text) return "";
-    let splitForI = text.split(/<i>(.+)/);
-    if (splitForI.length > 1) {
-      //there is an <i>
+  lowercaseFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+  }
 
-      let splitForIEnd = splitForI[1].split(/<\/i>(.*)/);
-      if (splitForIEnd.length == 1) {
-        //string is at the end
-        splitForIEnd[1] = "";
+  removeDot(string) {
+    console.log(string.replace(/\.$/, ""));
+    return string.replace(/\.$/, "");
+  }
+
+  formatFillGaps(item) {
+    let temp = [];
+    if (item) {
+      for (let i = 0; i < item.length; i++) {
+        let a = item[i];
+        console.log(a);
+
+        if (i == 0 && i == item.length - 1) {
+          temp.push({
+            text: this.removeDot(a.text),
+            tag: a.tag
+          });
+        } else if (i == 0) {
+          temp.push({ text: a.text, tag: a.tag });
+        } else if (i == item.length - 1) {
+          temp.push({ text: this.removeDot(a.text), tag: a.tag });
+        } else {
+          temp.push(a);
+        }
       }
-
-      return (
-        <div key={key}>
-          {splitForI[0]}
-          <i>{splitForIEnd[0]}</i>
-          {this.formatText(splitForIEnd[1], key + 1)}
-        </div>
-      );
-    } else {
-      //no <i>
-      return <div key={key + 1}>{text}</div>;
     }
+    return temp;
+  }
+
+  addCompletions(text) {
+    let newText = [];
+    if (this.props.fillGaps) {
+      let first = this.formatFillGaps(this.props.fillGaps[0]);
+      let second = this.formatFillGaps(this.props.fillGaps[1]);
+      let third = this.formatFillGaps(this.props.fillGaps[2]);
+
+      let completions = 0;
+
+      for (let el of text) {
+        if (el.tag === "_") {
+          completions++;
+          if (completions === 1 && first.length > 0) {
+            newText.push({ text: "", tag: "em" });
+            for (let a of first) {
+              newText.push(a);
+            }
+            newText.push({ text: "", tag: "/em" });
+          } else if (completions === 2 && second.length > 0) {
+            newText.push({ text: "", tag: "em" });
+            for (let a of second) {
+              newText.push(a);
+            }
+            newText.push({ text: "", tag: "/em" });
+          } else if (completions === 3 && third.length > 0) {
+            newText.push({ text: "", tag: "em" });
+            for (let a of third) {
+              newText.push(a);
+            }
+            newText.push({ text: "", tag: "/em" });
+          } else {
+            newText.push(el);
+          }
+        } else {
+          newText.push(el);
+        }
+      }
+    } else {
+      return text;
+    }
+
+    return newText;
+  }
+
+  generateHTML(text) {
+    let list = [];
+
+    for (let s of text) {
+      if (s.tag === "i") {
+        list.push(<i>{s.text}</i>);
+      } else if (s.tag === "br") {
+        list.push(<br />);
+      } else if (s.tag === "text") {
+        list.push(s.text);
+      } else if (s.tag === "_") {
+        list.push("_______");
+      }
+    }
+
+    return list;
+  }
+
+  generateText(text) {
+    let string = "";
+    for (let s of text) {
+      if (s.tag === "i" || s.tag === "text") {
+        string += s.text;
+      }
+    }
+    return string;
   }
 
   render() {
-    let newText = this.props.text.replace(/_/g, "____");
-    let len = newText.length;
+    let textArray = this.addCompletions(this.props.content);
 
-    let isSmall = this.props.small ? "smallcard " : "card ";
+    let text = this.generateText(textArray);
+    let len = text.length;
+
+    let isSmall = this.props.small ? "smallcard " : "bigcard ";
     let isBlack = this.props.colour === "black" ? "blackcard " : "whitecard ";
     let textClass;
-    if (len <= 40) {
+    if (len <= 60) {
       textClass = "text-shortest";
-    } else if (len <= 60) {
-      textClass = "text-short";
     } else if (len <= 80) {
+      textClass = "text-short";
+    } else if (len <= 100) {
       textClass = "text-medium";
-    } else if (len <= 120) {
+    } else if (len <= 140) {
       textClass = "text-long";
     } else {
       textClass = "text-longest";
     }
 
-    let arr = newText.split("<br>");
-    let itemsToAdd = [];
-    let i = 0;
-
-    if (arr.length > 1) {
-      //theres a <br>
-      for (let a of arr) {
-        itemsToAdd.push(this.formatText(a, a + i));
-        itemsToAdd.push(<br key={i} />);
-        i++;
-      }
-    } else {
-      //there isnt a br
-      itemsToAdd.push(this.formatText(arr[0], arr[0] + i));
-    }
-
     let res = isSmall + isBlack + textClass;
 
-    return <div className={res}>{itemsToAdd}</div>;
+    return (
+      <div className={res} onClick={this.props.onClick}>
+        {this.generateHTML(textArray)}
+      </div>
+    );
   }
 }
 

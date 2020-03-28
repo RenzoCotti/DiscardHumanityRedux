@@ -9,10 +9,12 @@ const Deck = new mongoose.Schema({
   },
   whiteCards: [
     {
-      text: {
-        type: String,
-        required: true
-      },
+      content: [
+        {
+          text: String,
+          tag: String
+        }
+      ],
       jolly: {
         type: Boolean
       }
@@ -21,10 +23,12 @@ const Deck = new mongoose.Schema({
 
   blackCards: [
     {
-      text: {
-        type: String,
-        required: true
-      },
+      content: [
+        {
+          text: String,
+          tag: String
+        }
+      ],
       pick: {
         type: Number,
         requred: true
