@@ -87,7 +87,9 @@ class Card extends Component {
   generateHTML(text) {
     let list = [];
 
-    for (let s of text) {
+    for (let i = 0; i < text.length; i++) {
+      let s = text[i];
+
       if (s.tag === "i") {
         list.push(<i>{s.text}</i>);
       } else if (s.tag === "br") {
@@ -96,6 +98,22 @@ class Card extends Component {
         list.push(s.text);
       } else if (s.tag === "_") {
         list.push("_______");
+      } else if (s.tag === "em") {
+        let toAdd = [];
+        let j = i + 1;
+        while (j < text.length) {
+          let current = text[j];
+
+          if (current.tag === "/em") {
+            break;
+          } else {
+            toAdd.push(current);
+          }
+          j++;
+        }
+
+        list.push(<em>{this.generateHTML(toAdd)}</em>);
+        i = j;
       }
     }
 
