@@ -94,37 +94,52 @@ for (let deck of decks) {
     let arr = card.text.split("_");
     //case there's no _, meaning implied at the end.
     if (arr.length == 1) {
+      // for (let i = 0; i < card.pick; i++) {
       arr.push("");
+      // }
     }
 
     for (let i = 0; i < arr.length; i++) {
       let s = arr[i];
-      s = s.split("<br>");
-      //can contain <br> or <i>
 
-      if (s.length > 1) {
-        //there's a <br>
-        for (let a of arr) {
-          temp.push(formatText(a));
-          temp.push({ text: "", tag: "br" });
+      if (s) {
+        s = s.split("<br>");
+        //can contain <br> or <i>
+
+        if (s.length > 1) {
+          //there's a <br>
+
+          for (let a of s) {
+            if (!a) {
+              temp.push({ text: "", tag: "br" });
+            } else {
+              temp.push(formatText(a));
+            }
+          }
+          temp.push({ text: "", tag: "_" });
+        } else {
+          s = arr[i];
+          //there might be an i
+          if (s) {
+            temp.push(formatText(s));
+          }
+          if (i + 1 !== arr.length) {
+            temp.push({ text: "", tag: "_" });
+          }
         }
       } else {
-        s = arr[i];
-        //there might be an i
-        if (s) {
-          temp.push(formatText(s));
-        }
-        if (i + 1 !== arr.length) {
-          temp.push({ text: "", tag: "_" });
-        }
+        temp.push({ text: "", tag: "_" });
       }
     }
     card.content = temp;
 
+    if (card.pick === 3) {
+      console.log(card);
+    }
+
     // console.log(temp);
   }
 
-  console.log(whitecards[17]);
   arr.push({
     whiteCards: whitecards,
     blackCards: deck.blackCards,

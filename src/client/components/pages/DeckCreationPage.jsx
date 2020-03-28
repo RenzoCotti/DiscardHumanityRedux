@@ -65,22 +65,33 @@ class DeckCreationPage extends Component {
     ];
 
     this.state.blackCard = {
-      // text: "What brought the orgy to a grinding halt?",
+      pick: 3,
       content: [
-        {
-          text: "2 AM in the city that never sleeps. The door swings open and ",
-          tag: "text"
-        },
-        { text: "she", tag: "i" },
-        {
-          text:
-            " walks in, legs up to here. Something in her eyes tells me she's looking for ",
-          tag: "text"
-        },
+        { text: "Make a haiku.", tag: "text" },
+        { text: "", tag: "br" },
+        { text: "", tag: "_" },
+        { text: ".", tag: "text" },
+        { text: "", tag: "br" },
+        { text: "", tag: "_" },
+        { text: ".", tag: "text" },
+        { text: "", tag: "br" },
         { text: "", tag: "_" },
         { text: ".", tag: "text" }
-      ],
-      pick: 1
+      ] // content: [
+      //   {
+      //     text: "2 AM in the city that never sleeps. The door swings open and ",
+      //     tag: "text"
+      //   },
+      //   { text: "she", tag: "i" },
+      //   {
+      //     text:
+      //       " walks in, legs up to here. Something in her eyes tells me she's looking for ",
+      //     tag: "text"
+      //   },
+      //   { text: "", tag: "_" },
+      //   { text: ".", tag: "text" }
+      // ],
+      // pick: 1
     };
   }
 
@@ -111,6 +122,16 @@ class DeckCreationPage extends Component {
     }
   }
 
+  deselectCard(index) {
+    if (this.state.firstSelected && index == 1) {
+      this.setState({ firstSelected: undefined });
+    } else if (this.state.secondSelected && index == 2) {
+      this.setState({ secondSelected: undefined });
+    } else if (this.state.thirdSelected && index == 3) {
+      this.setState({ thirdSelected: undefined });
+    }
+  }
+
   render() {
     let hand = this.state.hand.map((card, index) => (
       <Card
@@ -135,10 +156,55 @@ class DeckCreationPage extends Component {
       />
     );
 
+    let selectCards = [];
+    let pick = this.state.blackCard.pick;
+
+    selectCards.push(
+      <Card
+        content={this.state.firstSelected}
+        colour="white"
+        key={1}
+        onClick={() => this.deselectCard(1)}
+      />
+    );
+    if (pick > 1) {
+      selectCards.push(
+        <Card
+          content={this.state.secondSelected}
+          colour="white"
+          key={2}
+          onClick={() => this.deselectCard(2)}
+        />
+      );
+      if (pick > 2) {
+        selectCards.push(
+          <Card
+            content={this.state.thirdSelected}
+            colour="white"
+            key={3}
+            onClick={() => this.deselectCard(3)}
+          />
+        );
+      }
+    }
+    // for (let i = 0; i < this.state.blackCard.pick; i++) {
+    //   selectCards.push(
+    //     <Card
+    //       content=""
+    //       colour="white"
+    //       key={i}
+    //       // onClick={() => this.selectCard(index)}
+    //     />
+    //   );
+    // }
+
     return (
       <React.Fragment>
         <div className="flex-column">
-          {blackCard}
+          <div className="flex-row">
+            {blackCard}
+            {selectCards}
+          </div>
           <div className="hand">
             <div className="flex-row">{hand}</div>
             <div className="flex-row hand-bottom">{hand2}</div>

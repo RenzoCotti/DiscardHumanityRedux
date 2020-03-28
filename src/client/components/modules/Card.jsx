@@ -7,30 +7,20 @@ class Card extends Component {
     super(props);
   }
 
-  lowercaseFirstLetter(string) {
-    return string.charAt(0).toLowerCase() + string.slice(1);
-  }
-
+  //removes the end dot.
   removeDot(string) {
     console.log(string.replace(/\.$/, ""));
     return string.replace(/\.$/, "");
   }
 
+  //
   formatFillGaps(item) {
     let temp = [];
     if (item) {
       for (let i = 0; i < item.length; i++) {
         let a = item[i];
-        console.log(a);
-
-        if (i == 0 && i == item.length - 1) {
-          temp.push({
-            text: this.removeDot(a.text),
-            tag: a.tag
-          });
-        } else if (i == 0) {
-          temp.push({ text: a.text, tag: a.tag });
-        } else if (i == item.length - 1) {
+        //last item, remove dot
+        if (i == item.length - 1) {
           temp.push({ text: this.removeDot(a.text), tag: a.tag });
         } else {
           temp.push(a);
@@ -40,6 +30,7 @@ class Card extends Component {
     return temp;
   }
 
+  //this adds to the list all the fill gaps in the right place, instead of the _
   addCompletions(text) {
     let newText = [];
     if (this.props.fillGaps) {
@@ -85,6 +76,8 @@ class Card extends Component {
   }
 
   generateHTML(text) {
+    if (!text) return "";
+
     let list = [];
 
     for (let i = 0; i < text.length; i++) {
@@ -99,11 +92,13 @@ class Card extends Component {
       } else if (s.tag === "_") {
         list.push("_______");
       } else if (s.tag === "em") {
+        //this card is a fill gap
         let toAdd = [];
         let j = i + 1;
         while (j < text.length) {
           let current = text[j];
 
+          //we look for the end token, so that we can generate the list inbetween
           if (current.tag === "/em") {
             break;
           } else {
@@ -121,6 +116,7 @@ class Card extends Component {
   }
 
   generateText(text) {
+    if (!text) return "";
     let string = "";
     for (let s of text) {
       if (s.tag === "i" || s.tag === "text") {

@@ -285,7 +285,7 @@ module.exports = {
       pick: 2
     },
     {
-      text: "Make a haiku.",
+      text: "Make a haiku.<br>_.<br>_.<br>_.",
       pick: 3
     },
     {
