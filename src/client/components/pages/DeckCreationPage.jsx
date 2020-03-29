@@ -153,6 +153,7 @@ class DeckCreationPage extends Component {
       ? this.state.hand[this.state.thirdSelected].content
       : [];
 
+    let i = 0;
     let hand = this.state.hand.map((card, index) => (
       <Card
         selected={
@@ -164,6 +165,7 @@ class DeckCreationPage extends Component {
         colour="card-white"
         size="card-normal"
         key={index}
+        position={-i++ * 70 + "px"}
         onClick={() => this.selectCard(index)}
       />
     ));

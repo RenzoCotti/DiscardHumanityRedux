@@ -24,7 +24,12 @@ class Navbar extends Component {
             );
           } else if (op === "Lobbies") {
             return (
-              <NavLink exact className="nav-element link" key={op} to="/lobby">
+              <NavLink
+                exact
+                className="nav-element link"
+                key={op}
+                to="/lobby/list"
+              >
                 {op}
               </NavLink>
             );

@@ -30,16 +30,6 @@ let decks = [
   TRAITOR
 ];
 
-mongoose.connect(config.dbURL, {
-  // auth: {
-  //   user: config.uname,
-  //   password: config.pword
-  // },
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-Deck.collection.drop();
-
 function formatText(text) {
   if (!text) return { text: "", tag: "text" };
   let splitForI = text.split(/<i>(.+)/);
@@ -135,9 +125,9 @@ for (let deck of decks) {
     }
     card.content = temp;
 
-    if (card.pick === 3) {
-      console.log(card);
-    }
+    // if (card.pick === 3) {
+    //   console.log(card);
+    // }
 
     // console.log(temp);
   }
@@ -149,13 +139,28 @@ for (let deck of decks) {
   });
 }
 
-Deck.create(arr)
-  .then(decks => {
-    console.log(`${decks.length} decks created`);
-  })
-  .catch(err => {
+mongoose.connect(config.dbURL, {
+  auth: {
+    user: config.uname,
+    password: config.pword
+  },
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+Deck.collection.drop((err, ok) => {
+  if (err) {
     console.log(err);
-  })
-  .finally(() => {
-    mongoose.connection.close();
-  });
+    mongoose.connection.close;
+  } else {
+    Deck.create(arr)
+      .then(decks => {
+        console.log(`${decks.length} decks created`);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        mongoose.connection.close();
+      });
+  }
+});

@@ -50,7 +50,7 @@ module.exports = {
     host: config.ip,
     port: 3000,
     open: true,
-    https: true,
+    https: false,
     proxy: {
       "/api": {
         target: "http://" + config.ip + ":5000",
@@ -62,11 +62,6 @@ module.exports = {
         secure: false,
         changeOrigin: true
       }
-      // "/sockjs-node": {
-      //   target: "http://" + config.ip + ":5000",
-      //   secure: false,
-      //   changeOrigin: true
-      // }
     }
   },
 

@@ -132,10 +132,10 @@ module.exports = {
         "Members of New York's social elite are paying thousands of dollars just to experience _.",
       pick: 1
     },
-    // {
-    //   "text": "I went from _ to _, all thanks to _.",
-    //   "pick": 3
-    // },
+    {
+      text: "I went from _ to _, all thanks to _.",
+      pick: 3
+    },
     {
       text: "Little Miss Muffet Sat on a tuffet, Eating her curds and _.",
       pick: 1

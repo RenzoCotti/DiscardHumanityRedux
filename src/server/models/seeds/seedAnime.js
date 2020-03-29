@@ -67,10 +67,11 @@ module.exports = {
         "When it comes to Japanese cuisine, there's simply nothing better than _.",
       pick: 1
     },
-    // {
-    //   "text": "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
+      pick: 3
+    },
     {
       text: "I'M-A FIRIN' MAH _!",
       pick: 1
@@ -180,10 +181,10 @@ module.exports = {
       text: "This doujinshi I just bought has _ and _ getting it on, hardcore.",
       pick: 2
     },
-    // {
-    //   "text": "Make a love triangle.",
-    //   "pick": 3
-    // },
+    {
+      text: "Make a love triangle.",
+      pick: 3
+    },
     {
       text:
         "Dr. Black Jack, please hurry! The patient is suffering from a terminal case of _!",
@@ -240,10 +241,10 @@ module.exports = {
         "The World Line was changed when I sent a D-mail to myself about _.",
       pick: 1
     },
-    // {
-    //   "text": "In this episode of Master Keaton, Keaton builds _ out of _ and _.",
-    //   "pick": 3
-    // },
+    {
+      text: "In this episode of Master Keaton, Keaton builds _ out of _ and _.",
+      pick: 3
+    },
     {
       text: "So, what have you learned from all of this?",
       pick: 1
@@ -355,10 +356,11 @@ module.exports = {
       text: "In truth, the EVA units are actually powered by the souls of _.",
       pick: 1
     },
-    // {
-    //   "text": "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
+      pick: 3
+    },
     {
       text: "Yo-Ho-Ho! He took a bite of _.",
       pick: 1
@@ -411,10 +413,11 @@ module.exports = {
         "I'm sorry! I'm sorry! I didn't mean to accidentally walk in on you while you were _!",
       pick: 1
     },
-    // {
-    //   "text": "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
+      pick: 3
+    },
     {
       text:
         "Welcome home, Master! Is there anything your servant girl can bring you today?",
@@ -436,10 +439,10 @@ module.exports = {
       text: "_. Only on Toonami",
       pick: 1
     },
-    // {
-    //   "text": "From the twisted mind of Nabeshin: An anime about _, _, and _.",
-    //   "pick": 3
-    // },
+    {
+      text: "From the twisted mind of Nabeshin: An anime about _, _, and _.",
+      pick: 3
+    },
     {
       text: "Behold the name of my Zanpakuto, _!",
       pick: 1
@@ -533,10 +536,11 @@ module.exports = {
         "Who cares about the printing press, did that medieval peasant girl just invent _?!",
       pick: 1
     },
-    // {
-    //   "text": "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
+      pick: 3
+    },
     {
       text: "What does Alucard have nightmares about?",
       pick: 1
@@ -559,10 +563,11 @@ module.exports = {
         "As part of a recent promotion, Japanese KFCs are now dressing their Colonel Sanders statues up as _.",
       pick: 1
     },
-    // {
-    //   "text": "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
+      pick: 3
+    },
     {
       text: "Don't stand behind him, if you value your _.",
       pick: 1

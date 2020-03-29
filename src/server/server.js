@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+// const fs = require("fs");
 
 //constants for server
 const app = express();
@@ -28,10 +29,10 @@ try {
 
 //setting up mongoose
 mongoose.connect(process.env.dbURL || config.dbURL, {
-  // auth: {
-  //   user: process.env.uname || config.uname,
-  //   password: process.env.pword || config.pword
-  // },
+  auth: {
+    user: process.env.uname || config.uname,
+    password: process.env.pword || config.pword
+  },
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true
@@ -71,9 +72,9 @@ if (process.env.NODE_ENV === "production") {
 
 let port = process.env.PORT || 5000;
 
-var httpServer = require("http").Server(app);
-// var httpsServer = https.createServer(credentials, app);
+var http = require("http"); //.Server(app);
+var server = http.createServer(app);
 
-httpServer.listen(port, () => console.log(`Server running on port ${port}!`));
+server.listen(port, () => console.log(`Server running on port ${port}!`));
 
-require("./socket-server")(httpServer);
+require("./socket-server")(server);

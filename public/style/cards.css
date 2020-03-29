@@ -8,6 +8,7 @@
   background-color: var(--background);
   color: var(--text);
   border: 1px solid var(--text);
+  z-index: 5;
 }
 
 .card-selected {
@@ -71,6 +72,11 @@
 .text-longest {
   /* 180chars */
   font-size: 14px;
+}
+
+.text-longester {
+  /* 180chars */
+  font-size: 11px;
 }
 
 em {

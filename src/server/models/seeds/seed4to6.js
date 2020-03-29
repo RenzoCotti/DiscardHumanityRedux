@@ -32,10 +32,11 @@ module.exports = {
         "In return for my soul, the Devil promised me _, but all I got was _.",
       pick: 2
     },
-    // {
-    //   "text": "You guys, I saw this crazy movie last night. It opens on _, and then there's some stuff about _, and then it ends with _.",
-    //   "pick": 3
-    // },
+    {
+      text:
+        "You guys, I saw this crazy movie last night. It opens on _, and then there's some stuff about _, and then it ends with _.",
+      pick: 3
+    },
     {
       text: "_ will never be the same after _.",
       pick: 2
