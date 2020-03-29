@@ -5,6 +5,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const outputDirectory = "dist";
 
+const config = require("./src/server/config/config");
+
 module.exports = {
   entry: ["babel-polyfill", "./src/client/index.js"],
   output: {
@@ -45,20 +47,26 @@ module.exports = {
     ]
   },
   devServer: {
+    host: config.ip,
     port: 3000,
     open: true,
     https: true,
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "http://" + config.ip + ":5000",
         secure: false,
         changeOrigin: true
       },
       "/socket.io": {
-        target: "http://localhost:5000",
+        target: "ws://" + config.ip + ":5000",
         secure: false,
         changeOrigin: true
       }
+      // "/sockjs-node": {
+      //   target: "http://" + config.ip + ":5000",
+      //   secure: false,
+      //   changeOrigin: true
+      // }
     }
   },
 

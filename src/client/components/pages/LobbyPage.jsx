@@ -11,6 +11,7 @@ class LobbyPage extends Component {
     this.socket = this.props.socket;
 
     this.setupSocket();
+    this.socket.emit("lobby-get-list");
   }
 
   setupSocket() {

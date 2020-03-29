@@ -1,0 +1,18 @@
+.chat {
+  padding-left: 100px;
+}
+
+.chat-history {
+  display: flex;
+  flex-direction: column;
+
+  height: 600px;
+}
+
+.chat-username {
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.chat-message {
+}

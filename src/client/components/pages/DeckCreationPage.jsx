@@ -143,17 +143,6 @@ class DeckCreationPage extends Component {
   }
 
   render() {
-    let hand = this.state.hand.map((card, index) => (
-      <Card
-        content={card.content}
-        colour="white"
-        key={index}
-        onClick={() => this.selectCard(index)}
-      />
-    ));
-    let hand2 = hand.slice(5, 10);
-    hand = hand.slice(0, 5);
-
     let first = this.state.hand[this.state.firstSelected]
       ? this.state.hand[this.state.firstSelected].content
       : [];
@@ -164,10 +153,28 @@ class DeckCreationPage extends Component {
       ? this.state.hand[this.state.thirdSelected].content
       : [];
 
+    let hand = this.state.hand.map((card, index) => (
+      <Card
+        selected={
+          index === this.state.firstSelected ||
+          index === this.state.secondSelected ||
+          index === this.state.thirdSelected
+        }
+        content={card.content}
+        colour="card-white"
+        size="card-normal"
+        key={index}
+        onClick={() => this.selectCard(index)}
+      />
+    ));
+    // let hand2 = hand.slice(5, 10);
+    // hand = hand.slice(0, 5);
+
     let blackCard = (
       <Card
         content={this.state.blackCard.content}
-        colour="black"
+        colour="card-black"
+        size="card-big"
         fillGaps={[first, second, third]}
       />
     );
@@ -179,7 +186,8 @@ class DeckCreationPage extends Component {
     selectCards.push(
       <Card
         content={first}
-        colour="white"
+        colour="card-white"
+        size="card-normal"
         key={1}
         onClick={() => this.deselectCard(1)}
       />
@@ -188,7 +196,8 @@ class DeckCreationPage extends Component {
       selectCards.push(
         <Card
           content={second}
-          colour="white"
+          colour="card-white"
+          size="card-normal"
           key={2}
           onClick={() => this.deselectCard(2)}
         />
@@ -197,7 +206,8 @@ class DeckCreationPage extends Component {
         selectCards.push(
           <Card
             content={third}
-            colour="white"
+            colour="card-white"
+            size="card-normal"
             key={3}
             onClick={() => this.deselectCard(3)}
           />
@@ -215,7 +225,7 @@ class DeckCreationPage extends Component {
             </div>
             <div className="hand">
               <div className="flex-row">{hand}</div>
-              <div className="flex-row hand-bottom">{hand2}</div>
+              {/* <div className="flex-row hand-bottom">{hand2}</div> */}
             </div>
           </div>
 

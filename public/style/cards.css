@@ -1,25 +1,40 @@
-.whitecard {
+.card-white {
   background-color: var(--text);
   color: var(--background);
   border: 1px solid var(--background);
 }
 
-.blackcard {
+.card-black {
   background-color: var(--background);
   color: var(--text);
   border: 1px solid var(--text);
 }
 
-.bigcard {
-  border-radius: 20px;
-  padding: 20px;
-
-  width: 170px;
-  height: 260px;
-  overflow-wrap: break-word;
+.card-selected {
+  background-color: rgb(220, 220, 220);
+  color: var(--background);
+  border: 1px solid var(--background);
 }
 
-.bigcard.blackcard {
+.card-default {
+  border-radius: 20px;
+  padding: 20px;
+}
+
+/*card sizes*/
+.card-small {
+  width: 140px;
+  height: 200px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.card-normal {
+  width: 170px;
+  height: 260px;
+}
+
+.card-big {
   width: 200px;
   height: 300px;
 }
@@ -27,26 +42,11 @@
 .hoverable:hover {
   z-index: 1000;
   cursor: pointer;
+  background-color: rgb(220, 220, 220);
 }
 
-.smallcard {
-  border-radius: 20px;
-  width: 140px;
-  height: 200px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  padding: 20px;
+.card-text {
   overflow-wrap: break-word;
-}
-
-.hand {
-  display: flex;
-  flex-direction: column;
-}
-.hand-bottom {
-  position: relative;
-  top: -150px;
-  left: 80px;
 }
 
 .text-shortest {

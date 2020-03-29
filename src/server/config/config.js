@@ -3,5 +3,6 @@ module.exports = {
   uname: "username",
   pword: "password",
   sessionSecret: "secret",
-  socket: "http://localhost:5000"
+  socket: "http://192.168.1.102:5000",
+  ip: "192.168.1.102"
 };

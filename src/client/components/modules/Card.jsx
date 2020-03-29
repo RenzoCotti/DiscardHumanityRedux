@@ -134,14 +134,13 @@ class Card extends Component {
     let text = this.generateText(textArray);
     let len = text.length;
 
-    let isSmall = this.props.small ? "smallcard " : "bigcard ";
-    let isBlack = this.props.colour === "black" ? "blackcard " : "whitecard ";
-    let hover = "";
-    if (this.props.colour === "white" && text) {
-      hover = " hoverable";
-    }
+    let size = this.props.size + " ";
+    let colour = this.props.colour + " ";
+    let selected = this.props.selected ? "card-selected " : " ";
 
-    let textClass;
+    let hover = this.props.colour === "card-white" ? "hoverable" : "";
+
+    let textClass = "card-text ";
     if (len <= 60) {
       textClass = "text-shortest";
     } else if (len <= 80) {
@@ -154,11 +153,11 @@ class Card extends Component {
       textClass = "text-longest";
     }
 
-    let res = isSmall + isBlack + textClass + hover;
+    let res = "card-default " + size + colour + selected + hover;
 
     return (
       <div className={res} onClick={this.props.onClick}>
-        {this.generateHTML(textArray)}
+        <div className={textClass}> {this.generateHTML(textArray)}</div>
       </div>
     );
   }

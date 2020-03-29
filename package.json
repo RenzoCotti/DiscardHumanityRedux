@@ -5,7 +5,7 @@
   "main": "src/server/server.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "set NODE_ENV=production&npm run build&npm run server",
+    "start": "export NODE_ENV=production && npm run build && npm run server",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "node src/server/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -37,6 +37,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.5",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "stopword": "^0.1.19",
     "webpack-cli": "^3.3.11"
   },

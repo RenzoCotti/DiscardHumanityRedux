@@ -5,8 +5,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-// const fs = require("fs");
-const http = require("http");
 
 //constants for server
 const app = express();

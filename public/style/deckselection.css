@@ -1,0 +1,34 @@
+.deck-selected {
+  background-color: gray;
+}
+
+.deck-title:hover {
+  background-color: gray;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--text);
+}
+
+.deck-preview {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 300px;
+  width: 1000px;
+}
+
+.deck-list {
+  overflow: scroll;
+  height: 495px;
+}
+
+.deck-container {
+  position: fixed;
+  top: 100px;
+}
+.deck-title {
+  width: 300px;
+  cursor: pointer;
+}
