@@ -92,23 +92,24 @@ for (let deck of decks) {
   for (let card of deck.blackCards) {
     let temp = [];
     let arr = card.text.split("_");
+
     //case there's no _, meaning implied at the end.
     if (arr.length == 1) {
-      // for (let i = 0; i < card.pick; i++) {
       arr.push("");
-      // }
     }
 
+    //we iterate over the resulting strings, looking for <br> or <i>
     for (let i = 0; i < arr.length; i++) {
       let s = arr[i];
 
+      //string is non empty
       if (s) {
         s = s.split("<br>");
         //can contain <br> or <i>
 
         if (s.length > 1) {
           //there's a <br>
-
+          //we add all pieces of the string with the <br>
           for (let a of s) {
             if (!a) {
               temp.push({ text: "", tag: "br" });
@@ -128,6 +129,7 @@ for (let deck of decks) {
           }
         }
       } else {
+        //string is empty, indicates that there was a _
         temp.push({ text: "", tag: "_" });
       }
     }

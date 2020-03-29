@@ -177,6 +177,11 @@ module.exports = function(httpServer) {
       }
     });
 
+    socket.on("chat-message", function(message) {
+      console.log(message.username + " says '" + message.message + "'");
+      io.in("general").emit("chat-message-new", message);
+    });
+
     socket.on("disconnect", function() {
       console.log("user disconnected " + socket.id);
 

@@ -86,9 +86,9 @@ class Card extends Component {
       let s = text[i];
 
       if (s.tag === "i") {
-        list.push(<i>{s.text}</i>);
+        list.push(<i key={i}>{s.text}</i>);
       } else if (s.tag === "br") {
-        list.push(<br />);
+        list.push(<br key={i} />);
       } else if (s.tag === "text") {
         list.push(s.text);
       } else if (s.tag === "_") {
@@ -109,7 +109,7 @@ class Card extends Component {
           j++;
         }
 
-        list.push(<em>{this.generateHTML(toAdd)}</em>);
+        list.push(<em key={i}>{this.generateHTML(toAdd)}</em>);
         i = j;
       }
     }
@@ -136,6 +136,11 @@ class Card extends Component {
 
     let isSmall = this.props.small ? "smallcard " : "bigcard ";
     let isBlack = this.props.colour === "black" ? "blackcard " : "whitecard ";
+    let hover = "";
+    if (this.props.colour === "white" && text) {
+      hover = " hoverable";
+    }
+
     let textClass;
     if (len <= 60) {
       textClass = "text-shortest";
@@ -149,7 +154,7 @@ class Card extends Component {
       textClass = "text-longest";
     }
 
-    let res = isSmall + isBlack + textClass;
+    let res = isSmall + isBlack + textClass + hover;
 
     return (
       <div className={res} onClick={this.props.onClick}>

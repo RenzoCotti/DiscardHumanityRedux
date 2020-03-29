@@ -24,7 +24,7 @@
   height: 300px;
 }
 
-.bigcard.whitecard:hover {
+.hoverable:hover {
   z-index: 1000;
   cursor: pointer;
 }

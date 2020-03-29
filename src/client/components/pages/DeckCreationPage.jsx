@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Card from "../modules/Card";
+import Chat from "../modules/Chat";
 
 class DeckCreationPage extends Component {
   state = {};
   constructor(props) {
     super(props);
     this.selectCard = this.selectCard.bind(this);
+    this.socket = this.props.socket;
     this.state.hand = [
       {
         content: [{ text: "The Rev. Dr. Martin Luther King, Jr.", tag: "text" }]
@@ -102,22 +104,19 @@ class DeckCreationPage extends Component {
     let second = this.state.secondSelected;
     let third = this.state.thirdSelected;
 
+    //counting to see if can still add
     let selected = 0;
     if (first !== undefined) {
-      console.log("here");
       selected++;
     }
     if (second !== undefined) {
-      console.log("here");
-
       selected++;
     }
     if (third !== undefined) {
-      console.log("here");
-
       selected++;
     }
 
+    //selected same card
     if (first === index || second === index || third === index) {
       return;
     }
@@ -205,28 +204,26 @@ class DeckCreationPage extends Component {
         );
       }
     }
-    // for (let i = 0; i < this.state.blackCard.pick; i++) {
-    //   selectCards.push(
-    //     <Card
-    //       content=""
-    //       colour="white"
-    //       key={i}
-    //       // onClick={() => this.selectCard(index)}
-    //     />
-    //   );
-    // }
 
     return (
       <React.Fragment>
-        <div className="flex-column">
-          <div className="flex-row">
-            {blackCard}
-            {selectCards}
+        <div className="flex-row">
+          <div className="flex-column">
+            <div className="flex-row">
+              {blackCard}
+              {selectCards}
+            </div>
+            <div className="hand">
+              <div className="flex-row">{hand}</div>
+              <div className="flex-row hand-bottom">{hand2}</div>
+            </div>
           </div>
-          <div className="hand">
-            <div className="flex-row">{hand}</div>
-            <div className="flex-row hand-bottom">{hand2}</div>
-          </div>
+
+          <Chat
+            username="dicc"
+            lobbyName="general"
+            socket={this.props.socket}
+          />
         </div>
       </React.Fragment>
     );
