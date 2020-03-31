@@ -20,6 +20,7 @@
 .card-default {
   border-radius: 20px;
   padding: 20px;
+  position: relative;
 }
 
 /*card sizes*/
@@ -41,7 +42,7 @@
 }
 
 .hoverable:hover {
-  z-index: 1000;
+  z-index: 6;
   cursor: pointer;
   background-color: rgb(220, 220, 220);
 }
@@ -82,4 +83,21 @@
 em {
   color: aqua;
   font-style: normal;
+}
+
+.giant-x {
+  display: block;
+  position: absolute;
+  font-size: 200px;
+  line-height: 1em;
+  z-index: 7;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
+}
+.giant-x-content {
+  display: none;
+}
+
+.giant-x:hover > .giant-x-content {
+  display: block;
 }

@@ -192,6 +192,7 @@ class DeckCreationPage extends Component {
         size="card-normal"
         key={1}
         onClick={() => this.deselectCard(1)}
+        remove={true}
       />
     );
     if (pick > 1) {
@@ -202,6 +203,7 @@ class DeckCreationPage extends Component {
           size="card-normal"
           key={2}
           onClick={() => this.deselectCard(2)}
+          remove={true}
         />
       );
       if (pick > 2) {
@@ -212,6 +214,7 @@ class DeckCreationPage extends Component {
             size="card-normal"
             key={3}
             onClick={() => this.deselectCard(3)}
+            remove={true}
           />
         );
       }

@@ -138,7 +138,12 @@ class Card extends Component {
     let colour = this.props.colour + " ";
     let selected = this.props.selected ? "card-selected " : " ";
 
-    let hover = this.props.colour === "card-white" ? "hoverable" : "";
+    let hover =
+      this.props.colour === "card-white" &&
+      !this.props.selected &&
+      !this.props.remove
+        ? "hoverable"
+        : "";
 
     let textClass = "card-text ";
 
@@ -166,6 +171,13 @@ class Card extends Component {
     }
     return (
       <div className={res} onClick={this.props.onClick} style={style}>
+        {this.props.remove && textArray.length > 0 ? (
+          <div className="giant-x card-normal">
+            <div className="giant-x-content">X</div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className={textClass}> {this.generateHTML(textArray)}</div>
       </div>
     );
