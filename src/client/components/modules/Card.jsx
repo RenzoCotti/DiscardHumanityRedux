@@ -3,6 +3,15 @@ import React, { Component } from "react";
 class Card extends Component {
   state = {};
 
+  /*
+  a Card has the following props:
+  - size : card-small, card-normal, card-big  -> card size, duh
+  - colour: card-black, card-white -> colour of the card
+  - selected: true/false -> background gray
+  - remove: true/false -> shows X on hover
+  
+  */
+
   constructor(props) {
     super(props);
   }

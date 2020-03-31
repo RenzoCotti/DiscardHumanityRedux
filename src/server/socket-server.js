@@ -63,7 +63,7 @@ module.exports = function(httpServer) {
               if (lobby.currentUsers + 1 <= lobby.maxUsers) {
                 socketJoinLobby(socket, info.lobbyName);
                 lobby.currentUsers++;
-                lobby.userList.push(info.username);
+                lobby.userList.push({ username: info.username, id: socket.id });
 
                 socket.emit("lobby-joined", info.lobbyName);
                 io.in(info.lobbyName).emit("user-join", info.username);
@@ -116,7 +116,7 @@ module.exports = function(httpServer) {
         password: info.password,
         maxUsers: info.maxUsers,
         currentUsers: 1,
-        userList: [info.username]
+        userList: [{ username: info.username, id: socket.id }]
       };
 
       lobbies.push(lobby);
@@ -126,7 +126,7 @@ module.exports = function(httpServer) {
     }
   }
 
-  function setDecks(info) {
+  function setDecks(socket, info) {
     console.log("setting decks...");
     for (let lobby of lobbies) {
       if (lobby.name === info.name) {
@@ -134,14 +134,57 @@ module.exports = function(httpServer) {
         lobby.whiteCards = info.whiteCards;
         console.log("decks set.");
 
-        // if (lobby.userList.length > 1) {
-        //   socket.emit("game-start");
-        // } else {
         socket.emit("game-lounge", lobby.name);
-        // }
+        io.in(lobby.name).emit("deck-set");
         break;
       }
     }
+  }
+
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function drawXCards(array, x) {
+    let temp = [];
+    for (let i = 0; i < x; i++) {
+      let card = array.fresh.splice(0, 1)[0];
+      array.used.push(card);
+      temp.push(card);
+    }
+    return temp;
+  }
+
+  function initGame(lobby) {
+    // console.log(lobby);
+    let gameState = {
+      blackCards: {
+        fresh: shuffle(lobby.blackCards),
+        used: []
+      },
+      whiteCards: {
+        fresh: shuffle(lobby.whiteCards),
+        used: []
+      },
+      userHands: []
+    };
+
+    for (let user of lobby.userList) {
+      let hand = drawXCards(gameState.whiteCards, 10);
+      gameState.userHands.push({
+        [user.id]: hand
+      });
+      io.to(user.id).emit("new-hand", hand);
+    }
+
+    gameState.currentBlackCard = drawXCards(gameState.blackCards, 1)[0];
+
+    lobby.gameState = gameState;
+    io.in(lobby.name).emit("new-black-card", gameState.currentBlackCard);
   }
 
   io.on("connect", function(socket) {
@@ -157,7 +200,7 @@ module.exports = function(httpServer) {
     socket.on("lobby-login", info => loginLobby(socket, info));
 
     //sets decks in a lobby
-    socket.on("set-decks", info => setDecks(info));
+    socket.on("set-decks", info => setDecks(socket, info));
 
     socket.on("lobby-leave", function(info) {
       disconnectFromLobby(info.lobbyName, socket.username);
@@ -170,13 +213,15 @@ module.exports = function(httpServer) {
     socket.on("check-start", lobbyName => {
       for (let lobby of lobbies) {
         if (lobbyName === lobby.name) {
-          if (lobby.currentUsers > 1) {
+          if (lobby.currentUsers > 1 && lobby.whiteCards.length > 0) {
             io.in(lobby.name).emit("start-game");
+            initGame(lobby);
           }
         }
       }
     });
 
+    //TODO CHANGE GENERAL
     socket.on("chat-message", function(message) {
       console.log(message.username + " says '" + message.message + "'");
       io.in("general").emit("chat-message-new", message);

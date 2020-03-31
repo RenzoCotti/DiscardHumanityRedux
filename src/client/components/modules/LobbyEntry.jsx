@@ -29,7 +29,7 @@ class LobbyEntry extends Component {
     this.socket.emit("lobby-login", {
       lobbyName: lobbyName,
       password: this.state.password,
-      userName: this.state.username
+      username: this.state.username
     });
   }
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Button from "../modules/input/Button";
-import Card from "../modules/Card";
+import { Redirect } from "react-router";
 
 class LoungePage extends Component {
   state = {};
@@ -25,16 +24,21 @@ class LoungePage extends Component {
       console.log("user joined");
       this.socket.emit("check-start", this.props.name);
     });
+
+    this.socket.on("deck-set", () => {
+      console.log("deck set by admin");
+      this.socket.emit("check-start", this.props.name);
+    });
   }
 
   startGame() {}
 
   render() {
-    return this.state.start ? (
-      <div>Started! :D </div>
-    ) : (
-      <div>Waiting for players to join...</div>
-    );
+    if (this.state.start) {
+      return <Redirect push to={"/game/" + this.props.name} />;
+    }
+
+    return <div>Waiting for players to join...</div>;
   }
 }
 

@@ -56,8 +56,9 @@ class DeckSelectionPage extends Component {
 
     if (this.state.addedDecks.length > 0) {
       for (let e of this.state.addedDecks) {
-        blackCards.concat(e.blackCards);
-        whiteCards.concat(e.whiteCards);
+        let deck = this.state.decks[e];
+        blackCards = blackCards.concat(deck.blackCards);
+        whiteCards = whiteCards.concat(deck.whiteCards);
       }
 
       this.socket.emit("set-decks", {
@@ -115,12 +116,23 @@ class DeckSelectionPage extends Component {
     if (this.state.selected !== undefined) {
       let deck = this.state.decks[this.state.selected];
 
+      let i = 0;
       let whiteCards = deck.whiteCards.map(card => (
-        <Card text={card.text} colour="white" small="true" key={card.text} />
+        <Card
+          content={card.content}
+          colour="card-white"
+          size="card-small"
+          key={i++}
+        />
       ));
 
       let blackCards = deck.blackCards.map(card => (
-        <Card text={card.text} colour="black" small="true" key={card.text} />
+        <Card
+          content={card.content}
+          colour="card-black"
+          size="card-small"
+          key={i++}
+        />
       ));
 
       deckList = whiteCards.concat(blackCards);
@@ -131,7 +143,9 @@ class DeckSelectionPage extends Component {
         <div className="flex-column deck-container">
           <div className="title">{this.props.name}</div>
           <div className="sub-title padded-bottom">Select decks</div>
-          <div className="flex-column deck-list margin-bottom">{list}</div>
+          <div className="flex-column deck-list margin-bottom">
+            {list.length == 0 ? "Loading decks..." : list}
+          </div>
           <Button value="Start game" fn={this.goToLobby} />
         </div>
 
