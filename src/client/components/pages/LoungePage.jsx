@@ -43,7 +43,7 @@ class LoungePage extends Component {
     return (
       <div className="flex-row">
         <div>Waiting for players to join...</div>
-        {/* <Chat /> */}
+        <Chat />
       </div>
     );
   }

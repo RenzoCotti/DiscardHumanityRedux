@@ -13,8 +13,11 @@ import {
 class Chat extends Component {
   state = {
     message: "",
-    history: []
+    history: [],
+    listeners: []
   };
+
+  listeners = {};
 
   constructor(props) {
     super(props);
@@ -27,6 +30,12 @@ class Chat extends Component {
     // this=.setState({ history: this.props.history });
 
     //TODO: CURRENTLY EACH TIME COMPONENT IS MOUNTED, NEW LISTENERS ARE CREATED
+
+    if (!this.init) {
+    }
+  }
+
+  componentDidMount() {
     this.props.socket.on("chat-message-new", msg => {
       console.log("event message");
       this.addChatMessage({ username: msg.username, message: msg.message });
@@ -39,13 +48,23 @@ class Chat extends Component {
     this.props.socket.on("user-disconnect", name => {
       this.addSystemMessage("User " + name + " has disconnected.");
     });
+
+    // console.log(this.props.socket);
+  }
+
+  componentWillUnmount() {
+    this.props.socket.off("chat-message-new");
+    this.props.socket.off("user-connect");
+    this.props.socket.off("user-disconnect");
+
+    // console.log(this.props.socket);
   }
 
   addChatMessage(message) {
-    console.log("new message");
+    // console.log("new message");
     let history = this.props.chatHistory;
-    console.log(history);
-    console.log(message);
+    // console.log(history);
+    // console.log(message);
     history.push(message);
     this.props.updateChatHistory(history);
     this.setState({ history: history });
