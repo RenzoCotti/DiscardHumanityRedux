@@ -1,53 +1,31 @@
 import React, { Component } from "react";
 import LobbyEntry from "../modules/LobbyEntry";
 import CreateLobby from "../modules/CreateLobby";
-import { Redirect } from "react-router";
+import { connect } from "react-redux";
+import { getSocket } from "../../redux/actions";
 
 class LobbyPage extends Component {
   state = {};
-
   constructor(props) {
     super(props);
-    this.socket = this.props.socket;
+
+    // console.log(this.state);
 
     this.setupSocket();
-    this.socket.emit("lobby-get-list");
+    this.props.socket.emit("lobby-get-list");
   }
 
   setupSocket() {
-    this.socket.on("lobby-update", () => {
-      this.socket.emit("lobby-get-list");
+    this.props.socket.on("lobby-update", () => {
+      this.props.socket.emit("lobby-get-list");
     });
 
-    this.socket.on("lobby-list", list => {
+    this.props.socket.on("lobby-list", list => {
       this.setState({ lobbies: list });
-    });
-
-    this.socket.on("lobby-created", info => {
-      console.log("lobby created!");
-      this.setState({ joinAdmin: info });
-    });
-
-    this.socket.on("lobby-joined", info => {
-      console.log("lobby joined!");
-
-      this.setState({ joinUser: info });
-    });
-
-    this.socket.on("lobby-incorrect-credentials", () => {
-      console.log("incorrect creds");
     });
   }
 
   render() {
-    if (this.state.joinAdmin) {
-      return <Redirect push to={"/lobby/" + this.state.joinAdmin + "/deck"} />;
-    }
-
-    if (this.state.joinUser) {
-      return <Redirect push to={"/lounge/" + this.state.joinUser} />;
-    }
-
     let list;
     if (this.state.lobbies && this.state.lobbies.length > 0) {
       list = this.state.lobbies.map(el => {
@@ -56,7 +34,6 @@ class LobbyPage extends Component {
             name={el.name}
             maxUsers={el.maxUsers}
             currentUsers={el.currentUsers}
-            socket={this.socket}
             key={el.name}
           />
         );
@@ -72,7 +49,7 @@ class LobbyPage extends Component {
           </div>
         </div>
 
-        <CreateLobby socket={this.socket}></CreateLobby>
+        <CreateLobby />
 
         {/* <div className="errormsg"></div> */}
 
@@ -82,4 +59,8 @@ class LobbyPage extends Component {
   }
 }
 
-export default LobbyPage;
+const mapStateToProps = state => ({
+  socket: getSocket(state)
+});
+
+export default connect(mapStateToProps, null)(LobbyPage);

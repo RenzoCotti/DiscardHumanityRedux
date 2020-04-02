@@ -1,22 +1,24 @@
 import React, { Component } from "react";
 import Card from "../modules/Card";
 import Chat from "../modules/Chat";
+import { connect } from "react-redux";
+import { getLobbyName, getSocket } from "../../redux/actions";
 
 class GamePage extends Component {
   state = {
     hand: []
   };
+
   constructor(props) {
     super(props);
     this.selectCard = this.selectCard.bind(this);
-    this.socket = this.props.socket;
 
-    this.socket.emit("get-gamestatus");
-    this.socket.on("new-black-card", card => {
+    this.props.socket.emit("get-gamestatus");
+    this.props.socket.on("new-black-card", card => {
       this.setState({ blackCard: card });
     });
 
-    this.socket.on("new-hand", hand => {
+    this.props.socket.on("new-hand", hand => {
       this.setState({ hand: hand });
     });
   }
@@ -71,7 +73,7 @@ class GamePage extends Component {
       return <div>Initialising...</div>;
     }
 
-    console.log(this.state);
+    // console.log(this.state);
 
     let first = this.state.hand[this.state.firstSelected]
       ? this.state.hand[this.state.firstSelected].content
@@ -164,15 +166,20 @@ class GamePage extends Component {
             </div>
           </div>
 
-          <Chat
-            username="dicc"
-            lobbyName="general"
-            socket={this.props.socket}
-          />
+          <Chat />
         </div>
       </React.Fragment>
     );
   }
 }
 
-export default GamePage;
+const mapStateToProps = state => ({
+  socket: getSocket(state),
+  lobbyName: getLobbyName(state)
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   updateLogin: value => dispatch(updateLogin(value))
+// });
+
+export default connect(mapStateToProps, null)(GamePage);

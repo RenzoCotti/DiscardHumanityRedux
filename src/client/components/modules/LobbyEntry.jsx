@@ -1,35 +1,42 @@
 import React, { Component } from "react";
 import Button from "../modules/input/Button";
 import Input from "../modules/input/Input";
+import { Redirect } from "react-router";
+import { connect } from "react-redux";
+import {
+  getLobbyName,
+  getSocket,
+  updateLobbyName,
+  updateUsername,
+  getUsername
+} from "../../redux/actions";
 
 class LobbyEntry extends Component {
-  state = {};
+  state = { username: "", password: "", redirect: false };
 
   constructor(props) {
     super(props);
-    this.socket = this.props.socket;
     this.joinLobby = this.joinLobby.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-
-    this.setupSocket();
   }
 
-  setupSocket() {
-    // this.socket.on("lobby-joined", () => {
-    //   console.log("lobby joined!");
-    //   this.socket.emit("lobby-get-list");
-    // });
-  }
-
-  joinLobby(lobbyName) {
-    // console.log(lobbyName);
-
-    this.socket.emit("lobby-login", {
-      lobbyName: lobbyName,
+  joinLobby() {
+    this.props.socket.emit("lobby-login", {
+      lobbyName: this.props.name,
       password: this.state.password,
       username: this.state.username
+    });
+    this.props.socket.on("lobby-joined", info => {
+      console.log("lobby joined!");
+      this.props.updateLobbyName(this.props.name);
+      this.props.updateUsername(this.state.username);
+      this.setState({ redirect: true });
+    });
+
+    this.props.socket.on("lobby-incorrect-credentials", () => {
+      console.log("incorrect creds");
     });
   }
 
@@ -74,6 +81,10 @@ class LobbyEntry extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to="/lounge" />;
+    }
+
     return (
       <div className="lobby-entry border-bottom">
         <div className="flex-row">
@@ -139,4 +150,15 @@ class LobbyEntry extends Component {
   }
 }
 
-export default LobbyEntry;
+const mapStateToProps = state => ({
+  lobbyName: getLobbyName(state),
+  username: getUsername(state),
+  socket: getSocket(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateLobbyName: value => dispatch(updateLobbyName(value)),
+  updateUsername: value => dispatch(updateUsername(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LobbyEntry);

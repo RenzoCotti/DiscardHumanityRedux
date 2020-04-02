@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
+import Chat from "../modules/Chat";
+import { connect } from "react-redux";
+import { getSocket, getLobbyName } from "../../redux/actions";
 
 class LoungePage extends Component {
   state = {};
 
   constructor(props) {
     super(props);
-    this.socket = this.props.socket;
 
     this.setupSocket();
 
@@ -16,18 +18,18 @@ class LoungePage extends Component {
   }
 
   setupSocket() {
-    this.socket.on("start-game", () => {
+    this.props.socket.on("start-game", () => {
       this.setState({ start: true });
     });
 
-    this.socket.on("user-join", () => {
+    this.props.socket.on("user-connect", () => {
       console.log("user joined");
-      this.socket.emit("check-start", this.props.name);
+      this.props.socket.emit("check-start", this.props.lobbyName);
     });
 
-    this.socket.on("deck-set", () => {
+    this.props.socket.on("deck-set", () => {
       console.log("deck set by admin");
-      this.socket.emit("check-start", this.props.name);
+      this.props.socket.emit("check-start", this.props.lobbyName);
     });
   }
 
@@ -35,11 +37,21 @@ class LoungePage extends Component {
 
   render() {
     if (this.state.start) {
-      return <Redirect push to={"/game/" + this.props.name} />;
+      return <Redirect push to={"/game"} />;
     }
 
-    return <div>Waiting for players to join...</div>;
+    return (
+      <div className="flex-row">
+        <div>Waiting for players to join...</div>
+        {/* <Chat /> */}
+      </div>
+    );
   }
 }
 
-export default LoungePage;
+const mapStateToProps = state => ({
+  socket: getSocket(state),
+  lobbyName: getLobbyName(state)
+});
+
+export default connect(mapStateToProps, null)(LoungePage);

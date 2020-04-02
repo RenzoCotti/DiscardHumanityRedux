@@ -5,16 +5,16 @@ class Socket extends Component {
     super(props);
 
     // console.log(this.socket);
-    this.socket = this.props.socket;
+    // this.socket = this.props.socket;
 
-    this.socket.on("new_user", msg => {
-      console.log(msg);
-    });
+    // this.socket.on("new_user", msg => {
+    //   console.log(msg);
+    // });
   }
 
-  componentWillUnmount() {
-    this.socket.disconnect();
-  }
+  // componentWillUnmount() {
+  //   this.socket.disconnect();
+  // }
 
   render() {
     return <div />;

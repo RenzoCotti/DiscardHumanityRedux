@@ -1,22 +1,58 @@
 import React, { Component } from "react";
 import Button from "../modules/input/Button";
 import Input from "../modules/input/Input";
+import { connect } from "react-redux";
+import {
+  getLobbyName,
+  getSocket,
+  getUsername,
+  getChatHistory,
+  updateChatHistory
+} from "../../redux/actions";
 
 class Chat extends Component {
-  state = { history: [{ username: "dicc", message: "Test ehuehuehue" }] };
+  state = {
+    message: "",
+    history: []
+  };
 
   constructor(props) {
     super(props);
-    this.socket = this.props.socket;
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.addChatMessage = this.addChatMessage.bind(this);
+    this.addSystemMessage = this.addSystemMessage.bind(this);
 
-    this.socket.on("chat-message-new", msg => {
-      let history = this.state.history;
-      history.push({ username: msg.username, message: msg.message });
-      this.setState({ history: history });
+    // this=.setState({ history: this.props.history });
+
+    //TODO: CURRENTLY EACH TIME COMPONENT IS MOUNTED, NEW LISTENERS ARE CREATED
+    this.props.socket.on("chat-message-new", msg => {
+      console.log("event message");
+      this.addChatMessage({ username: msg.username, message: msg.message });
     });
+
+    this.props.socket.on("user-connect", name => {
+      this.addSystemMessage("User " + name + " has connected.");
+    });
+
+    this.props.socket.on("user-disconnect", name => {
+      this.addSystemMessage("User " + name + " has disconnected.");
+    });
+  }
+
+  addChatMessage(message) {
+    console.log("new message");
+    let history = this.props.chatHistory;
+    console.log(history);
+    console.log(message);
+    history.push(message);
+    this.props.updateChatHistory(history);
+    this.setState({ history: history });
+  }
+
+  addSystemMessage(message) {
+    this.addChatMessage({ username: "Discard Humanity", message: message });
   }
 
   handleChange(e) {
@@ -33,10 +69,12 @@ class Chat extends Component {
   }
 
   sendMessage() {
-    this.socket.emit("chat-message", {
+    if (this.state.message.trim().length === 0) return;
+
+    this.props.socket.emit("chat-message", {
       username: this.props.username,
       message: this.state.message,
-      lobby: this.props.lobbyName
+      lobbyName: this.props.lobbyName
     });
 
     this.setState({ message: "" });
@@ -61,4 +99,15 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+const mapStateToProps = state => ({
+  socket: getSocket(state),
+  lobbyName: getLobbyName(state),
+  username: getUsername(state),
+  chatHistory: getChatHistory(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateChatHistory: value => dispatch(updateChatHistory(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

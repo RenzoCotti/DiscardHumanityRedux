@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Button from "../modules/input/Button";
 import Card from "../modules/Card";
 import { Redirect } from "react-router";
+import { connect } from "react-redux";
+import { getLobbyName, getSocket } from "../../redux/actions";
 
 class DeckSelectionPage extends Component {
   state = {
@@ -10,7 +12,6 @@ class DeckSelectionPage extends Component {
 
   constructor(props) {
     super(props);
-    this.socket = this.props.socket;
 
     this.setupSocket();
 
@@ -20,9 +21,9 @@ class DeckSelectionPage extends Component {
   }
 
   setupSocket() {
-    this.socket.on("game-start", () => {});
-    this.socket.on("game-lounge", info => {
-      this.setState({ waiting: info });
+    this.props.socket.on("game-start", () => {});
+    this.props.socket.on("game-lounge", () => {
+      this.setState({ waiting: true });
     });
   }
 
@@ -61,8 +62,8 @@ class DeckSelectionPage extends Component {
         whiteCards = whiteCards.concat(deck.whiteCards);
       }
 
-      this.socket.emit("set-decks", {
-        name: this.props.name,
+      this.props.socket.emit("set-decks", {
+        name: this.props.lobbyName,
         blackCards: blackCards,
         whiteCards: whiteCards
       });
@@ -88,9 +89,10 @@ class DeckSelectionPage extends Component {
 
   render() {
     if (this.state.waiting) {
-      return <Redirect push to={"/lounge/" + this.state.waiting} />;
+      return <Redirect push to="/lounge" />;
     }
 
+    // console.log(this.props);
     // console.log(this.props.location);
     let list = [];
     if (this.state.decks) {
@@ -141,7 +143,7 @@ class DeckSelectionPage extends Component {
     return (
       <React.Fragment>
         <div className="flex-column deck-container">
-          <div className="title">{this.props.name}</div>
+          <div className="title">{this.props.lobbyName}</div>
           <div className="sub-title padded-bottom">Select decks</div>
           <div className="flex-column deck-list margin-bottom">
             {list.length == 0 ? "Loading decks..." : list}
@@ -155,4 +157,13 @@ class DeckSelectionPage extends Component {
   }
 }
 
-export default DeckSelectionPage;
+const mapStateToProps = state => ({
+  lobbyName: getLobbyName(state),
+  socket: getSocket(state)
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   updateLogin: value => dispatch(updateLogin(value))
+// });
+
+export default connect(mapStateToProps, null)(DeckSelectionPage);

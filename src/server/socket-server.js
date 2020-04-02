@@ -2,6 +2,7 @@ module.exports = function(httpServer) {
   const io = require("socket.io").listen(httpServer);
 
   var lobbies = [];
+  var debug = true;
 
   function lobbyExists(lobbyName) {
     for (let lobby of lobbies) {
@@ -12,11 +13,20 @@ module.exports = function(httpServer) {
     return false;
   }
 
+  function log(message) {
+    if (debug) {
+      console.log(message);
+    }
+  }
+
   function disconnectFromLobby(lobbyName, username) {
+    log("disconnecting from " + lobbyName);
+
     let toRemove = -1;
     for (let i = 0; i < lobbies.length; i++) {
       let lobby = lobbies[i];
       if (lobby.name === lobbyName) {
+        io.to(lobbyName).emit("user-disconnect", username);
         lobby.currentUsers--;
         let index;
 
@@ -36,20 +46,20 @@ module.exports = function(httpServer) {
     }
 
     if (toRemove !== -1) {
-      console.log("lobby empty now, removing.");
+      log("lobby empty now, removing.");
       lobbies.splice(toRemove, 1);
     }
   }
 
   //logins to a new lobby
   function loginLobby(socket, info) {
-    console.log("trying to access lobby " + info.lobbyName);
+    log("trying to access lobby " + info.lobbyName);
     if (lobbyExists(info.lobbyName)) {
       for (let lobby of lobbies) {
         if (info.lobbyName === lobby.name) {
           if (info.password === lobby.password) {
             let alreadyJoined = false;
-            // console.log(lobby.userList);
+            // log(lobby.userList);
             for (let user of lobby.userList) {
               if (user === info.username) {
                 //user has already joined, assume reconnect
@@ -58,41 +68,42 @@ module.exports = function(httpServer) {
             }
 
             if (alreadyJoined) {
-              console.log("user already joined.");
+              log("user already joined.");
             } else {
               if (lobby.currentUsers + 1 <= lobby.maxUsers) {
-                socketJoinLobby(socket, info.lobbyName);
+                socketJoinLobby(socket, info.lobbyName, info.username);
                 lobby.currentUsers++;
                 lobby.userList.push({ username: info.username, id: socket.id });
 
                 socket.emit("lobby-joined", info.lobbyName);
-                io.in(info.lobbyName).emit("user-join", info.username);
-                console.log("lobby joined, " + info.lobbyName);
+                io.in(info.lobbyName).emit("user-connect", info.username);
+                log("lobby joined, " + info.lobbyName);
               } else {
                 socket.emit("lobby-full");
-                console.log("lobby is full.");
+                log("lobby is full.");
               }
             }
           } else {
             socket.emit("lobby-incorrect-credentials");
-            console.log("incorrect credentials.");
+            log("incorrect credentials.");
           }
         }
       }
     } else {
-      console.log("lobby not found.");
+      log("lobby not found.");
       socket.emit("lobby-not-found");
     }
   }
 
   //adds name of lobby to socket for disconnect
-  function socketJoinLobby(socket, lobbyName) {
+  function socketJoinLobby(socket, lobbyName, username) {
     socket.lobby = lobbyName;
+    socket.username = username;
     socket.join(lobbyName);
   }
 
   function getLobbyList() {
-    console.log("got all lobbies");
+    log("got all lobbies");
     let temp = [];
     for (let lobby of lobbies) {
       let tempLobby = {
@@ -107,32 +118,33 @@ module.exports = function(httpServer) {
 
   function createLobby(socket, info) {
     if (lobbyExists(info.lobbyName)) {
-      console.log("lobby esists.");
+      log("lobby esists.");
       socket.emit("lobby-exists-already");
     } else {
-      socketJoinLobby(socket, info.lobbyName);
+      socketJoinLobby(socket, info.lobbyName, info.username);
       let lobby = {
         name: info.lobbyName,
         password: info.password,
         maxUsers: info.maxUsers,
         currentUsers: 1,
-        userList: [{ username: info.username, id: socket.id }]
+        userList: [{ username: info.username, id: socket.id }],
+        state: "deck-selection"
       };
 
       lobbies.push(lobby);
-      console.log("lobby created: " + info.lobbyName);
+      log("lobby created: " + info.lobbyName);
       socket.emit("lobby-created", info.lobbyName);
       io.in("general").emit("lobby-update");
     }
   }
 
   function setDecks(socket, info) {
-    console.log("setting decks...");
+    log("setting decks...");
     for (let lobby of lobbies) {
       if (lobby.name === info.name) {
         lobby.blackCards = info.blackCards;
         lobby.whiteCards = info.whiteCards;
-        console.log("decks set.");
+        log("decks set.");
 
         socket.emit("game-lounge", lobby.name);
         io.in(lobby.name).emit("deck-set");
@@ -150,6 +162,14 @@ module.exports = function(httpServer) {
   }
 
   function drawXCards(array, x) {
+    if (array.fresh.length + array.used.length < x) {
+      return [];
+    }
+
+    if (array.fresh.length < x) {
+      array.fresh = array.fresh.concat(array.used);
+    }
+
     let temp = [];
     for (let i = 0; i < x; i++) {
       let card = array.fresh.splice(0, 1)[0];
@@ -159,8 +179,39 @@ module.exports = function(httpServer) {
     return temp;
   }
 
+  function drawWhiteCardsAll(lobby, x) {
+    for (let user of lobby.userList) {
+      let hand = drawXCards(lobby.gameState.whiteCards, x);
+      lobby.gameState.userHands.push({
+        [user.id]: hand
+      });
+      io.to(user.id).emit("new-hand", hand);
+    }
+  }
+
+  function drawBlackCard(lobby) {
+    lobby.gameState.currentBlackCard = drawXCards(
+      lobby.gameState.blackCards,
+      1
+    )[0];
+    io.in(lobby.name).emit("new-black-card", lobby.gameState.currentBlackCard);
+  }
+
+  function setGameState(lobby, status) {
+    /*
+      deck-selection
+      init (setting up game, drawing cards for everyone)
+      selecting (everyone is picking cards)
+      voting (tsar or demo or whatevs)
+      finished (end screen)
+    */
+
+    lobby.state = status;
+  }
+
   function initGame(lobby) {
-    // console.log(lobby);
+    setGameState(lobby, "init");
+
     let gameState = {
       blackCards: {
         fresh: shuffle(lobby.blackCards),
@@ -172,25 +223,42 @@ module.exports = function(httpServer) {
       },
       userHands: []
     };
+    lobby.gameState = gameState;
 
-    for (let user of lobby.userList) {
-      let hand = drawXCards(gameState.whiteCards, 10);
-      gameState.userHands.push({
-        [user.id]: hand
-      });
-      io.to(user.id).emit("new-hand", hand);
+    drawWhiteCardsAll(lobby, 10);
+    playTurn(lobby);
+  }
+
+  function playTurn(lobby) {
+    drawBlackCard(lobby);
+
+    if (lobby.gameState.currentBlackCard.pick === 3) {
+      //pick 3 want you to draw 2s
+      drawWhiteCardsAll(lobby, 2);
     }
 
-    gameState.currentBlackCard = drawXCards(gameState.blackCards, 1)[0];
+    setGameState(lobby, "selecting");
+  }
 
-    lobby.gameState = gameState;
-    io.in(lobby.name).emit("new-black-card", gameState.currentBlackCard);
+  function checkStart(lobbyName) {
+    for (let lobby of lobbies) {
+      if (lobbyName === lobby.name) {
+        if (
+          lobby.currentUsers > 1 &&
+          lobby.whiteCards &&
+          lobby.whiteCards.length > 0
+        ) {
+          io.in(lobby.name).emit("start-game");
+          initGame(lobby);
+        }
+      }
+    }
   }
 
   io.on("connect", function(socket) {
     socket.join("general");
 
-    console.log("user connected " + socket.id);
+    log("user connected " + socket.id);
     // socket.emit("ping");
 
     //allows creation of a lobby
@@ -211,27 +279,18 @@ module.exports = function(httpServer) {
     });
 
     socket.on("check-start", lobbyName => {
-      for (let lobby of lobbies) {
-        if (lobbyName === lobby.name) {
-          if (lobby.currentUsers > 1 && lobby.whiteCards.length > 0) {
-            io.in(lobby.name).emit("start-game");
-            initGame(lobby);
-          }
-        }
-      }
+      checkStart(lobbyName);
     });
 
-    //TODO CHANGE GENERAL
     socket.on("chat-message", function(message) {
-      console.log(message.username + " says '" + message.message + "'");
-      io.in("general").emit("chat-message-new", message);
+      log(message.username + " says '" + message.message + "'");
+      io.in(message.lobbyName).emit("chat-message-new", message);
     });
 
     socket.on("disconnect", function() {
-      console.log("user disconnected " + socket.id);
+      log("user disconnected " + socket.id);
 
       if (socket.lobby) {
-        console.log("disconnecting from " + socket.lobby);
         disconnectFromLobby(socket.lobby, socket.username);
       }
     });

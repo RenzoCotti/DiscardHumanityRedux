@@ -2,20 +2,31 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Button from "./input/Button";
 import Input from "./input/Input";
+import { connect } from "react-redux";
+import {
+  getSocket,
+  updateLobbyName,
+  updateUsername,
+  getUsername,
+  getLobbyName
+} from "../../redux/actions";
 
 class CreateLobby extends Component {
   state = {
-    maxUsers: 4
+    maxUsers: 4,
+    lobbyName: "",
+    username: "",
+    password: "",
+    confirmPassword: ""
   };
 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.socket = this.props.socket;
 
-    // this.socket.on("lobby-created", () => {
-    //   // this.socket.emit("lobby-get-list");
+    // this.props.socket.on("lobby-created", () => {
+    //   // this.props.socket.emit("lobby-get-list");
     //   this.setState({
     //     lobbyName: "",
     //     password: "",
@@ -25,8 +36,14 @@ class CreateLobby extends Component {
     //   });
     // });
 
-    this.socket.on("lobby-exists-already", () => {
+    this.props.socket.on("lobby-exists-already", () => {
       this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
+    });
+
+    this.props.socket.on("lobby-created", info => {
+      console.log("lobby created!");
+      this.props.updateLobbyName(this.state.lobbyName);
+      this.props.updateUsername(this.state.username);
     });
   }
 
@@ -81,7 +98,9 @@ class CreateLobby extends Component {
     if (arr.length === 0) {
       delete this.state.errors;
       console.log("creating lobby...");
-      this.socket.emit("lobby-new", this.state);
+      // this.props.updateLobbyName(this.state.lobbyName);
+      // this.props.updateUsername(this.state.username);
+      this.props.socket.emit("lobby-new", this.state);
     } else {
       this.setState({ errors: arr });
     }
@@ -95,7 +114,12 @@ class CreateLobby extends Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect push to="/list" />;
+    if (
+      this.props.username === this.state.username &&
+      this.props.lobbyName === this.state.lobbyName
+    ) {
+      return <Redirect push to="/deck-selection" />;
+    }
 
     return (
       <div className="create-lobby">
@@ -164,4 +188,15 @@ class CreateLobby extends Component {
   }
 }
 
-export default CreateLobby;
+const mapStateToProps = state => ({
+  socket: getSocket(state),
+  username: getUsername(state),
+  lobbyName: getLobbyName(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateUsername: value => dispatch(updateUsername(value)),
+  updateLobbyName: value => dispatch(updateLobbyName(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateLobby);

@@ -8,7 +8,7 @@ class Navbar extends Component {
   }
 
   state = {
-    options: ["Home", "Lobbies", "Deck", "Login", "About"]
+    options: ["Home", "Lobbies", "Deck Creation", "Login", "About"]
   };
 
   getOptions() {
@@ -24,11 +24,17 @@ class Navbar extends Component {
             );
           } else if (op === "Lobbies") {
             return (
+              <NavLink exact className="nav-element link" key={op} to="/lobby">
+                {op}
+              </NavLink>
+            );
+          } else if (op === "Deck Creation") {
+            return (
               <NavLink
                 exact
                 className="nav-element link"
                 key={op}
-                to="/lobby/list"
+                to="/deck-creation"
               >
                 {op}
               </NavLink>
