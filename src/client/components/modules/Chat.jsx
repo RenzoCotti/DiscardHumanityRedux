@@ -4,10 +4,9 @@ import Input from "../modules/input/Input";
 import { connect } from "react-redux";
 import {
   getLobbyName,
-  getSocket,
   getUsername,
   getChatHistory,
-  updateChatHistory
+  addChatMessage
 } from "../../redux/actions";
 
 class Chat extends Component {
@@ -26,13 +25,6 @@ class Chat extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.addChatMessage = this.addChatMessage.bind(this);
     this.addSystemMessage = this.addSystemMessage.bind(this);
-
-    // this=.setState({ history: this.props.history });
-
-    //TODO: CURRENTLY EACH TIME COMPONENT IS MOUNTED, NEW LISTENERS ARE CREATED
-
-    if (!this.init) {
-    }
   }
 
   componentDidMount() {
@@ -48,26 +40,16 @@ class Chat extends Component {
     this.props.socket.on("user-disconnect", name => {
       this.addSystemMessage("User " + name + " has disconnected.");
     });
-
-    // console.log(this.props.socket);
   }
 
   componentWillUnmount() {
     this.props.socket.off("chat-message-new");
     this.props.socket.off("user-connect");
     this.props.socket.off("user-disconnect");
-
-    // console.log(this.props.socket);
   }
 
   addChatMessage(message) {
-    // console.log("new message");
-    let history = this.props.chatHistory;
-    // console.log(history);
-    // console.log(message);
-    history.push(message);
-    this.props.updateChatHistory(history);
-    this.setState({ history: history });
+    this.props.addChatMessage(message);
   }
 
   addSystemMessage(message) {
@@ -100,7 +82,7 @@ class Chat extends Component {
   }
 
   render() {
-    let messages = this.state.history.map((el, index) => (
+    let messages = this.props.chatHistory.map((el, index) => (
       <div className="flex-row" key={index}>
         <div className="chat-username">{el.username}</div>
         <div className="chat-message">{el.message}</div>
@@ -119,14 +101,13 @@ class Chat extends Component {
 }
 
 const mapStateToProps = state => ({
-  socket: getSocket(state),
   lobbyName: getLobbyName(state),
   username: getUsername(state),
   chatHistory: getChatHistory(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateChatHistory: value => dispatch(updateChatHistory(value))
+  addChatMessage: value => dispatch(addChatMessage(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

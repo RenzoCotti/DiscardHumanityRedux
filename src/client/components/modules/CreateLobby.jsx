@@ -3,13 +3,7 @@ import { Redirect } from "react-router";
 import Button from "./input/Button";
 import Input from "./input/Input";
 import { connect } from "react-redux";
-import {
-  getSocket,
-  updateLobbyName,
-  updateUsername,
-  getUsername,
-  getLobbyName
-} from "../../redux/actions";
+import { getUsername, getLobbyName, updateUserInfo } from "../../redux/actions";
 
 class CreateLobby extends Component {
   state = {
@@ -25,27 +19,46 @@ class CreateLobby extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
-    // this.props.socket.on("lobby-created", () => {
-    //   // this.props.socket.emit("lobby-get-list");
-    //   this.setState({
-    //     lobbyName: "",
-    //     password: "",
-    //     maxUsers: "",
-    //     username: "",
-    //     confirmPassword: ""
-    //   });
-    // });
-
     this.props.socket.on("lobby-exists-already", () => {
       this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
     });
 
     this.props.socket.on("lobby-created", info => {
       console.log("lobby created!");
-      this.props.updateLobbyName(this.state.lobbyName);
-      this.props.updateUsername(this.state.username);
+      this.setState({ redirect: true });
+
+      // console.log(this.state);
+      // this.updatePersistence(this.state.username, info, this.state.password);
+      this.props.updateUserInfo({
+        username: this.state.username,
+        lobbyName: info
+      });
     });
   }
+
+  // async updatePersistence(username, lobbyName, password) {
+  //   let req = await fetch("/api/persist/login", {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       username: username,
+  //       lobbyName: lobbyName,
+  //       password: password
+  //     })
+  //   });
+
+  //   let code = req.status;
+  //   if (code === 200) {
+  //     console.log("persistence set!");
+  //     // let res = await req.json();
+  //     // this.setState({ decks: res });
+  //   } else {
+  //     // this.setState({ error: true });
+  //   }
+  // }
 
   onSubmit(e) {
     if (e) e.preventDefault();
@@ -98,8 +111,6 @@ class CreateLobby extends Component {
     if (arr.length === 0) {
       delete this.state.errors;
       console.log("creating lobby...");
-      // this.props.updateLobbyName(this.state.lobbyName);
-      // this.props.updateUsername(this.state.username);
       this.props.socket.emit("lobby-new", this.state);
     } else {
       this.setState({ errors: arr });
@@ -114,10 +125,7 @@ class CreateLobby extends Component {
   }
 
   render() {
-    if (
-      this.props.username === this.state.username &&
-      this.props.lobbyName === this.state.lobbyName
-    ) {
+    if (this.state.redirect) {
       return <Redirect push to="/deck-selection" />;
     }
 
@@ -189,14 +197,12 @@ class CreateLobby extends Component {
 }
 
 const mapStateToProps = state => ({
-  socket: getSocket(state),
   username: getUsername(state),
   lobbyName: getLobbyName(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateUsername: value => dispatch(updateUsername(value)),
-  updateLobbyName: value => dispatch(updateLobbyName(value))
+  updateUserInfo: value => dispatch(updateUserInfo(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateLobby);

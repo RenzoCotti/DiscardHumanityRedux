@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import LobbyEntry from "../modules/LobbyEntry";
 import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
-import { getSocket } from "../../redux/actions";
 
 class LobbyPage extends Component {
   state = {};
@@ -35,6 +34,8 @@ class LobbyPage extends Component {
             maxUsers={el.maxUsers}
             currentUsers={el.currentUsers}
             key={el.name}
+            password={el.password}
+            socket={this.props.socket}
           />
         );
       });
@@ -49,7 +50,7 @@ class LobbyPage extends Component {
           </div>
         </div>
 
-        <CreateLobby />
+        <CreateLobby socket={this.props.socket} />
 
         {/* <div className="errormsg"></div> */}
 
@@ -59,8 +60,8 @@ class LobbyPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  socket: getSocket(state)
-});
-
-export default connect(mapStateToProps, null)(LobbyPage);
+// const mapStateToProps = state => ({
+//   socket: getSocket(state)
+// });
+export default LobbyPage;
+// export default connect(mapStateToProps, null)(LobbyPage);

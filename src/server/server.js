@@ -57,10 +57,6 @@ const adminRouter = require("./router/adminRouter");
 app.use("/api/deck", deckRouter);
 app.use("/api/admin", adminRouter);
 
-// app.get("/", function(req, res) {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve("dist")));
   app.use(express.static(path.resolve("public")));

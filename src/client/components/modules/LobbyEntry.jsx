@@ -3,13 +3,7 @@ import Button from "../modules/input/Button";
 import Input from "../modules/input/Input";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import {
-  getLobbyName,
-  getSocket,
-  updateLobbyName,
-  updateUsername,
-  getUsername
-} from "../../redux/actions";
+import { getLobbyName, updateUserInfo, getUsername } from "../../redux/actions";
 
 class LobbyEntry extends Component {
   state = { username: "", password: "", redirect: false };
@@ -28,10 +22,14 @@ class LobbyEntry extends Component {
       password: this.state.password,
       username: this.state.username
     });
+
     this.props.socket.on("lobby-joined", info => {
       console.log("lobby joined!");
-      this.props.updateLobbyName(this.props.name);
-      this.props.updateUsername(this.state.username);
+
+      this.props.updateUserInfo({
+        username: this.state.username,
+        lobbyName: this.props.name
+      });
       this.setState({ redirect: true });
     });
 
@@ -64,13 +62,15 @@ class LobbyEntry extends Component {
       });
     }
 
-    if (!this.state.password || this.state.password.length === 0) {
-      arr.push({ name: "password" });
-    } else if (this.state.password.length > 64) {
-      arr.push({
-        name: "password",
-        errorMessage: "Please input a shorter password."
-      });
+    if (this.props.password) {
+      if (!this.state.password || this.state.password.length === 0) {
+        arr.push({ name: "password" });
+      } else if (this.state.password.length > 64) {
+        arr.push({
+          name: "password",
+          errorMessage: "Please input a shorter password."
+        });
+      }
     }
 
     if (arr.length === 0) {
@@ -81,6 +81,8 @@ class LobbyEntry extends Component {
   }
 
   render() {
+    // console.log(this.props);
+    // console.log(this.state);
     if (this.state.redirect) {
       return <Redirect push to="/lounge" />;
     }
@@ -133,14 +135,18 @@ class LobbyEntry extends Component {
               fn={this.handleChange}
               errors={this.state.errors}
             />
-            <Input
-              label="Password"
-              name="password"
-              password={true}
-              obj={this.state}
-              fn={this.handleChange}
-              errors={this.state.errors}
-            />
+            {this.props.password ? (
+              <Input
+                label="Password"
+                name="password"
+                password={true}
+                obj={this.state}
+                fn={this.handleChange}
+                errors={this.state.errors}
+              />
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""
@@ -152,13 +158,11 @@ class LobbyEntry extends Component {
 
 const mapStateToProps = state => ({
   lobbyName: getLobbyName(state),
-  username: getUsername(state),
-  socket: getSocket(state)
+  username: getUsername(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateLobbyName: value => dispatch(updateLobbyName(value)),
-  updateUsername: value => dispatch(updateUsername(value))
+  updateUserInfo: value => dispatch(updateUserInfo(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyEntry);

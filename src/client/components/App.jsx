@@ -4,8 +4,12 @@ import { Route, HashRouter } from "react-router-dom";
 import io from "socket.io-client";
 import config from "../../server/config/config";
 
-import { connect } from "react-redux";
-import { updateSocket, getSocket } from "../redux/actions";
+// import { connect } from "react-redux";
+// import {
+//   getUsername,
+//   getLobbyName,
+//   cleanupStore
+// } from "../redux/actions";
 
 //styles
 import "../../../public/style/lobby.css";
@@ -50,18 +54,18 @@ class App extends Component {
 
     var socket = io(socketName, {
       transports: ["websocket"]
-      // rejectUnauthorized: false
     });
 
-    this.props.updateSocket(socket);
-
-    // this.socket.on("lobby-created", info => {
-    //   console.log("lobby created!");
-    //   this.setState({ joined: info });
-    //   // this.socket.emit("lobby-get-list");
-    // });
+    this.socket = socket;
 
     requireAll(require.context("../../../public/images/", true, /\.png$/));
+
+    //TODO
+    // window.addEventListener("beforeunload", ev => {
+    //   // ev.preventDefault();
+    //   this.props.cleanupStore();
+    //   // return (ev.returnValue = "Are you sure you want to close?");
+    // });
 
     // sync backend and frontend for login status
     // fetch("/api/admin/status")
@@ -73,12 +77,8 @@ class App extends Component {
     //   });
   }
 
-  // componentWillUnmount() {
-  //   this.socket.close();
-  // }
-
   render() {
-    if (!this.props.socket) return <div>Initialising...</div>;
+    if (!this.socket) return <div>Initialising...</div>;
     return (
       <HashRouter>
         <React.Fragment>
@@ -86,10 +86,22 @@ class App extends Component {
 
           <div className="main-container">
             <Route exact path="/" component={Home} />
-            <Route path="/deck-selection" component={DeckSelection} />
-            <Route path="/lobby" component={Lobby} />
-            <Route path="/lounge" component={Lounge} />
-            <Route path="/game" component={Game} />
+            <Route
+              path="/deck-selection"
+              component={() => <DeckSelection socket={this.socket} />}
+            />
+            <Route
+              path="/lobby"
+              component={() => <Lobby socket={this.socket} />}
+            />
+            <Route
+              path="/lounge"
+              component={() => <Lounge socket={this.socket} />}
+            />
+            <Route
+              path="/game"
+              component={() => <Game socket={this.socket} />}
+            />
 
             <Route path="/rules" component={Rules} />
             <Route path="/deck-creation" component={Deck} />
@@ -104,12 +116,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  socket: getSocket(state)
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateSocket: value => dispatch(updateSocket(value))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

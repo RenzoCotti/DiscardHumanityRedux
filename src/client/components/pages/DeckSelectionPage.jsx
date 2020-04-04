@@ -3,7 +3,7 @@ import Button from "../modules/input/Button";
 import Card from "../modules/Card";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { getLobbyName, getSocket } from "../../redux/actions";
+import { getLobbyName } from "../../redux/actions";
 
 class DeckSelectionPage extends Component {
   state = {
@@ -44,8 +44,6 @@ class DeckSelectionPage extends Component {
     if (code === 200) {
       let res = await req.json();
       this.setState({ decks: res });
-      // console.log(res);
-      // this.setState({ created: true });
     } else {
       // this.setState({ error: true });
     }
@@ -158,8 +156,7 @@ class DeckSelectionPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  lobbyName: getLobbyName(state),
-  socket: getSocket(state)
+  lobbyName: getLobbyName(state)
 });
 
 // const mapDispatchToProps = dispatch => ({
