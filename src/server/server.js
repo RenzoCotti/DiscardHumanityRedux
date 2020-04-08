@@ -70,7 +70,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-let port = process.env.PORT || 5000;
+let port = process.env.PORT || 7000;
 
 var http = require("http"); //.Server(app);
 var server = http.createServer(app);

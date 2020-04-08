@@ -54,11 +54,11 @@ module.exports = {
         secure: false,
         changeOrigin: true
       },
-      // "/socket.io": {
-      //   target: "wss://" + config.ip + ":5000",
-      //   secure: true,
-      //   changeOrigin: true
-      // }
+      "/socket.io": {
+        target: "wss://" + config.ip + ":5000",
+        secure: true,
+        changeOrigin: true
+      }
     }
   },
 
