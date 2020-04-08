@@ -2,16 +2,20 @@ import React, { Component } from "react";
 import LobbyEntry from "../modules/LobbyEntry";
 import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
+import { getUsername, getLobbyName } from "../../redux/actions";
 
 class LobbyPage extends Component {
   state = {};
   constructor(props) {
     super(props);
 
-    // console.log(this.state);
-
     this.setupSocket();
     this.props.socket.emit("lobby-get-list");
+    //checks if a user already joined a lobby
+    this.props.socket.emit("lobby-has-user", {
+      username: this.props.username,
+      lobbyName: this.props.lobbyName,
+    });
   }
 
   setupSocket() {
@@ -19,15 +23,23 @@ class LobbyPage extends Component {
       this.props.socket.emit("lobby-get-list");
     });
 
-    this.props.socket.on("lobby-list", list => {
+    this.props.socket.on("lobby-list", (list) => {
       this.setState({ lobbies: list });
+    });
+
+    this.props.socket.on("user-exists", (list) => {
+      this.setState({ redirect: true });
     });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to={"/lounge"} />;
+    }
+
     let list;
     if (this.state.lobbies && this.state.lobbies.length > 0) {
-      list = this.state.lobbies.map(el => {
+      list = this.state.lobbies.map((el) => {
         return (
           <LobbyEntry
             name={el.name}
@@ -60,8 +72,9 @@ class LobbyPage extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   socket: getSocket(state)
-// });
-export default LobbyPage;
-// export default connect(mapStateToProps, null)(LobbyPage);
+const mapStateToProps = (state) => ({
+  username: getUsername(state),
+  lobbyName: getLobbyName(state),
+});
+// export default LobbyPage;
+export default connect(mapStateToProps, null)(LobbyPage);

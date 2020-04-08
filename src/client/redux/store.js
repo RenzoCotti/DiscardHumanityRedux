@@ -1,9 +1,9 @@
-import { createStore } from "redux";
+import {
+  createStore
+} from "redux";
 // import { persistStore, persistReducer } from "redux-persist";
 // import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import {
-  SET_LOBBYNAME,
-  SET_USERNAME,
   SET_LOGIN,
   ADD_CHAT_MESSAGE,
   SET_BLACKCARD,
@@ -27,13 +27,11 @@ function pushItem(array, item) {
   return [...array.slice(0, array.length), item];
 }
 
-function removeItem(array, action) {
-  return [...array.slice(0, action.index), ...array.slice(action.index + 1)];
-}
-
 //reducers must not modify the original state
 function reducer(state = INITIAL_STATE, action) {
-  let newState = { ...state };
+  let newState = {
+    ...state
+  };
 
   switch (action.type) {
     case CLEANUP_STORE:

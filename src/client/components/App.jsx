@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Route, HashRouter } from "react-router-dom";
 
 import io from "socket.io-client";
-import config from "../../server/config/config";
 
 // import { connect } from "react-redux";
 // import {
@@ -32,14 +31,14 @@ import Footbar from "./general/Footbar";
 
 import Home from "./pages/HomePage";
 import Lobby from "./pages/LobbyPage";
-import Lounge from "./pages/LoungePage";
-import Game from "./pages/GamePage";
+import Lounge from "./pages/Lounge/LoungePage";
+import Game from "./pages/Game/GamePage";
 
 import Login from "./pages/LoginPage";
 import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
-import DeckSelection from "./pages/DeckSelectionPage";
+import DeckSelection from "./pages/Lounge/DeckSelectionPage";
 
 function requireAll(r) {
   r.keys().forEach(r);
@@ -49,11 +48,18 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    let config;
+    try {
+      config = require("../../server/config/config");
+    } catch (e) {
+      console.log(e);
+    }
+
     let socketName = process.env.socket;
     if (config) socketName = config.socket;
 
     var socket = io(socketName, {
-      transports: ["websocket"]
+      transports: ["websocket"],
     });
 
     this.socket = socket;

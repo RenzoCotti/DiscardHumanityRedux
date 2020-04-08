@@ -47,8 +47,12 @@ app.use(
     secret: process.env.sessionSecret || config.sessionSecret,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    cookie: { maxAge: 1000 * 60 * 60 * 4 }
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 4
+    }
   })
 );
 
@@ -73,4 +77,4 @@ var server = http.createServer(app);
 
 server.listen(port, () => console.log(`Server running on port ${port}!`));
 
-require("./socket-server")(server);
+require("./socket/socket-server")(server);

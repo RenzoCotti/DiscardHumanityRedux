@@ -14,8 +14,7 @@ module.exports = {
     filename: "bundle.js"
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.jsx$/,
         exclude: /node_modules/,
         use: {
@@ -33,11 +32,9 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader"
-            }
-          ]
+          use: [{
+            loader: "css-loader"
+          }]
         })
       },
       {
@@ -57,16 +54,18 @@ module.exports = {
         secure: false,
         changeOrigin: true
       },
-      "/socket.io": {
-        target: "ws://" + config.ip + ":5000",
-        secure: false,
-        changeOrigin: true
-      }
+      // "/socket.io": {
+      //   target: "wss://" + config.ip + ":5000",
+      //   secure: true,
+      //   changeOrigin: true
+      // }
     }
   },
 
   plugins: [
-    new ExtractTextPlugin({ filename: "bundle.css" }),
+    new ExtractTextPlugin({
+      filename: "bundle.css"
+    }),
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: "./public/index.html",

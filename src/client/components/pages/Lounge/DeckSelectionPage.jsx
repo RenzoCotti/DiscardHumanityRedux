@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Button from "../modules/input/Button";
-import Card from "../modules/Card";
+import Button from "../../modules/input/Button";
+import Card from "../../modules/Card";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { getLobbyName } from "../../redux/actions";
+import { getLobbyName } from "../../../redux/actions";
 
 class DeckSelectionPage extends Component {
   state = {
-    addedDecks: []
+    addedDecks: [],
   };
 
   constructor(props) {
@@ -36,8 +36,8 @@ class DeckSelectionPage extends Component {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     let code = req.status;
@@ -60,10 +60,10 @@ class DeckSelectionPage extends Component {
         whiteCards = whiteCards.concat(deck.whiteCards);
       }
 
-      this.props.socket.emit("set-decks", {
+      this.props.socket.emit("lobby-set-decks", {
         name: this.props.lobbyName,
         blackCards: blackCards,
-        whiteCards: whiteCards
+        whiteCards: whiteCards,
       });
     } else {
       // not enough decks selected.
@@ -117,7 +117,7 @@ class DeckSelectionPage extends Component {
       let deck = this.state.decks[this.state.selected];
 
       let i = 0;
-      let whiteCards = deck.whiteCards.map(card => (
+      let whiteCards = deck.whiteCards.map((card) => (
         <Card
           content={card.content}
           colour="card-white"
@@ -126,7 +126,7 @@ class DeckSelectionPage extends Component {
         />
       ));
 
-      let blackCards = deck.blackCards.map(card => (
+      let blackCards = deck.blackCards.map((card) => (
         <Card
           content={card.content}
           colour="card-black"
@@ -155,8 +155,8 @@ class DeckSelectionPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  lobbyName: getLobbyName(state)
+const mapStateToProps = (state) => ({
+  lobbyName: getLobbyName(state),
 });
 
 // const mapDispatchToProps = dispatch => ({

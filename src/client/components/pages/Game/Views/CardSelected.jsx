@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Card from "./Card";
+import Card from "../../../modules/Card";
 
 import {
   getHand,
   getBlackCard,
   getSelectedCards,
-  updateSelectedCards
-} from "../../redux/actions";
+  updateSelectedCards,
+} from "../../../../redux/actions";
 
 class CardSelected extends Component {
   constructor(props) {
@@ -49,15 +49,15 @@ class CardSelected extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hand: getHand(state),
   blackCard: getBlackCard(state),
-  selectedCards: getSelectedCards(state)
+  selectedCards: getSelectedCards(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateSelectedCards: (index, value) =>
-    dispatch(updateSelectedCards(index, value))
+    dispatch(updateSelectedCards(index, value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardSelected);
