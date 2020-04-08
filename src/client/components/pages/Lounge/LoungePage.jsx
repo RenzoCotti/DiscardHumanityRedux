@@ -13,18 +13,18 @@ class LoungePage extends Component {
   }
 
   setupSocket() {
-    this.props.socket.on("start-game", () => {
+    this.props.socket.on("game-start", () => {
       this.setState({ start: true });
     });
 
     this.props.socket.on("user-connect", () => {
       console.log("user joined");
-      this.props.socket.emit("check-start", this.props.lobbyName);
+      this.props.socket.emit("game-check-start", this.props.lobbyName);
     });
 
     this.props.socket.on("lobby-decks-selected", () => {
       console.log("deck set by admin");
-      this.props.socket.emit("check-game-start", this.props.lobbyName);
+      this.props.socket.emit("game-check-start", this.props.lobbyName);
     });
 
     this.props.socket.on("lobby-not-found", () => {
@@ -32,7 +32,7 @@ class LoungePage extends Component {
     });
 
     //every time we get here, we launch this and check if the game can start
-    this.props.socket.emit("check-game-start", this.props.lobbyName);
+    this.props.socket.emit("game-check-start", this.props.lobbyName);
   }
 
   render() {

@@ -6,14 +6,14 @@ import {
   getLobbyName,
   getUsername,
   getChatHistory,
-  addChatMessage
+  addChatMessage,
 } from "../../redux/actions";
 
 class Chat extends Component {
   state = {
     message: "",
     history: [],
-    listeners: []
+    listeners: [],
   };
 
   listeners = {};
@@ -28,16 +28,15 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on("chat-message-new", msg => {
-      console.log("event message");
+    this.props.socket.on("chat-message-new", (msg) => {
       this.addChatMessage({ username: msg.username, message: msg.message });
     });
 
-    this.props.socket.on("user-connect", name => {
+    this.props.socket.on("user-connect", (name) => {
       this.addSystemMessage("User " + name + " has connected.");
     });
 
-    this.props.socket.on("user-disconnect", name => {
+    this.props.socket.on("user-disconnect", (name) => {
       this.addSystemMessage("User " + name + " has disconnected.");
     });
   }
@@ -59,7 +58,7 @@ class Chat extends Component {
   handleChange(e) {
     let name = e.target.name;
     this.setState({
-      [name]: e.target.value
+      [name]: e.target.value,
     });
   }
 
@@ -75,7 +74,7 @@ class Chat extends Component {
     this.props.socket.emit("chat-message", {
       username: this.props.username,
       message: this.state.message,
-      lobbyName: this.props.lobbyName
+      lobbyName: this.props.lobbyName,
     });
 
     this.setState({ message: "" });
@@ -100,14 +99,14 @@ class Chat extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
   username: getUsername(state),
-  chatHistory: getChatHistory(state)
+  chatHistory: getChatHistory(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  addChatMessage: value => dispatch(addChatMessage(value))
+const mapDispatchToProps = (dispatch) => ({
+  addChatMessage: (value) => dispatch(addChatMessage(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

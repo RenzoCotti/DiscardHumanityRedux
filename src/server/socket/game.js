@@ -115,7 +115,7 @@ function playTurn(io, lobby) {
   setGameState(lobby, "selecting");
 }
 
-exports.checkStart = (io, lobbyName) => {
+exports.checkStart = (io, socket, lobbyName) => {
   let lobby = getLobby(lobbyName);
   if (lobby) {
     if (

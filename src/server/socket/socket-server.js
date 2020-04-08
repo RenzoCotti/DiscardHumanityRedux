@@ -11,9 +11,14 @@ module.exports = function (server) {
     chatMessage,
   } = require("./lobby");
 
-  const { checkStart, getGameState } = require("./game");
+  const {
+    checkStart,
+    getGameState
+  } = require("./game");
 
-  const { log } = require("./utils");
+  const {
+    log
+  } = require("./utils");
 
   io.on("connect", function (socket) {
     socket.join("general");
@@ -37,7 +42,7 @@ module.exports = function (server) {
       socket.emit("lobby-list", getLobbyList())
     );
 
-    socket.on("game-check-start", (lobbyName) => checkStart(io, lobbyName));
+    socket.on("game-check-start", (lobbyName) => checkStart(io, socket, lobbyName));
 
     socket.on("lobby-has-user", (info) => hasUser(io, socket, info));
 
@@ -49,7 +54,7 @@ module.exports = function (server) {
       log("user disconnected " + socket.id);
 
       if (socket.lobby) {
-        disconnectFromLobby(socket.lobby, socket.username);
+        disconnectFromLobby(io, socket.lobby, socket.username);
       }
     });
   });

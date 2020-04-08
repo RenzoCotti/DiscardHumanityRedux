@@ -55,8 +55,8 @@ module.exports = {
         changeOrigin: true
       },
       "/socket.io": {
-        target: "wss://" + config.ip + ":5000",
-        secure: true,
+        target: "ws://" + config.ip + ":5000",
+        secure: false,
         changeOrigin: true
       }
     }
