@@ -3,6 +3,24 @@ var {
   log
 } = require("./utils");
 
+const {
+  LOBBY_NOT_FOUND,
+  LOBBY_FULL,
+  USER_DISCONNECT,
+  USER_CONNECT,
+  LOBBY_LIST_UPDATE,
+  LOBBY_JOINED,
+  LOBBY_INCORRECT_CREDENTIALS,
+  LOBBY_EXISTS_ALREADY,
+  LOBBY_CREATED,
+  GAME_LOUNGE,
+  DECKS_SELECTED,
+  USER_EXISTS,
+  CHAT_MESSAGE_NEW
+
+} = require("./messages");
+
+
 exports.getLobby = (name) => {
   for (let lobby of lobbies) {
     if (lobby.name === name) return lobby;
@@ -30,7 +48,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   for (let i = 0; i < lobbies.length; i++) {
     let lobby = lobbies[i];
     if (lobby.name === lobbyName) {
-      io.to(lobbyName).emit("user-disconnect", username);
+      io.to(lobbyName).emit(USER_DISCONNECT, username);
       lobby.currentUsers--;
       let index;
 
@@ -52,6 +70,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   if (toRemove !== -1) {
     log("lobby empty now, removing.");
     lobbies.splice(toRemove, 1);
+    io.in("general").emit(LOBBY_LIST_UPDATE);
   }
 };
 
@@ -63,7 +82,6 @@ exports.loginLobby = (io, socket, info) => {
 
   if (lobby) {
     if (info.password === lobby.password) {
-      let alreadyJoined = false;
       // log(lobby.userList);
       let user = getUser(lobby, info.username);
 
@@ -78,21 +96,21 @@ exports.loginLobby = (io, socket, info) => {
             id: socket.id,
           });
 
-          socket.emit("lobby-joined", info.lobbyName);
-          io.in(info.lobbyName).emit("user-connect", info.username);
+          socket.emit(LOBBY_JOINED, info.lobbyName);
+          io.in(info.lobbyName).emit(USER_CONNECT, info.username);
           log("lobby joined, " + info.lobbyName);
         } else {
-          socket.emit("lobby-full");
+          socket.emit(LOBBY_FULL);
           log("lobby is full.");
         }
       }
     } else {
-      socket.emit("lobby-incorrect-credentials");
+      socket.emit(LOBBY_INCORRECT_CREDENTIALS);
       log("incorrect credentials.");
     }
   } else {
     log("lobby not found.");
-    socket.emit("lobby-not-found");
+    socket.emit(LOBBY_NOT_FOUND);
   }
 };
 
@@ -124,7 +142,7 @@ exports.getLobbyList = () => {
 exports.createLobby = (io, socket, info) => {
   if (exports.lobbyExists(info.lobbyName)) {
     log("lobby esists.");
-    socket.emit("lobby-exists-already");
+    socket.emit(LOBBY_EXISTS_ALREADY);
   } else {
     socketJoinLobby(socket, info.lobbyName, info.username);
     let lobby = {
@@ -141,8 +159,8 @@ exports.createLobby = (io, socket, info) => {
 
     lobbies.push(lobby);
     log("lobby created: " + info.lobbyName);
-    socket.emit("lobby-created", lobby.name);
-    io.in("general").emit("lobby-update");
+    socket.emit(LOBBY_CREATED, lobby.name);
+    io.in("general").emit(LOBBY_LIST_UPDATE);
   }
 };
 
@@ -155,8 +173,8 @@ exports.setDecks = (io, socket, info) => {
     lobby.whiteCards = info.whiteCards;
     log("decks set.");
 
-    socket.emit("game-lounge", lobby.name);
-    io.in(lobby.name).emit("lobby-decks-selected");
+    socket.emit(GAME_LOUNGE, lobby.name);
+    io.in(lobby.name).emit(DECKS_SELECTED);
   }
 };
 
@@ -165,12 +183,12 @@ exports.hasUser = (io, socket, info) => {
   if (lobby) {
     let user = getUser(lobby, info.username);
     if (user) {
-      socket.emit("user-exists");
+      socket.emit(USER_EXISTS);
     }
   }
 };
 
 exports.chatMessage = (io, message) => {
   log(message.username + ' says "' + message.message + '"')
-  io.in(message.lobbyName).emit("chat-message-new", message);
+  io.in(message.lobbyName).emit(CHAT_MESSAGE_NEW, message);
 };

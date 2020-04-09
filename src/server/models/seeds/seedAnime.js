@@ -1,6 +1,5 @@
 module.exports = {
-  blackCards: [
-    {
+  blackCards: [{
       text: "Real men watch _.",
       pick: 1
     },
@@ -25,8 +24,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "On the next episode of Dragon Ball Z, Goku has a fierce battle with _.",
+      text: "On the next episode of Dragon Ball Z, Goku has a fierce battle with _.",
       pick: 1
     },
     {
@@ -54,8 +52,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "I have never in my life laughed harder than the first time I watched _.",
+      text: "I have never in my life laughed harder than the first time I watched _.",
       pick: 1
     },
     {
@@ -63,13 +60,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "When it comes to Japanese cuisine, there's simply nothing better than _.",
+      text: "When it comes to Japanese cuisine, there's simply nothing better than _.",
       pick: 1
     },
     {
-      text:
-        "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
+      text: "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
       pick: 3
     },
     {
@@ -85,8 +80,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "The government of Japan recently passed a law that effectively forbids all forms of _.",
+      text: "The government of Japan recently passed a law that effectively forbids all forms of _.",
       pick: 1
     },
     {
@@ -114,8 +108,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Hayao Miyazaki's latest family film is about a young boy befriending _.",
+      text: "Hayao Miyazaki's latest family film is about a young boy befriending _.",
       pick: 1
     },
     {
@@ -151,13 +144,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "In the latest chapter of Toriko, our hero hunts down, kills, and eats a creature made entirely of _.",
+      text: "In the latest chapter of Toriko, our hero hunts down, kills, and eats a creature made entirely of _.",
       pick: 1
     },
     {
-      text:
-        "On the next episode of Dragon Ball Z, _ is forced to do the fusion dance with _.",
+      text: "On the next episode of Dragon Ball Z, _ is forced to do the fusion dance with _.",
       pick: 2
     },
     {
@@ -165,8 +156,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "THIS _ HAS BEEN PASSED DOWN THE ARMSTRONG FAMILY LINE FOR GENERATIONS!!!",
+      text: "THIS _ HAS BEEN PASSED DOWN THE ARMSTRONG FAMILY LINE FOR GENERATIONS!!!",
       pick: 1
     },
     {
@@ -182,12 +172,11 @@ module.exports = {
       pick: 2
     },
     {
-      text: "Make a love triangle.",
+      text: "Make a love triangle.<br>_,<br>_ and<br>_.",
       pick: 3
     },
     {
-      text:
-        "Dr. Black Jack, please hurry! The patient is suffering from a terminal case of _!",
+      text: "Dr. Black Jack, please hurry! The patient is suffering from a terminal case of _!",
       pick: 1
     },
     {
@@ -195,8 +184,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "When Henry Goto is alone and thinks that no one's looking, he secretly enjoys _.",
+      text: "When Henry Goto is alone and thinks that no one's looking, he secretly enjoys _.",
       pick: 1
     },
     {
@@ -204,8 +192,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "This _ of mine glows with an awesome power! Its _ tells me to defeat you!",
+      text: "This _ of mine glows with an awesome power! Its _ tells me to defeat you!",
       pick: 2
     },
     {
@@ -213,13 +200,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "On the mean streets of Tokyo, everyone knows that _ is the leader of the _ Gang.",
+      text: "On the mean streets of Tokyo, everyone knows that _ is the leader of the _ Gang.",
       pick: 2
     },
     {
-      text:
-        "When I found all 7 Dragon Balls, Shenron granted me my wish for _.",
+      text: "When I found all 7 Dragon Balls, Shenron granted me my wish for _.",
       pick: 1
     },
     {
@@ -227,18 +212,15 @@ module.exports = {
       pick: 2
     },
     {
-      text:
-        "My _ is the _ that will pierce the heavens!! <i>*same white card used for both blanks*</i>",
+      text: "My _ is the _ that will pierce the heavens!! <i>*same white card used for both blanks*</i>",
       pick: 1
     },
     {
-      text:
-        "After years of searching, the crew of the Thousand Sunny finally found out that the One Piece is actually _.",
+      text: "After years of searching, the crew of the Thousand Sunny finally found out that the One Piece is actually _.",
       pick: 1
     },
     {
-      text:
-        "The World Line was changed when I sent a D-mail to myself about _.",
+      text: "The World Line was changed when I sent a D-mail to myself about _.",
       pick: 1
     },
     {
@@ -250,8 +232,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Someday when I have kids, I want to share with them the joys of _.",
+      text: "Someday when I have kids, I want to share with them the joys of _.",
       pick: 1
     },
     {
@@ -259,8 +240,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "No matter how many times I see it, _ always brings a tear to my eye.",
+      text: "No matter how many times I see it, _ always brings a tear to my eye.",
       pick: 1
     },
     {
@@ -272,13 +252,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "My favorite hentai is the one where _ is held down and violated by _.",
+      text: "My favorite hentai is the one where _ is held down and violated by _.",
       pick: 2
     },
     {
-      text:
-        "Cooking is so fun! Cooking is so fun! Now it's time to take a break and see what we have done! _. YAY! IT'S READY!!",
+      text: "Cooking is so fun! Cooking is so fun! Now it's time to take a break and see what we have done! _. YAY! IT'S READY!!",
       pick: 1
     },
     {
@@ -314,8 +292,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "I know of opinions and all that, but I just don't understand how anyone could actually enjoy _.",
+      text: "I know of opinions and all that, but I just don't understand how anyone could actually enjoy _.",
       pick: 1
     },
     {
@@ -327,8 +304,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Yoko Kanno's latest musical score features a song sung entirely by _.",
+      text: "Yoko Kanno's latest musical score features a song sung entirely by _.",
       pick: 1
     },
     {
@@ -344,8 +320,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "In the future of 199X, the barrier between our world and the demon world is broken, and thousands of monsters invade our realm to feed upon _.",
+      text: "In the future of 199X, the barrier between our world and the demon world is broken, and thousands of monsters invade our realm to feed upon _.",
       pick: 1
     },
     {
@@ -357,8 +332,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
+      text: "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
       pick: 3
     },
     {
@@ -366,8 +340,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "The new Gurren Lagann blurays from Aniplex will literally cost you _.",
+      text: "The new Gurren Lagann blurays from Aniplex will literally cost you _.",
       pick: 1
     },
     {
@@ -379,8 +352,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "While writing Dragon Ball, Akira Toriyama would occasionally take a break from working to enjoy _.",
+      text: "While writing Dragon Ball, Akira Toriyama would occasionally take a break from working to enjoy _.",
       pick: 1
     },
     {
@@ -392,8 +364,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "I want to be the very best, like no one ever was! _ is my real test, _ is my cause!",
+      text: "I want to be the very best, like no one ever was! _ is my real test, _ is my cause!",
       pick: 2
     },
     {
@@ -409,18 +380,15 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "I'm sorry! I'm sorry! I didn't mean to accidentally walk in on you while you were _!",
+      text: "I'm sorry! I'm sorry! I didn't mean to accidentally walk in on you while you were _!",
       pick: 1
     },
     {
-      text:
-        "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
+      text: "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
       pick: 3
     },
     {
-      text:
-        "Welcome home, Master! Is there anything your servant girl can bring you today?",
+      text: "Welcome home, Master! Is there anything your servant girl can bring you today?",
       pick: 1
     },
     {
@@ -468,8 +436,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Mamoru Oshii's latest film is a slow-paced, two hour-long cerebral piece about the horrors of _.",
+      text: "Mamoru Oshii's latest film is a slow-paced, two hour-long cerebral piece about the horrors of _.",
       pick: 1
     },
     {
@@ -489,13 +456,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "This morning, hundreds of Japanese otaku lined up outside their favorite store to buy the limited collector's edition of _.",
+      text: "This morning, hundreds of Japanese otaku lined up outside their favorite store to buy the limited collector's edition of _.",
       pick: 1
     },
     {
-      text:
-        "Every now and then, I like to participate in the time-honored Japanese tradition of _.",
+      text: "Every now and then, I like to participate in the time-honored Japanese tradition of _.",
       pick: 1
     },
     {
@@ -527,18 +492,15 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "The Chocolate Underground stopped the Good For You Party by capturing their _ and exposing their leader as _.",
+      text: "The Chocolate Underground stopped the Good For You Party by capturing their _ and exposing their leader as _.",
       pick: 2
     },
     {
-      text:
-        "Who cares about the printing press, did that medieval peasant girl just invent _?!",
+      text: "Who cares about the printing press, did that medieval peasant girl just invent _?!",
       pick: 1
     },
     {
-      text:
-        "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
+      text: "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
       pick: 3
     },
     {
@@ -546,8 +508,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "I've always wanted to become a voice actor, so I could play the role of _.",
+      text: "I've always wanted to become a voice actor, so I could play the role of _.",
       pick: 1
     },
     {
@@ -559,13 +520,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "As part of a recent promotion, Japanese KFCs are now dressing their Colonel Sanders statues up as _.",
+      text: "As part of a recent promotion, Japanese KFCs are now dressing their Colonel Sanders statues up as _.",
       pick: 1
     },
     {
-      text:
-        "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
+      text: "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
       pick: 3
     },
     {
@@ -577,13 +536,11 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "If the anime industry is dying, what will be the final nail in it's coffin?",
+      text: "If the anime industry is dying, what will be the final nail in it's coffin?",
       pick: 1
     },
     {
-      text:
-        "It has been said... That there are entire forests of _, made from the sweetest _.",
+      text: "It has been said... That there are entire forests of _, made from the sweetest _.",
       pick: 2
     },
     {
@@ -607,8 +564,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "By far, the most mind-bogglingly awesome thing I've ever seen in anime is _.",
+      text: "By far, the most mind-bogglingly awesome thing I've ever seen in anime is _.",
       pick: 1
     },
     {
@@ -624,8 +580,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Anime has taught me that classic literature can always be improved by adding _.",
+      text: "Anime has taught me that classic literature can always be improved by adding _.",
       pick: 1
     },
     {

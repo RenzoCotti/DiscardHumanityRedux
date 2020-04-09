@@ -13,42 +13,67 @@ module.exports = function (server) {
 
   const {
     checkStart,
-    getGameState
+    getGameState,
+    handleChoice
   } = require("./game");
 
   const {
     log
   } = require("./utils");
 
+  const {
+    LOBBY_NEW,
+    LOBBY_LOGIN,
+    SET_DECKS,
+    LOBBY_LEAVE,
+    LOBBY_GET_LIST,
+    LOBBY_LIST,
+    LOBBY_HAS_USER,
+    SEND_CHAT_MESSAGE,
+    CHECK_START,
+    GAME_STATE,
+    CHOICE
+  } = require("./messages");
+
   io.on("connect", function (socket) {
     socket.join("general");
 
     log("user connected " + socket.id);
 
+    /*LOBBY */
+
     //allows creation of a lobby
-    socket.on("lobby-new", (info) => createLobby(io, socket, info));
+    socket.on(LOBBY_NEW, (info) => createLobby(io, socket, info));
 
     //joins a lobby
-    socket.on("lobby-login", (info) => loginLobby(io, socket, info));
+    socket.on(LOBBY_LOGIN, (info) => loginLobby(io, socket, info));
 
     //sets decks in a lobby
-    socket.on("lobby-set-decks", (info) => setDecks(io, socket, info));
+    socket.on(SET_DECKS, (info) => setDecks(io, socket, info));
 
-    socket.on("lobby-leave", (lobbyName) =>
+    socket.on(LOBBY_LEAVE, (lobbyName) =>
       disconnectFromLobby(io, lobbyName, socket.username)
     );
 
-    socket.on("lobby-get-list", () =>
-      socket.emit("lobby-list", getLobbyList())
+    socket.on(LOBBY_GET_LIST, () =>
+      socket.emit(LOBBY_LIST, getLobbyList())
     );
 
-    socket.on("game-check-start", (lobbyName) => checkStart(io, socket, lobbyName));
+    socket.on(LOBBY_HAS_USER, (info) => hasUser(io, socket, info));
 
-    socket.on("lobby-has-user", (info) => hasUser(io, socket, info));
+    /*CHAT */
 
-    socket.on("get-game-state", (lobbyName) => getGameState(lobbyName, socket));
+    socket.on(SEND_CHAT_MESSAGE, (message) => chatMessage(io, message));
 
-    socket.on("chat-message", (message) => chatMessage(io, message));
+
+    /*GAME */
+
+    //checks if you can start the game
+    socket.on(CHECK_START, (lobbyName) => checkStart(io, socket, lobbyName));
+
+    socket.on(GAME_STATE, (lobbyName) => getGameState(lobbyName, socket));
+
+    socket.on(CHOICE, (arr) => handleChoice(io, arr));
 
     socket.on("disconnect", function () {
       log("user disconnected " + socket.id);

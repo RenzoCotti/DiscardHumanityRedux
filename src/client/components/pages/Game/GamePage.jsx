@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import Card from "../../modules/Card";
-import Chat from "../../modules/Chat";
-import Hand from "./Views/Hand";
 import { Redirect } from "react-router";
-
 import { connect } from "react-redux";
 import {
   getLobbyName,
@@ -14,32 +10,39 @@ import {
   updateBlackCard,
   getBlackCard,
 } from "../../../redux/actions";
-import CardSelected from "./Views/CardSelected";
 import SelectionPhase from "./Phases/SelectionPhase";
+
+import {
+  NEW_BLACK_CARD,
+  NEW_HAND,
+  LOBBY_NOT_FOUND,
+  CHECK_START,
+  LOBBY_LEAVE,
+} from "../../../../server/socket/messages";
 
 class GamePage extends Component {
   state = {};
   constructor(props) {
     super(props);
 
-    this.props.socket.on("new-black-card", (card) => {
+    this.props.socket.on(NEW_BLACK_CARD, (card) => {
       this.props.updateBlackCard(card);
     });
 
-    this.props.socket.on("new-hand", (hand) => {
+    this.props.socket.on(NEW_HAND, (hand) => {
       this.props.updateHand(hand);
     });
 
-    this.props.socket.on("lobby-not-found", () => {
+    this.props.socket.on(LOBBY_NOT_FOUND, () => {
       this.setState({ home: true });
     });
 
-    this.props.socket.emit("check-game-start", this.props.lobbyName);
+    this.props.socket.emit(CHECK_START, this.props.lobbyName);
   }
 
   //on page leave, leave lobby
   componentWillUnmount() {
-    this.props.socket.emit("lobby-leave", this.props.username);
+    this.props.socket.emit(LOBBY_LEAVE, this.props.username);
   }
 
   //all we have to do, is verify if user is in lobby.
@@ -57,7 +60,7 @@ class GamePage extends Component {
 
     return (
       <React.Fragment>
-        <SelectionPhase />
+        <SelectionPhase socket={this.props.socket} />
       </React.Fragment>
     );
   }

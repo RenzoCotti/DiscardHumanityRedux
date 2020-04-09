@@ -18,7 +18,6 @@ class Card extends Component {
 
   //removes the end dot.
   removeDot(string) {
-    console.log(string.replace(/\.$/, ""));
     return string.replace(/\.$/, "");
   }
 

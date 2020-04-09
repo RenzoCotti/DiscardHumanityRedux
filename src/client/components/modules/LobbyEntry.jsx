@@ -4,6 +4,11 @@ import Input from "../modules/input/Input";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { getLobbyName, updateUserInfo, getUsername } from "../../redux/actions";
+import {
+  LOBBY_JOINED,
+  LOBBY_LOGIN,
+  LOBBY_INCORRECT_CREDENTIALS,
+} from "../../../server/socket/messages";
 
 class LobbyEntry extends Component {
   state = { username: "", password: "", redirect: false };
@@ -17,23 +22,23 @@ class LobbyEntry extends Component {
   }
 
   joinLobby() {
-    this.props.socket.emit("lobby-login", {
+    this.props.socket.emit(LOBBY_LOGIN, {
       lobbyName: this.props.name,
       password: this.state.password,
-      username: this.state.username
+      username: this.state.username,
     });
 
-    this.props.socket.on("lobby-joined", info => {
+    this.props.socket.on(LOBBY_JOINED, (info) => {
       console.log("lobby joined!");
 
       this.props.updateUserInfo({
         username: this.state.username,
-        lobbyName: this.props.name
+        lobbyName: this.props.name,
       });
       this.setState({ redirect: true });
     });
 
-    this.props.socket.on("lobby-incorrect-credentials", () => {
+    this.props.socket.on(LOBBY_INCORRECT_CREDENTIALS, () => {
       console.log("incorrect creds");
     });
   }
@@ -41,7 +46,7 @@ class LobbyEntry extends Component {
   handleChange(e) {
     let name = e.target.name;
     this.setState({
-      [name]: e.target.value
+      [name]: e.target.value,
     });
   }
 
@@ -58,7 +63,7 @@ class LobbyEntry extends Component {
     } else if (this.state.username.length > 64) {
       arr.push({
         name: "username",
-        errorMessage: "Please input a shorter username."
+        errorMessage: "Please input a shorter username.",
       });
     }
 
@@ -68,7 +73,7 @@ class LobbyEntry extends Component {
       } else if (this.state.password.length > 64) {
         arr.push({
           name: "password",
-          errorMessage: "Please input a shorter password."
+          errorMessage: "Please input a shorter password.",
         });
       }
     }
@@ -156,13 +161,13 @@ class LobbyEntry extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
-  username: getUsername(state)
+  username: getUsername(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateUserInfo: value => dispatch(updateUserInfo(value))
+const mapDispatchToProps = (dispatch) => ({
+  updateUserInfo: (value) => dispatch(updateUserInfo(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyEntry);

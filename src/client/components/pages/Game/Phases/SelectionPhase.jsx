@@ -17,13 +17,38 @@ import {
 import CardSelected from "../Views/CardSelected";
 import Button from "../../../modules/input/Button";
 
+import {
+  CHOICE_RECEIVED,
+  CHOICE,
+  LOBBY_NOT_FOUND,
+  CHECK_START,
+  LOBBY_LEAVE,
+} from "../../../../../server/socket/messages";
+
 class SelectionPhase extends Component {
   state = {};
   constructor(props) {
     super(props);
+
+    this.props.socket.on(CHOICE_RECEIVED, () => {
+      this.setState({ voted: true });
+    });
+  }
+
+  sendCards() {
+    let hand = this.props.hand;
+    let selectedCards = this.props.selectedCards;
+
+    let firstCard = hand[selectedCards[0]];
+    let secondCard = hand[selectedCards[1]];
+    let thirdCard = hand[selectedCards[2]];
+
+    this.props.socket.emit(CHOICE, [firstCard, secondCard, thirdCard]);
   }
 
   render() {
+    if (this.state.voted) return <div>Waiting for others to vote...</div>;
+
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
 
@@ -47,7 +72,7 @@ class SelectionPhase extends Component {
             <div className="flex-row">
               {blackCard}
               <CardSelected />
-              <Button value="Confirm" fn={() => {}} />
+              <Button value="Confirm" fn={this.sendCards()} />
             </div>
             <Hand />
           </div>

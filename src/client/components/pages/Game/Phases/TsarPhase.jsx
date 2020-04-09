@@ -24,6 +24,20 @@ class TsarPhase extends Component {
   }
 
   render() {
+    // let first = hand[selectedCards[0]] ? hand[selectedCards[0]].content : [];
+    // let second = hand[selectedCards[1]] ? hand[selectedCards[1]].content : [];
+    // let third = hand[selectedCards[2]] ? hand[selectedCards[2]].content : [];
+
+    // let blackCard = (
+    //   <Card
+    //     content={this.props.blackCard.content}
+    //     colour="card-black"
+    //     size="card-big"
+    //     fillGaps={[first, second, third]}
+    //   />
+    // );
+
+    //map over all the black cards
     return (
       <React.Fragment>
         <div>Tsar</div>

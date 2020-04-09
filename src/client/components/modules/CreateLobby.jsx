@@ -4,6 +4,11 @@ import Button from "./input/Button";
 import Input from "./input/Input";
 import { connect } from "react-redux";
 import { getUsername, getLobbyName, updateUserInfo } from "../../redux/actions";
+import {
+  LOBBY_EXISTS_ALREADY,
+  LOBBY_CREATED,
+  LOBBY_NEW,
+} from "../../../server/socket/messages";
 
 class CreateLobby extends Component {
   state = {
@@ -11,7 +16,7 @@ class CreateLobby extends Component {
     lobbyName: "",
     username: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   };
 
   constructor(props) {
@@ -19,11 +24,11 @@ class CreateLobby extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
-    this.props.socket.on("lobby-exists-already", () => {
+    this.props.socket.on(LOBBY_EXISTS_ALREADY, () => {
       this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
     });
 
-    this.props.socket.on("lobby-created", info => {
+    this.props.socket.on(LOBBY_CREATED, (info) => {
       console.log("lobby created!");
       this.setState({ redirect: true });
 
@@ -31,7 +36,7 @@ class CreateLobby extends Component {
       // this.updatePersistence(this.state.username, info, this.state.password);
       this.props.updateUserInfo({
         username: this.state.username,
-        lobbyName: info
+        lobbyName: info,
       });
     });
   }
@@ -70,7 +75,7 @@ class CreateLobby extends Component {
     } else if (this.state.lobbyName.length > 64) {
       arr.push({
         name: "lobbyName",
-        errorMessage: "Please input a shorter lobby name."
+        errorMessage: "Please input a shorter lobby name.",
       });
     }
 
@@ -79,7 +84,7 @@ class CreateLobby extends Component {
     } else if (this.state.username.length > 64) {
       arr.push({
         name: "username",
-        errorMessage: "Please input a shorter username."
+        errorMessage: "Please input a shorter username.",
       });
     }
 
@@ -88,14 +93,14 @@ class CreateLobby extends Component {
     } else if (this.state.password.length > 64) {
       arr.push({
         name: "password",
-        errorMessage: "Please input a shorter password."
+        errorMessage: "Please input a shorter password.",
       });
     }
 
     if (this.state.password !== this.state.confirmPassword) {
       arr.push({
         name: "confirmPassword",
-        errorMessage: "The two passwords don't match"
+        errorMessage: "The two passwords don't match",
       });
     }
 
@@ -104,14 +109,14 @@ class CreateLobby extends Component {
     } else if (this.state.maxUsers > 20 || this.state.maxUsers < 2) {
       arr.push({
         name: "maxUsers",
-        errorMessage: "The number of players has to be 2-20"
+        errorMessage: "The number of players has to be 2-20",
       });
     }
 
     if (arr.length === 0) {
       delete this.state.errors;
       console.log("creating lobby...");
-      this.props.socket.emit("lobby-new", this.state);
+      this.props.socket.emit(LOBBY_NEW, this.state);
     } else {
       this.setState({ errors: arr });
     }
@@ -120,7 +125,7 @@ class CreateLobby extends Component {
   handleChange(e) {
     let name = e.target.name;
     this.setState({
-      [name]: e.target.value
+      [name]: e.target.value,
     });
   }
 
@@ -196,13 +201,13 @@ class CreateLobby extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   username: getUsername(state),
-  lobbyName: getLobbyName(state)
+  lobbyName: getLobbyName(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateUserInfo: value => dispatch(updateUserInfo(value))
+const mapDispatchToProps = (dispatch) => ({
+  updateUserInfo: (value) => dispatch(updateUserInfo(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateLobby);

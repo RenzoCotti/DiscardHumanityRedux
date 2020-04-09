@@ -50,12 +50,12 @@ module.exports = {
     https: false,
     proxy: {
       "/api": {
-        target: "http://" + config.ip + ":5000",
+        target: "http://" + config.ip + ":" + config.port,
         secure: false,
         changeOrigin: true
       },
       "/socket.io": {
-        target: "ws://" + config.ip + ":5000",
+        target: "ws://" + config.ip + ":" + config.port,
         secure: false,
         changeOrigin: true
       }

@@ -2,7 +2,15 @@ import React, { Component } from "react";
 import LobbyEntry from "../modules/LobbyEntry";
 import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 import { getUsername, getLobbyName } from "../../redux/actions";
+import {
+  LOBBY_GET_LIST,
+  LOBBY_HAS_USER,
+  LOBBY_LIST_UPDATE,
+  USER_EXISTS,
+  LOBBY_LIST,
+} from "../../../server/socket/messages";
 
 class LobbyPage extends Component {
   state = {};
@@ -10,24 +18,24 @@ class LobbyPage extends Component {
     super(props);
 
     this.setupSocket();
-    this.props.socket.emit("lobby-get-list");
+    this.props.socket.emit(LOBBY_GET_LIST);
     //checks if a user already joined a lobby
-    this.props.socket.emit("lobby-has-user", {
+    this.props.socket.emit(LOBBY_HAS_USER, {
       username: this.props.username,
       lobbyName: this.props.lobbyName,
     });
   }
 
   setupSocket() {
-    this.props.socket.on("lobby-update", () => {
-      this.props.socket.emit("lobby-get-list");
+    this.props.socket.on(LOBBY_LIST_UPDATE, () => {
+      this.props.socket.emit(LOBBY_GET_LIST);
     });
 
-    this.props.socket.on("lobby-list", (list) => {
+    this.props.socket.on(LOBBY_LIST, (list) => {
       this.setState({ lobbies: list });
     });
 
-    this.props.socket.on("user-exists", (list) => {
+    this.props.socket.on(USER_EXISTS, (list) => {
       this.setState({ redirect: true });
     });
   }

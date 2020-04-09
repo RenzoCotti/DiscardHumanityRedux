@@ -24,10 +24,6 @@ class CardSelected extends Component {
 
     for (let i = 0; i < this.props.blackCard.pick; i++) {
       let currentSelectedCard = this.props.selectedCards[i];
-      console.log(currentSelectedCard);
-      console.log(
-        currentSelectedCard ? this.props.hand[currentSelectedCard].content : []
-      );
 
       divCards.push(
         <Card

@@ -9,6 +9,13 @@ import {
   addChatMessage,
 } from "../../redux/actions";
 
+import {
+  USER_CONNECT,
+  USER_DISCONNECT,
+  CHAT_MESSAGE,
+  SEND_CHAT_MESSAGE,
+} from "../../../server/socket/messages";
+
 class Chat extends Component {
   state = {
     message: "",
@@ -28,23 +35,23 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on("chat-message-new", (msg) => {
+    this.props.socket.on(CHAT_MESSAGE, (msg) => {
       this.addChatMessage({ username: msg.username, message: msg.message });
     });
 
-    this.props.socket.on("user-connect", (name) => {
+    this.props.socket.on(USER_CONNECT, (name) => {
       this.addSystemMessage("User " + name + " has connected.");
     });
 
-    this.props.socket.on("user-disconnect", (name) => {
+    this.props.socket.on(USER_DISCONNECT, (name) => {
       this.addSystemMessage("User " + name + " has disconnected.");
     });
   }
 
   componentWillUnmount() {
-    this.props.socket.off("chat-message-new");
-    this.props.socket.off("user-connect");
-    this.props.socket.off("user-disconnect");
+    this.props.socket.off(CHAT_MESSAGE);
+    this.props.socket.off(USER_CONNECT);
+    this.props.socket.off(USER_DISCONNECT);
   }
 
   addChatMessage(message) {
@@ -71,7 +78,7 @@ class Chat extends Component {
   sendMessage() {
     if (this.state.message.trim().length === 0) return;
 
-    this.props.socket.emit("chat-message", {
+    this.props.socket.emit(SEND_CHAT_MESSAGE, {
       username: this.props.username,
       message: this.state.message,
       lobbyName: this.props.lobbyName,
