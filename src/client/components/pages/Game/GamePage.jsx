@@ -21,7 +21,9 @@ import {
   LOBBY_LEAVE,
   NEW_TSAR,
   GAME_STATE,
+  ROUND_WIN,
 } from "../../../../server/socket/messages";
+import WinRound from "./Phases/WinRound";
 
 class GamePage extends Component {
   state = {};
@@ -50,6 +52,18 @@ class GamePage extends Component {
       this.setState({ tsar: true });
     });
 
+    this.props.socket.on(ROUND_WIN, (msg) => {
+      console.log("round was won");
+      console.log(msg);
+      this.setState({
+        winRound: true,
+        tsar: false,
+        winningCard: msg.winningCard,
+        winUsername: msg.username,
+        scores: msg.scores,
+      });
+    });
+
     this.props.socket.emit(GAME_STATE, this.props.lobbyName);
   }
 
@@ -69,6 +83,16 @@ class GamePage extends Component {
 
     if (this.state.tsar) {
       return <TsarPhase socket={this.props.socket} />;
+    }
+
+    if (this.state.winRound) {
+      return (
+        <WinRound
+          winningCard={this.state.winningCard}
+          winUsername={this.state.winUsername}
+          scores={this.state.scores}
+        />
+      );
     }
 
     if (!this.props.hand || !this.props.blackCard) {

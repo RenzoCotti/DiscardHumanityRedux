@@ -3,7 +3,8 @@ const {
 } = require('./utils');
 
 const {
-  getLobby
+  getLobby,
+  getUserFromID
 } = require('./lobby');
 
 const {
@@ -13,19 +14,20 @@ const {
   TSAR_VOTING,
   LOBBY_NOT_FOUND,
   GAME_START,
-  CHOICE_RECEIVED
+  CHOICE_RECEIVED,
+  ROUND_WIN
 } = require("./messages");
 
-if (!(NEW_HAND &&
-    NEW_BLACK_CARD &&
-    NEW_TSAR &&
-    TSAR_VOTING &&
-    TSAR_VOTING &&
-    LOBBY_NOT_FOUND &&
-    GAME_START &&
-    CHOICE_RECEIVED)) {
-  throw "Ayyyy los mesagios est undefined"
-}
+// if (!(NEW_HAND &&
+//     NEW_BLACK_CARD &&
+//     NEW_TSAR &&
+//     TSAR_VOTING &&
+//     TSAR_VOTING &&
+//     LOBBY_NOT_FOUND &&
+//     GAME_START &&
+//     CHOICE_RECEIVED)) {
+//   throw "Ayyyy los mesagios est undefined"
+// }
 
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
@@ -53,6 +55,34 @@ function drawXCards(array, x) {
   return temp;
 }
 
+function getScore(lobby, username) {
+  for (let user of lobby.gameState.userState.userScores) {
+    if (user.username === username) {
+      return user.score;
+    }
+  }
+}
+
+function getScores(lobby) {
+  return lobby.gameState.userState.userScores;
+}
+
+function modifyScore(lobby, username, amount) {
+  for (let user of lobby.gameState.userState.userScores) {
+    if (user.username === username) {
+      user.score += amount;
+    }
+  }
+}
+
+function setScore(lobby, username, value) {
+  for (let user of lobby.gameState.userState.userScores) {
+    if (user.username === username) {
+      user.score = value;
+    }
+  }
+}
+
 function drawWhiteCardsAll(io, lobby, x) {
   for (let user of lobby.userList) {
     let oldHand = lobby.gameState.userState.userHands[user.username];
@@ -71,18 +101,18 @@ function drawBlackCard(io, lobby) {
     1
   )[0];
 
+  // lobby.gameState.currentBlackCard = blackCard;
+
+  // while (lobby.gameState.currentBlackCard.pick < 3) {
+  //   blackCard = drawXCards(
+  //     lobby.gameState.blackCards,
+  //     1
+  //   )[0];
+
+
+
   lobby.gameState.currentBlackCard = blackCard;
-
-  while (lobby.gameState.currentBlackCard.pick < 3) {
-    blackCard = drawXCards(
-      lobby.gameState.blackCards,
-      1
-    )[0];
-
-
-
-    lobby.gameState.currentBlackCard = blackCard;
-  }
+  // }
 
   io.in(lobby.name).emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
 }
@@ -126,7 +156,8 @@ function initGame(io, lobby) {
     userState: {
       userHands: {},
       userChoices: [],
-      chosen: 0
+      chosen: 0,
+      userScores: []
     },
     //id of tsar
     tsar: undefined,
@@ -135,6 +166,13 @@ function initGame(io, lobby) {
     lastRoundWinner: undefined,
 
   };
+
+  for (let user of lobby.userList) {
+    lobby.gameState.userState.userScores.push({
+      username: user.username,
+      score: 0
+    });
+  }
 
 
   lobby.gameSettings = {
@@ -206,8 +244,12 @@ exports.checkStart = (io, socket, lobbyName) => {
       lobby.whiteCards.length > 0) {
 
       console.log("game starting...")
+
+      //initialising bug here
       io.in(lobby.name).emit(GAME_START);
+
       initGame(io, lobby);
+
     }
 
   } else {
@@ -261,6 +303,25 @@ exports.handleChoice = (io, socket, msg) => {
 }
 
 exports.tsarVoted = (io, socket, msg) => {
+  let lobby = getLobby(msg.lobbyName);
+
+  if (lobby) {
+    let user = getUserFromID(lobby, msg.winningCard.id);
+
+    if (user) {
+
+      modifyScore(lobby, user.username, +1);
+
+      io.to(msg.lobbyName).emit(ROUND_WIN, {
+        winningCard: msg.winningCard.choice,
+        username: user.username,
+        scores: getScores(lobby)
+      });
+
+    }
+
+  }
+
   //card voted
   //need to send everybody at the win screen momentarily
   //winner of the round, username & 

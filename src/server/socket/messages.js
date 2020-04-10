@@ -11,6 +11,8 @@ exports.NEW_BLACK_CARD = "game-new-black-card";
 exports.NEW_TSAR = "game-tsar-new";
 exports.TSAR_VOTING = "game-tsar-voting";
 exports.TSAR_VOTE = "game-tsar-vote";
+exports.ROUND_WIN = "game-round-win";
+
 
 
 exports.CHOICE_RECEIVED = "game-choice-received";

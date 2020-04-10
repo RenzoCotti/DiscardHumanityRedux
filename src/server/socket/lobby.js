@@ -20,21 +20,21 @@ const {
 
 } = require("./messages");
 
-if (!(LOBBY_NOT_FOUND &&
-    LOBBY_FULL &&
-    USER_DISCONNECT &&
-    USER_CONNECT &&
-    LOBBY_LIST_UPDATE &&
-    LOBBY_JOINED &&
-    LOBBY_INCORRECT_CREDENTIALS &&
-    LOBBY_EXISTS_ALREADY &&
-    LOBBY_CREATED &&
-    GAME_LOUNGE &&
-    DECKS_SELECTED &&
-    USER_EXISTS &&
-    CHAT_MESSAGE)) {
-  throw "Ayyyyy lmao message undefined"
-}
+// if (!(LOBBY_NOT_FOUND &&
+//     LOBBY_FULL &&
+//     USER_DISCONNECT &&
+//     USER_CONNECT &&
+//     LOBBY_LIST_UPDATE &&
+//     LOBBY_JOINED &&
+//     LOBBY_INCORRECT_CREDENTIALS &&
+//     LOBBY_EXISTS_ALREADY &&
+//     LOBBY_CREATED &&
+//     GAME_LOUNGE &&
+//     DECKS_SELECTED &&
+//     USER_EXISTS &&
+//     CHAT_MESSAGE)) {
+//   throw "Ayyyyy lmao message undefined"
+// }
 
 
 exports.getLobby = (name) => {
@@ -47,6 +47,15 @@ exports.getLobby = (name) => {
 function getUser(lobby, username) {
   for (let user of lobby.userList) {
     if (username === user.username) {
+      return user;
+    }
+  }
+  return false;
+}
+
+exports.getUserFromID = (lobby, userID) => {
+  for (let user of lobby.userList) {
+    if (userID === user.id) {
       return user;
     }
   }

@@ -29,14 +29,24 @@ class TsarPhase extends Component {
   }
 
   selectCard(index) {
+    // console.log("selecting " + index);
     this.setState({ selected: index });
   }
 
   voteCard() {
-    if (!this.state.selected) return;
+    if (this.state.selected === null) return;
 
-    this.props.socket.emit(TSAR_VOTE, this.state.choices[this.state.selected]);
-    this.setState({ voted: true });
+    // console.log("voted ");
+    let voted = this.state.choices[this.state.selected];
+    // console.log(voted);
+
+    this.props.socket.emit(TSAR_VOTE, {
+      lobbyName: this.props.lobbyName,
+      winningCard: voted,
+    });
+    console.log("voted for " + voted.id);
+
+    // this.setState({ voted: true });
   }
 
   render() {
