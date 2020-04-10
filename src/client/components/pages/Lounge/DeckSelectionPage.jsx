@@ -5,6 +5,12 @@ import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { getLobbyName } from "../../../redux/actions";
 
+import {
+  GAME_START,
+  GAME_LOUNGE,
+  SET_DECKS,
+} from "../../../../server/socket/messages";
+
 class DeckSelectionPage extends Component {
   state = {
     addedDecks: [],
@@ -21,8 +27,8 @@ class DeckSelectionPage extends Component {
   }
 
   setupSocket() {
-    this.props.socket.on("game-start", () => {});
-    this.props.socket.on("game-lounge", () => {
+    this.props.socket.on(GAME_START, () => {});
+    this.props.socket.on(GAME_LOUNGE, () => {
       this.setState({ waiting: true });
     });
   }
@@ -60,7 +66,7 @@ class DeckSelectionPage extends Component {
         whiteCards = whiteCards.concat(deck.whiteCards);
       }
 
-      this.props.socket.emit("lobby-set-decks", {
+      this.props.socket.emit(SET_DECKS, {
         name: this.props.lobbyName,
         blackCards: blackCards,
         whiteCards: whiteCards,

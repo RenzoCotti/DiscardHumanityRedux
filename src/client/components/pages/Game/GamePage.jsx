@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
+import SelectionPhase from "./Phases/SelectionPhase";
+import TsarPhase from "./Phases/TsarPhase";
+
 import {
   getLobbyName,
   getHand,
@@ -10,14 +13,14 @@ import {
   updateBlackCard,
   getBlackCard,
 } from "../../../redux/actions";
-import SelectionPhase from "./Phases/SelectionPhase";
 
 import {
   NEW_BLACK_CARD,
   NEW_HAND,
   LOBBY_NOT_FOUND,
-  CHECK_START,
   LOBBY_LEAVE,
+  NEW_TSAR,
+  GAME_STATE,
 } from "../../../../server/socket/messages";
 
 class GamePage extends Component {
@@ -26,18 +29,28 @@ class GamePage extends Component {
     super(props);
 
     this.props.socket.on(NEW_BLACK_CARD, (card) => {
+      console.log("new card of colour");
+
       this.props.updateBlackCard(card);
     });
 
     this.props.socket.on(NEW_HAND, (hand) => {
+      console.log("new hand");
+
       this.props.updateHand(hand);
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, () => {
+      console.log("lobby 404");
       this.setState({ home: true });
     });
 
-    this.props.socket.emit(CHECK_START, this.props.lobbyName);
+    this.props.socket.on(NEW_TSAR, () => {
+      console.log("new tsar");
+      this.setState({ tsar: true });
+    });
+
+    this.props.socket.emit(GAME_STATE, this.props.lobbyName);
   }
 
   //on page leave, leave lobby
@@ -52,6 +65,10 @@ class GamePage extends Component {
   render() {
     if (this.state.home) {
       return <Redirect push to={"/"} />;
+    }
+
+    if (this.state.tsar) {
+      return <TsarPhase socket={this.props.socket} />;
     }
 
     if (!this.props.hand || !this.props.blackCard) {

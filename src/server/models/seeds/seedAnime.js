@@ -831,7 +831,6 @@ module.exports = {
     "Blue Water Studios.",
     "Hot female bass players.",
     "Magical girls.",
-    "Black?Star",
     "Goku, Luffy, Toriko, and Lina Inverse in an eating contest.",
     "You cactus bastard!",
     "KING!!! KING!!! KING GAINER!!!<br><i>*does the Monkey*</i>",

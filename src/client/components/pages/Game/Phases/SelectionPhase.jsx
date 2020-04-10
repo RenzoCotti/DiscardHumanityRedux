@@ -20,9 +20,7 @@ import Button from "../../../modules/input/Button";
 import {
   CHOICE_RECEIVED,
   CHOICE,
-  LOBBY_NOT_FOUND,
-  CHECK_START,
-  LOBBY_LEAVE,
+  TSAR_VOTING,
 } from "../../../../../server/socket/messages";
 
 class SelectionPhase extends Component {
@@ -30,8 +28,16 @@ class SelectionPhase extends Component {
   constructor(props) {
     super(props);
 
+    this.sendCards = this.sendCards.bind(this);
+
     this.props.socket.on(CHOICE_RECEIVED, () => {
-      this.setState({ voted: true });
+      console.log("received");
+      this.setState({ waiting: true });
+    });
+
+    this.props.socket.on(TSAR_VOTING, () => {
+      console.log("tsar voting");
+      this.setState({ tsar: true });
     });
   }
 
@@ -39,15 +45,22 @@ class SelectionPhase extends Component {
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
 
-    let firstCard = hand[selectedCards[0]];
-    let secondCard = hand[selectedCards[1]];
-    let thirdCard = hand[selectedCards[2]];
+    let first = hand[selectedCards[0]] ? hand[selectedCards[0]].content : [];
+    let second = hand[selectedCards[1]] ? hand[selectedCards[1]].content : [];
+    let third = hand[selectedCards[2]] ? hand[selectedCards[2]].content : [];
 
-    this.props.socket.emit(CHOICE, [firstCard, secondCard, thirdCard]);
+    this.props.socket.emit(CHOICE, {
+      lobbyName: this.props.lobbyName,
+      choice: [first, second, third],
+    });
+    this.setState({ voted: true });
   }
 
   render() {
-    if (this.state.voted) return <div>Waiting for others to vote...</div>;
+    if (this.state.waiting) return <div>Waiting for the Tsar to vote...</div>;
+    else if (this.state.waiting)
+      return <div>Waiting for others to vote...</div>;
+    else if (this.state.voted) return <div>You voted</div>;
 
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
@@ -72,7 +85,7 @@ class SelectionPhase extends Component {
             <div className="flex-row">
               {blackCard}
               <CardSelected />
-              <Button value="Confirm" fn={this.sendCards()} />
+              <Button value="Confirm" fn={this.sendCards} />
             </div>
             <Hand />
           </div>

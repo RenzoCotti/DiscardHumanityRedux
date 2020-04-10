@@ -55,15 +55,22 @@ function drawWhiteCardsAll(io, lobby, x) {
 }
 
 function drawBlackCard(io, lobby) {
-  lobby.gameState.currentBlackCard = drawXCards(
+  let blackCard = drawXCards(
     lobby.gameState.blackCards,
     1
   )[0];
+
+  lobby.gameState.currentBlackCard = blackCard;
+
   while (lobby.gameState.currentBlackCard.pick < 3) {
-    lobby.gameState.currentBlackCard = drawXCards(
+    blackCard = drawXCards(
       lobby.gameState.blackCards,
       1
     )[0];
+
+
+
+    lobby.gameState.currentBlackCard = blackCard;
   }
 
   io.in(lobby.name).emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
@@ -82,7 +89,6 @@ function setGameState(lobby, status) {
 }
 
 exports.getGameState = (lobbyName, socket) => {
-  log("getting game state...");
   let lobby = getLobby(lobbyName);
   if (lobby) {
     log("getting game state...");
@@ -108,7 +114,8 @@ function initGame(io, lobby) {
     },
     userState: {
       userHands: {},
-      userChoices: {}
+      userChoices: [],
+      chosen: 0
     },
     //id of tsar
     tsar: undefined,
@@ -180,10 +187,14 @@ function playTurn(io, lobby) {
 exports.checkStart = (io, socket, lobbyName) => {
   let lobby = getLobby(lobbyName);
   if (lobby) {
-    if (
+    if (lobby.state === "init" || lobby.state === "selecting") {
+      //game already started
+    } else if (
       lobby.currentUsers > 1 &&
       lobby.whiteCards &&
       lobby.whiteCards.length > 0) {
+
+      console.log("game starting...")
       io.in(lobby.name).emit(GAME_START);
       initGame(io, lobby);
     }
@@ -193,26 +204,47 @@ exports.checkStart = (io, socket, lobbyName) => {
   }
 }
 
-exports.handleChoice = (io, socket, arr) => {
-  let lobby = getLobby(lobbyName);
+exports.handleChoice = (io, socket, msg) => {
+  log("received choice")
+  let lobby = getLobby(msg.lobbyName);
   if (lobby) {
-    if (!lobby.userState.userChoices[socket.id]) {
-      //hasnt already voted
-      lobby.userState.userChoices[socket.id] = arr;
-      lobby.userState.userChoices.chosen++;
+    let userChoices = lobby.gameState.userState.userChoices;
 
-      if (lobby.userState.userChoices.chosen === lobby.userList.length - 1) {
+    let found = false;
+    for (let choice of userChoices) {
+      if (choice.id === socket.id) found = true;
+    }
+
+    if (!found) {
+      //hasnt already voted
+      userChoices.push({
+        id: socket.id,
+        choice: msg.choice
+      });
+
+
+      let chosen = lobby.gameState.userState.chosen;
+      chosen++;
+
+      if (chosen === lobby.userList.length - 1) {
         //everybody chose, except tsar
         if (lobby.gameSettings.tsar) {
+          log("tsar is now voting");
+
           setGameState(lobby, "tsar voting")
-          io.to(lobby.gameState.tsar).emit(TSAR_VOTING, lobby.userState.userChoices);
+          io.in(msg.lobbyName).emit(TSAR_VOTING, userChoices);
         } else {
+          log("democracy is now voting");
           //democracy
         }
       } else {
+        log(socket.username + " sent his cards")
         socket.emit(CHOICE_RECEIVED);
       }
+    } else {
+      log("user already sent his cards.")
     }
-    //else already voted
+  } else {
+    log("lobby not found: " + msg.lobbyName)
   }
 }

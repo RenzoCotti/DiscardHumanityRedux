@@ -4,6 +4,14 @@ import Chat from "../../modules/Chat";
 import { connect } from "react-redux";
 import { getLobbyName } from "../../../redux/actions";
 
+import {
+  GAME_START,
+  LOBBY_NOT_FOUND,
+  DECKS_SELECTED,
+  CHECK_START,
+  USER_CONNECT,
+} from "../../../../server/socket/messages";
+
 class LoungePage extends Component {
   state = {};
 
@@ -13,26 +21,26 @@ class LoungePage extends Component {
   }
 
   setupSocket() {
-    this.props.socket.on("game-start", () => {
+    this.props.socket.on(GAME_START, () => {
       this.setState({ start: true });
     });
 
-    this.props.socket.on("user-connect", () => {
+    this.props.socket.on(USER_CONNECT, () => {
       console.log("user joined");
-      this.props.socket.emit("game-check-start", this.props.lobbyName);
+      this.props.socket.emit(CHECK_START, this.props.lobbyName);
     });
 
-    this.props.socket.on("lobby-decks-selected", () => {
+    this.props.socket.on(DECKS_SELECTED, () => {
       console.log("deck set by admin");
-      this.props.socket.emit("game-check-start", this.props.lobbyName);
+      this.props.socket.emit(CHECK_START, this.props.lobbyName);
     });
 
-    this.props.socket.on("lobby-not-found", () => {
+    this.props.socket.on(LOBBY_NOT_FOUND, () => {
       this.setState({ home: true });
     });
 
     //every time we get here, we launch this and check if the game can start
-    this.props.socket.emit("game-check-start", this.props.lobbyName);
+    this.props.socket.emit(CHECK_START, this.props.lobbyName);
   }
 
   render() {

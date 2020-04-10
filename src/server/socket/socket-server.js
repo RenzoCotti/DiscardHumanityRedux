@@ -73,7 +73,7 @@ module.exports = function (server) {
 
     socket.on(GAME_STATE, (lobbyName) => getGameState(lobbyName, socket));
 
-    socket.on(CHOICE, (arr) => handleChoice(io, arr));
+    socket.on(CHOICE, (msg) => handleChoice(io, socket, msg));
 
     socket.on("disconnect", function () {
       log("user disconnected " + socket.id);
