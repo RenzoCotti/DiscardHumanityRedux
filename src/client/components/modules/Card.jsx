@@ -144,14 +144,18 @@ class Card extends Component {
 
     let size = this.props.size + " ";
     let colour = this.props.colour + " ";
-    let selected = this.props.selected ? "card-selected " : " ";
+    let selected = this.props.selected
+      ? this.props.colour === "card-white"
+        ? "white-card-selected "
+        : "black-card-selected "
+      : " ";
 
     let hover =
-      this.props.colour === "card-white" &&
-      !this.props.selected &&
-      !this.props.remove
-        ? "hoverable"
-        : "";
+      this.props.hover && !this.props.selected && !this.props.remove
+        ? this.props.colour === "card-white"
+          ? "hoverable hoverable-white "
+          : "hoverable hoverable-black "
+        : " ";
 
     let textClass = "card-text ";
 

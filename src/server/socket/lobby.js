@@ -16,9 +16,25 @@ const {
   GAME_LOUNGE,
   DECKS_SELECTED,
   USER_EXISTS,
-  CHAT_MESSAGE_NEW
+  CHAT_MESSAGE
 
 } = require("./messages");
+
+if (!(LOBBY_NOT_FOUND &&
+    LOBBY_FULL &&
+    USER_DISCONNECT &&
+    USER_CONNECT &&
+    LOBBY_LIST_UPDATE &&
+    LOBBY_JOINED &&
+    LOBBY_INCORRECT_CREDENTIALS &&
+    LOBBY_EXISTS_ALREADY &&
+    LOBBY_CREATED &&
+    GAME_LOUNGE &&
+    DECKS_SELECTED &&
+    USER_EXISTS &&
+    CHAT_MESSAGE)) {
+  throw "Ayyyyy lmao message undefined"
+}
 
 
 exports.getLobby = (name) => {
@@ -190,5 +206,5 @@ exports.hasUser = (io, socket, info) => {
 
 exports.chatMessage = (io, message) => {
   log(message.username + ' says "' + message.message + '"')
-  io.in(message.lobbyName).emit(CHAT_MESSAGE_NEW, message);
+  io.in(message.lobbyName).emit(CHAT_MESSAGE, message);
 };

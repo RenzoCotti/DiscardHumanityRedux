@@ -67,6 +67,7 @@ class Hand extends Component {
         key={index}
         position={-index++ * 70 + "px"}
         onClick={() => this.selectCard(index - 1)}
+        hover={true}
       />
     ));
 

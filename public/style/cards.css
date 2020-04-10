@@ -1,26 +1,22 @@
 .card-white {
-  background-color: var(--text);
+  background-color: var(--whiteCardBackground);
   color: var(--background);
-  border: 1px solid var(--background);
+  /* border: 1px solid var(--background); */
 }
 
 .card-black {
-  background-color: var(--background);
+  background-color: var(--blackCardBackground);
   color: var(--text);
-  border: 1px solid var(--text);
+  /* border: 1px solid var(--text); */
   z-index: 5;
 }
 
-.card-selected {
-  background-color: rgb(220, 220, 220);
-  color: var(--background);
-  border: 1px solid var(--background);
-}
 
 .card-default {
   border-radius: 20px;
   padding: 20px;
   position: relative;
+  box-shadow: 0px 0px 5px var(--selected);
 }
 
 /*card sizes*/
@@ -41,10 +37,30 @@
   height: 300px;
 }
 
-.hoverable:hover {
+.white-card-selected {
+  background-color: var(--whiteCardSelected);
+  /* color: var(--background);
+  border: 1px solid var(--background); */
+}
+
+.black-card-selected {
+  background-color: var(--blackCardSelected);
+  /* color: var(--background);
+  border: 1px solid var(--background); */
+}
+
+
+
+.hoverable-black:hover {
   z-index: 6;
   cursor: pointer;
-  background-color: rgb(220, 220, 220);
+  background-color: var(--blackCardSelected);
+}
+
+.hoverable-white:hover {
+  z-index: 6;
+  cursor: pointer;
+  background-color: var(--whiteCardSelected);
 }
 
 .card-text {
@@ -60,6 +76,7 @@
   /* 60 chars */
   font-size: 18px;
 }
+
 .text-medium {
   /* 80 chars */
   font-size: 16px;
@@ -94,10 +111,11 @@ em {
   cursor: pointer;
   color: rgba(0, 0, 0, 0.5);
 }
+
 .giant-x-content {
   display: none;
 }
 
-.giant-x:hover > .giant-x-content {
+.giant-x:hover>.giant-x-content {
   display: block;
 }

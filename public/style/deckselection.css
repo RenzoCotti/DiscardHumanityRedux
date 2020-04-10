@@ -1,9 +1,9 @@
 .deck-selected {
-  background-color: gray;
+  background-color: var(--selected);
 }
 
 .deck-title:hover {
-  background-color: gray;
+  background-color: var(--selected);
 }
 
 .border-bottom {
@@ -28,6 +28,7 @@
   position: fixed;
   top: 100px;
 }
+
 .deck-title {
   width: 300px;
   cursor: pointer;

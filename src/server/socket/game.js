@@ -16,6 +16,17 @@ const {
   CHOICE_RECEIVED
 } = require("./messages");
 
+if (!(NEW_HAND &&
+    NEW_BLACK_CARD &&
+    NEW_TSAR &&
+    TSAR_VOTING &&
+    TSAR_VOTING &&
+    LOBBY_NOT_FOUND &&
+    GAME_START &&
+    CHOICE_RECEIVED)) {
+  throw "Ayyyy los mesagios est undefined"
+}
+
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -156,10 +167,10 @@ function pickNewTsar(io, lobby) {
     } else {
       let tsarIndex = lobby.gameState.tsarIndex;
       //everybody tsar'd once at least, we loop
-      if (tsarIndex + 1 === lobby.userList.length) {
-        tsarIndex = 0;
+      if (lobby.gameState.tsarIndex + 1 === lobby.userList.length) {
+        lobby.gameState.tsarIndex = 0;
       } else {
-        tsarIndex++;
+        lobby.gameState.tsarIndex++;
       }
 
       //set the tsar id
@@ -223,10 +234,10 @@ exports.handleChoice = (io, socket, msg) => {
       });
 
 
-      let chosen = lobby.gameState.userState.chosen;
-      chosen++;
+      //a literal, not a ref
+      lobby.gameState.userState.chosen++;
 
-      if (chosen === lobby.userList.length - 1) {
+      if (lobby.gameState.userState.chosen === lobby.userList.length - 1) {
         //everybody chose, except tsar
         if (lobby.gameSettings.tsar) {
           log("tsar is now voting");
@@ -247,4 +258,10 @@ exports.handleChoice = (io, socket, msg) => {
   } else {
     log("lobby not found: " + msg.lobbyName)
   }
+}
+
+exports.tsarVoted = (io, socket, msg) => {
+  //card voted
+  //need to send everybody at the win screen momentarily
+  //winner of the round, username & 
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TSAR_VOTING } from "../../../../../server/socket/messages";
+import { TSAR_VOTING, TSAR_VOTE } from "../../../../../server/socket/messages";
 import Card from "../../../modules/Card";
 // import Chat from "../../modules/Chat";
 // import Hand from "./Views/Hand";
@@ -11,19 +11,32 @@ import {
   getUsername,
   getBlackCard,
 } from "../../../../redux/actions";
+import Button from "../../../modules/input/Button";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
 class TsarPhase extends Component {
-  state = {};
+  state = { selected: null, choices: null };
   constructor(props) {
     super(props);
 
-    this.props.socket.on(TSAR_VOTING, (arr) => {
-      console.log("choices");
+    this.selectCard = this.selectCard.bind(this);
+    this.voteCard = this.voteCard.bind(this);
 
+    this.props.socket.on(TSAR_VOTING, (arr) => {
       this.setState({ choices: arr });
     });
+  }
+
+  selectCard(index) {
+    this.setState({ selected: index });
+  }
+
+  voteCard() {
+    if (!this.state.selected) return;
+
+    this.props.socket.emit(TSAR_VOTE, this.state.choices[this.state.selected]);
+    this.setState({ voted: true });
   }
 
   render() {
@@ -42,15 +55,18 @@ class TsarPhase extends Component {
     // );
 
     let arr = [];
-    for (let entry of this.state.choices) {
-      console.log(entry);
+    for (let i = 0; i < this.state.choices.length; i++) {
+      let entry = this.state.choices[i];
       arr.push(
         <Card
           content={this.props.blackCard.content}
           colour="card-black"
           size="card-big"
           fillGaps={entry.choice}
-          key={entry.id}
+          key={i}
+          hover={true}
+          selected={i === this.state.selected ? true : ""}
+          onClick={() => this.selectCard(i)}
         />
       );
     }
@@ -59,8 +75,11 @@ class TsarPhase extends Component {
     //map over all the black cards
     return (
       <React.Fragment>
-        <div>Tsar choices</div>
-        <div>{arr}</div>
+        <div className="flex-column">
+          <div>Tsar choices</div>
+          <div className="flex-row">{arr}</div>
+          <Button value="Confirm" fn={this.voteCard} />
+        </div>
       </React.Fragment>
     );
   }

@@ -12,7 +12,7 @@
 .super-title {
   font-weight: 600;
   font-size: 24pt;
-  color: var(--yellow);
+  color: var(--selected);
 }
 
 .super-title {

@@ -4,7 +4,7 @@
 .search,
 .select-wrapper input {
   display: block !important;
-  background-color: gray !important;
+  background-color: var(--selected) !important;
   border: 0;
   transition: all 0.2s ease;
   padding: 0 7px !important;
@@ -72,10 +72,7 @@
   box-shadow: 0 0 0 0 transparent !important;
 }
 
-/* .textArea,
-.button {
-  background-color: rgba(var(--backgroundRGB), 0.6) !important;
-} */
+
 
 .shortForm {
   width: 40% !important;
@@ -117,5 +114,5 @@
 }
 
 .dropdown-content {
-  background-color: rgb(var(--backgroundRGB)) !important;
+  background-color: var(--background) !important;
 }

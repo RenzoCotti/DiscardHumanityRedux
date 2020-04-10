@@ -1,9 +1,15 @@
 html {
   /*palette*/
   --text: white;
-  --backgroundRGB: 255, 255, 255;
   --background: black;
   --selected: gray;
+  --whiteCardBackground: #F4F4F4;
+  --blackCardBackground: #1C1C1C;
+
+  --whiteCardSelected: #C1C1C1;
+  --blackCardSelected: #4F4F4F;
+
+
   font-size: 14pt !important;
   font-weight: 200;
   background-color: var(--background);
