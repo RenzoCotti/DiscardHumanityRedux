@@ -7,37 +7,26 @@ const Deck = new mongoose.Schema({
     type: String,
     required: true
   },
-  whiteCards: [
-    {
-      content: [
-        {
-          text: String,
-          tag: String
-        }
-      ],
-      jolly: {
-        type: Boolean
-      }
-    }
-  ],
+  whiteCards: [{
+    content: [{
+      text: String,
+      tag: String
+    }]
+  }],
 
-  blackCards: [
-    {
-      content: [
-        {
-          text: String,
-          tag: String
-        }
-      ],
-      pick: {
-        type: Number,
-        requred: true
-      }
+  blackCards: [{
+    content: [{
+      text: String,
+      tag: String
+    }],
+    pick: {
+      type: Number,
+      requred: true
     }
-  ]
+  }]
 });
 
-Deck.pre("save", function(next) {
+Deck.pre("save", function (next) {
   let that = this;
 
   if (that.name == "") that.name = "UNNAMED DECK";

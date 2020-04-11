@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getLobbyName } from "../../../redux/actions";
 
 import {
-  GAME_START,
+  NOT_ENOUGH_CARDS,
   GAME_LOUNGE,
   SET_DECKS,
 } from "../../../../server/socket/messages";
@@ -27,7 +27,9 @@ class DeckSelectionPage extends Component {
   }
 
   setupSocket() {
-    this.props.socket.on(GAME_START, () => {});
+    this.props.socket.on(NOT_ENOUGH_CARDS, () => {
+      console.log("not enough cards");
+    });
     this.props.socket.on(GAME_LOUNGE, () => {
       this.setState({ waiting: true });
     });

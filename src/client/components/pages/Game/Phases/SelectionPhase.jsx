@@ -35,10 +35,10 @@ class SelectionPhase extends Component {
       this.setState({ waiting: true });
     });
 
-    this.props.socket.on(TSAR_VOTING, () => {
-      console.log("tsar voting");
-      this.setState({ tsar: true });
-    });
+    // this.props.socket.on(TSAR_VOTING, () => {
+    //   console.log("tsar voting");
+    //   this.setState({ tsar: true });
+    // });
   }
 
   sendCards() {

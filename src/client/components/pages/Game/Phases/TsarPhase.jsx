@@ -35,41 +35,31 @@ class TsarPhase extends Component {
 
   voteCard() {
     if (this.state.selected === null) return;
+    // console.log(this.state);
 
     // console.log("voted ");
     let voted = this.state.choices[this.state.selected];
-    // console.log(voted);
 
     this.props.socket.emit(TSAR_VOTE, {
       lobbyName: this.props.lobbyName,
       username: voted.username,
       winningCard: voted.choice,
     });
-    console.log("voted for " + voted.id);
+    console.log("voted for " + voted.username);
 
     // this.setState({ voted: true });
   }
 
   render() {
     if (!this.state.choices) return <div>You're the Tsar</div>;
-    // let first = hand[selectedCards[0]] ? hand[selectedCards[0]].content : [];
-    // let second = hand[selectedCards[1]] ? hand[selectedCards[1]].content : [];
-    // let third = hand[selectedCards[2]] ? hand[selectedCards[2]].content : [];
-
-    // let blackCard = (
-    //   <Card
-    //     content={this.props.blackCard.content}
-    //     colour="card-black"
-    //     size="card-big"
-    //     fillGaps={[first, second, third]}
-    //   />
-    // );
 
     let arr = [];
+
+
     for (let i = 0; i < this.state.choices.length; i++) {
       let entry = this.state.choices[i];
-      //this is a choice which contains potentially 3 cards
 
+      //adding fillings for card
       let temp = [];
       for (let card of entry.choice) {
         if (card !== null) {
@@ -91,8 +81,7 @@ class TsarPhase extends Component {
       );
     }
 
-    // console.log(this.state.choices);
-    //map over all the black cards
+
     return (
       <React.Fragment>
         <div className="flex-column">

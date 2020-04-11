@@ -2,6 +2,7 @@ exports.GAME_START = "game-start";
 exports.GAME_LOUNGE = "game-lounge";
 exports.CHECK_START = "game-check-start";
 exports.GAME_STATE = "game-get-state";
+exports.GAME_READY = "game-state-ready"
 
 
 
@@ -44,6 +45,7 @@ exports.LOBBY_HAS_USER = "lobby-has-user";
 /**DECKS MESSAGES */
 exports.SET_DECKS = "lobby-set-decks";
 exports.DECKS_SELECTED = "lobby-decks-selected";
+exports.NOT_ENOUGH_CARDS = "lobby-not-enough-cards"
 
 /**CHAT MESSAGES */
 exports.CHAT_MESSAGE = "chat-message-new";

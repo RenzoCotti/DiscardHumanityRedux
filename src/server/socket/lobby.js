@@ -16,7 +16,8 @@ const {
   GAME_LOUNGE,
   DECKS_SELECTED,
   USER_EXISTS,
-  CHAT_MESSAGE
+  CHAT_MESSAGE,
+  NOT_ENOUGH_CARDS
 
 } = require("./messages");
 
@@ -194,12 +195,19 @@ exports.setDecks = (io, socket, info) => {
 
   let lobby = exports.getLobby(info.name);
   if (lobby) {
-    lobby.blackCards = info.blackCards;
-    lobby.whiteCards = info.whiteCards;
-    log("decks set.");
 
-    socket.emit(GAME_LOUNGE, lobby.name);
-    io.in(lobby.name).emit(DECKS_SELECTED);
+    if (lobby.maxUsers * 12 <= info.whiteCards.length) {
+      lobby.blackCards = info.blackCards;
+      lobby.whiteCards = info.whiteCards;
+      log("decks set.");
+
+      socket.emit(GAME_LOUNGE, lobby.name);
+      io.in(lobby.name).emit(DECKS_SELECTED);
+    } else {
+      //not enough cards
+      socket.emit(NOT_ENOUGH_CARDS);
+    }
+
   }
 };
 

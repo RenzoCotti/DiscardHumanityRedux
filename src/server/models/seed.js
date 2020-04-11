@@ -97,8 +97,7 @@ for (let deck of decks) {
     }
 
     whitecards.push({
-      content: temp,
-      jolly: false
+      content: temp
     });
 
   }

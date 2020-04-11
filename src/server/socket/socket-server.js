@@ -88,11 +88,11 @@ module.exports = function (server) {
     //checks if you can start the game
     socket.on(CHECK_START, (lobbyName) => checkStart(io, socket, lobbyName));
 
-    socket.on(GAME_STATE, (lobbyName) => getGameState(lobbyName, socket));
+    socket.on(GAME_STATE, (msg) => getGameState(socket, msg));
 
     socket.on(CHOICE, (msg) => handleChoice(io, socket, msg));
 
-    socket.on(TSAR_VOTE, (msg) => tsarVoted(io, socket, msg));
+    socket.on(TSAR_VOTE, (msg) => tsarVoted(io, msg));
 
 
     socket.on("disconnect", function () {

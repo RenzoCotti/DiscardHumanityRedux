@@ -19,10 +19,11 @@ import {
   NEW_HAND,
   LOBBY_NOT_FOUND,
   LOBBY_LEAVE,
-  NEW_TSAR,
   GAME_STATE,
   ROUND_WIN,
   GAME_WIN,
+  GAME_READY,
+  IS_TSAR,
 } from "../../../../server/socket/messages";
 import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";
@@ -33,30 +34,29 @@ class GamePage extends Component {
     super(props);
 
     this.props.socket.on(NEW_BLACK_CARD, (card) => {
-      console.log("new card of colour");
+      // console.log("new card of colour");
 
       this.props.updateBlackCard(card);
     });
 
     this.props.socket.on(NEW_HAND, (hand) => {
-      console.log("new hand");
+      // console.log("new hand");
 
       this.props.updateHand(hand);
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, () => {
-      console.log("lobby 404");
+      // console.log("lobby 404");
       this.setState({ home: true });
     });
 
-    this.props.socket.on(NEW_TSAR, () => {
-      console.log("new tsar");
-      this.setState({ tsar: true });
+    this.props.socket.on(IS_TSAR, (value) => {
+      // console.log("new tsar");
+      this.setState({ tsar: value });
     });
 
     this.props.socket.on(ROUND_WIN, (msg) => {
-      console.log("round was won");
-      // console.log(msg);
+      // console.log("round was won");
       this.setState({
         winRound: true,
         tsar: false,
@@ -68,7 +68,6 @@ class GamePage extends Component {
 
     this.props.socket.on(GAME_WIN, (msg) => {
       console.log("game was won");
-      // console.log(msg);
       this.setState({
         winRound: false,
         tsar: false,
@@ -77,7 +76,12 @@ class GamePage extends Component {
       });
     });
 
-    this.props.socket.emit(GAME_STATE, this.props.lobbyName);
+    this.props.socket.on(GAME_READY, () => {
+      this.props.socket.emit(GAME_STATE, {
+        lobbyName: this.props.lobbyName,
+        username: this.props.username,
+      });
+    });
   }
 
   //on page leave, leave lobby
