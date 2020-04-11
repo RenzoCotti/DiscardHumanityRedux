@@ -22,8 +22,10 @@ import {
   NEW_TSAR,
   GAME_STATE,
   ROUND_WIN,
+  GAME_WIN,
 } from "../../../../server/socket/messages";
 import WinRound from "./Phases/WinRound";
+import WinGame from "./Phases/WinGame";
 
 class GamePage extends Component {
   state = {};
@@ -54,13 +56,24 @@ class GamePage extends Component {
 
     this.props.socket.on(ROUND_WIN, (msg) => {
       console.log("round was won");
-      console.log(msg);
+      // console.log(msg);
       this.setState({
         winRound: true,
         tsar: false,
         winningCard: msg.winningCard,
         winUsername: msg.username,
         scores: msg.scores,
+      });
+    });
+
+    this.props.socket.on(GAME_WIN, (msg) => {
+      console.log("game was won");
+      // console.log(msg);
+      this.setState({
+        winRound: false,
+        tsar: false,
+        winGame: true,
+        scores: msg,
       });
     });
 
@@ -93,6 +106,10 @@ class GamePage extends Component {
           scores={this.state.scores}
         />
       );
+    }
+
+    if (this.state.winGame) {
+      return <WinGame scores={this.state.scores} />;
     }
 
     if (!this.props.hand || !this.props.blackCard) {

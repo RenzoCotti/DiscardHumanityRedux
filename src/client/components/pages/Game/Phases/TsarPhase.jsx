@@ -42,7 +42,8 @@ class TsarPhase extends Component {
 
     this.props.socket.emit(TSAR_VOTE, {
       lobbyName: this.props.lobbyName,
-      winningCard: voted,
+      username: voted.username,
+      winningCard: voted.choice,
     });
     console.log("voted for " + voted.id);
 
@@ -67,12 +68,21 @@ class TsarPhase extends Component {
     let arr = [];
     for (let i = 0; i < this.state.choices.length; i++) {
       let entry = this.state.choices[i];
+      //this is a choice which contains potentially 3 cards
+
+      let temp = [];
+      for (let card of entry.choice) {
+        if (card !== null) {
+          temp.push(card.content);
+        }
+      }
+
       arr.push(
         <Card
           content={this.props.blackCard.content}
           colour="card-black"
           size="card-big"
-          fillGaps={entry.choice}
+          fillGaps={temp}
           key={i}
           hover={true}
           selected={i === this.state.selected ? true : ""}

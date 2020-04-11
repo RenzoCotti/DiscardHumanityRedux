@@ -12,6 +12,11 @@ exports.NEW_TSAR = "game-tsar-new";
 exports.TSAR_VOTING = "game-tsar-voting";
 exports.TSAR_VOTE = "game-tsar-vote";
 exports.ROUND_WIN = "game-round-win";
+exports.GAME_WIN = "game-win";
+exports.IS_TSAR = "game-is-tsar";
+
+
+
 
 
 

@@ -30,8 +30,11 @@ let decks = [
   TRAITOR
 ];
 
-function formatText(text) {
-  if (!text) return { text: "", tag: "text" };
+function formatText(text, arr) {
+  if (!text) return {
+    text: "",
+    tag: "text"
+  };
   let splitForI = text.split(/<i>(.+)/);
   if (splitForI.length > 1) {
     //there is an <i>
@@ -42,14 +45,23 @@ function formatText(text) {
       splitForIEnd[1] = "";
     }
 
-    return [
-      { text: splitForI[0], tag: "text" },
-      { text: splitForIEnd[0], tag: "i" },
-      formatText(splitForIEnd[1])
-    ];
+    arr.push({
+      text: splitForI[0],
+      tag: "text"
+    });
+    arr.push({
+      text: splitForIEnd[0],
+      tag: "i"
+    });
+    formatText(splitForIEnd[1], arr);
   } else {
     //no <i>
-    return { text: text, tag: "text" };
+
+    arr.push({
+      text: text,
+      tag: "text"
+    })
+    // return ;
   }
 }
 
@@ -66,17 +78,29 @@ for (let deck of decks) {
     if (s.length > 1) {
       //there's a <br>
       for (let a of s) {
-        temp.push(formatText(a));
-        temp.push({ text: "", tag: "br" });
+
+        formatText(a, temp);
+        // temp.push(formatted);
+        temp.push({
+          text: "",
+          tag: "br"
+        });
       }
     } else {
       //there might be an i
       if (text) {
-        temp.push(formatText(text));
+        // let arr = [];
+        formatText(text, temp);
+
+        // temp.push(formatted);
       }
     }
 
-    whitecards.push({ content: temp, jolly: false });
+    whitecards.push({
+      content: temp,
+      jolly: false
+    });
+
   }
 
   for (let card of deck.blackCards) {
@@ -102,25 +126,39 @@ for (let deck of decks) {
           //we add all pieces of the string with the <br>
           for (let a of s) {
             if (!a) {
-              temp.push({ text: "", tag: "br" });
+              temp.push({
+                text: "",
+                tag: "br"
+              });
             } else {
-              temp.push(formatText(a));
+              formatText(a, temp)
+              // temp.push();
             }
           }
-          temp.push({ text: "", tag: "_" });
+          temp.push({
+            text: "",
+            tag: "_"
+          });
         } else {
           s = arr[i];
           //there might be an i
           if (s) {
-            temp.push(formatText(s));
+            formatText(s, temp)
+            // temp.push();
           }
           if (i + 1 !== arr.length) {
-            temp.push({ text: "", tag: "_" });
+            temp.push({
+              text: "",
+              tag: "_"
+            });
           }
         }
       } else {
         //string is empty, indicates that there was a _
-        temp.push({ text: "", tag: "_" });
+        temp.push({
+          text: "",
+          tag: "_"
+        });
       }
     }
     card.content = temp;
@@ -138,6 +176,9 @@ for (let deck of decks) {
     name: deck.name
   });
 }
+
+// console.log(arr[0].whiteCards[0].content)
+
 
 mongoose.connect(config.dbURL, {
   auth: {

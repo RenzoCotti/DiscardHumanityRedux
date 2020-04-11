@@ -22,6 +22,13 @@ class WinRound extends Component {
   }
 
   render() {
+    console.log(this.props.winningCard);
+    let arr = [];
+    for (let a of this.props.winningCard) {
+      if (a !== null) {
+        arr.push(a.content);
+      }
+    }
     // console.log(this.state.choices);
     //map over all the black cards
     return (
@@ -32,7 +39,7 @@ class WinRound extends Component {
             content={this.props.blackCard.content}
             colour="card-black"
             size="card-big"
-            fillGaps={this.props.winningCard}
+            fillGaps={arr}
           />
           {this.props.scores.map((el) => (
             <div>

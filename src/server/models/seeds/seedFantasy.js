@@ -1,33 +1,27 @@
 module.exports = {
-  blackCards: [
-    {
+  blackCards: [{
       pick: 1,
       text: "And in the end, the dragon was not evil; he just wanted _."
     },
     {
       pick: 2,
-      text:
-        'Critics are raving about HBO\'s new <i>Game of Thrones</i> spin-off, "_ of _."'
+      text: 'Critics are raving about HBO\'s new <i>Game of Thrones</i> spin-off, "_ of _."'
     },
     {
       pick: 1,
-      text:
-        "Having tired of poetry and music, the immortal elves now fill their days with _."
+      text: "Having tired of poetry and music, the immortal elves now fill their days with _."
     },
     {
       pick: 1,
-      text:
-        "Legend tells of a princess who has been asleep for a thousand years and can only be awoken by _."
+      text: "Legend tells of a princess who has been asleep for a thousand years and can only be awoken by _."
     },
     {
       pick: 1,
-      text:
-        "Who blasphemes and bubbles at the center of all infinity, whose name no lips dare speak aloud, and who gnaws hungrily in inconceivable, unlighted chambers beyond time?"
+      text: "Who blasphemes and bubbles at the center of all infinity, whose name no lips dare speak aloud, and who gnaws hungrily in inconceivable, unlighted chambers beyond time?"
     },
     {
       pick: 1,
-      text:
-        "Your father was a powerful wizard, Harry. Before he died, he left you something very precious: _."
+      text: "Your father was a powerful wizard, Harry. Before he died, he left you something very precious: _."
     },
     {
       text: "D&D 4.0 isn't real D&D because of the _.",
@@ -86,8 +80,7 @@ module.exports = {
       pick: 1
     },
     {
-      text:
-        "Back when I was 12 and I was just starting playing D&D, the game had _.",
+      text: "Back when I was 12 and I was just starting playing D&D, the game had _.",
       pick: 1
     },
     {

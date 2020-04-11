@@ -4,7 +4,7 @@ const {
 
 const {
   getLobby,
-  getUserFromID
+  getUser
 } = require('./lobby');
 
 const {
@@ -15,7 +15,9 @@ const {
   LOBBY_NOT_FOUND,
   GAME_START,
   CHOICE_RECEIVED,
-  ROUND_WIN
+  ROUND_WIN,
+  GAME_WIN,
+  IS_TSAR
 } = require("./messages");
 
 // if (!(NEW_HAND &&
@@ -88,6 +90,19 @@ function drawWhiteCardsAll(io, lobby, x) {
     let oldHand = lobby.gameState.userState.userHands[user.username];
     let hand = drawXCards(lobby.gameState.whiteCards, x);
 
+    let found = false;
+
+    while (!found) {
+      for (let card of hand) {
+        if (card.content.length > 1) {
+          found = true;
+          break;
+        }
+      }
+      hand = drawXCards(lobby.gameState.whiteCards, x);
+
+    }
+
     let newHand = oldHand ? oldHand.concat(hand) : hand;
 
     lobby.gameState.userState.userHands[user.username] = newHand;
@@ -136,6 +151,8 @@ exports.getGameState = (lobbyName, socket) => {
 
     socket.emit(NEW_HAND, lobby.gameState.userState.userHands[socket.username]);
     socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
+    socket.emit(IS_TSAR, lobby.gameState.tsar === socket.id);
+
   } else {
     log("lobby not found");
   }
@@ -164,6 +181,7 @@ function initGame(io, lobby) {
     tsarIndex: 0,
     //id of last winner
     lastRoundWinner: undefined,
+    numberOfTurns: 0
 
   };
 
@@ -179,8 +197,11 @@ function initGame(io, lobby) {
     //tsar or demo
     tsar: true,
     gambling: false,
-    //happy ending, score, n. hands, russian roulette
-    ending: "score",
+    //happy, score, turns, russianroulette
+    ending: {
+      type: "score",
+      max: 20
+    },
     //he who gets voted becomes tsar
     meritocracy: false,
     //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
@@ -259,6 +280,7 @@ exports.checkStart = (io, socket, lobbyName) => {
 
 exports.handleChoice = (io, socket, msg) => {
   log("received choice")
+  // console.log(msg.card);
   let lobby = getLobby(msg.lobbyName);
   if (lobby) {
     let userChoices = lobby.gameState.userState.userChoices;
@@ -269,9 +291,31 @@ exports.handleChoice = (io, socket, msg) => {
     }
 
     if (!found) {
+
+      let hand = lobby.gameState.userState.userHands[socket.username];
+
+      //we remove the cards chosen
+      //we iterate over the 3 cards
+      for (let choice of msg.choice) {
+        if (choice !== null) {
+          let index = -1;
+
+          //we have a card 
+          for (let i = 0; i < hand.length; i++) {
+            let currentCard = hand[i];
+            //we found the card
+            if (currentCard._id === choice._id) {
+              index = i;
+            }
+          }
+          //we remove the card from the hand
+          if (index > -1) hand.splice(index, 1);
+        }
+      }
+
       //hasnt already voted
       userChoices.push({
-        id: socket.id,
+        username: msg.username,
         choice: msg.choice
       });
 
@@ -303,23 +347,52 @@ exports.handleChoice = (io, socket, msg) => {
 }
 
 exports.tsarVoted = (io, socket, msg) => {
+
   let lobby = getLobby(msg.lobbyName);
 
   if (lobby) {
-    let user = getUserFromID(lobby, msg.winningCard.id);
+    let user = getUser(lobby, msg.username);
 
     if (user) {
 
+      lobby.gameState.lastRoundWinner = msg.username;
+      lobby.gameState.numberOfTurns++;
+
       modifyScore(lobby, user.username, +1);
 
-      io.to(msg.lobbyName).emit(ROUND_WIN, {
-        winningCard: msg.winningCard.choice,
-        username: user.username,
-        scores: getScores(lobby)
-      });
+      let end = false;
 
+      if (lobby.gameSettings.ending === "score") {
+        for (let user of lobby.gameState.userState.userScores) {
+          if (user.score === lobby.gameSettings.ending.max) {
+            end = true;
+          }
+        }
+
+      } else if (lobby.gameSettings.ending === "turns") {
+        if (lobby.gameState.numberOfTurns === lobby.gameSettings.max) {
+          end = true;
+        }
+      }
+
+      if (end) {
+        io.to(msg.lobbyName).emit(GAME_WIN, getScores(lobby));
+      } else {
+        io.to(msg.lobbyName).emit(ROUND_WIN, {
+          winningCard: msg.winningCard,
+          username: user.username,
+          scores: getScores(lobby)
+        });
+      }
+
+
+
+    } else {
+      log("user not found");
     }
 
+  } else {
+    log("lobby not found");
   }
 
   //card voted

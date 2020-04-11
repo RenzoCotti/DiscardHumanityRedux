@@ -45,12 +45,13 @@ class SelectionPhase extends Component {
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
 
-    let first = hand[selectedCards[0]] ? hand[selectedCards[0]].content : [];
-    let second = hand[selectedCards[1]] ? hand[selectedCards[1]].content : [];
-    let third = hand[selectedCards[2]] ? hand[selectedCards[2]].content : [];
+    let first = hand[selectedCards[0]];
+    let second = hand[selectedCards[1]] ? hand[selectedCards[1]] : null;
+    let third = hand[selectedCards[2]] ? hand[selectedCards[2]] : null;
 
     this.props.socket.emit(CHOICE, {
       lobbyName: this.props.lobbyName,
+      username: this.props.username,
       choice: [first, second, third],
     });
     this.setState({ voted: true });

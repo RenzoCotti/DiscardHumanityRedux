@@ -15,18 +15,38 @@ import Button from "../../../modules/input/Button";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
-class WinGame extends Component {
+class WinRound extends Component {
   state = {};
   constructor(props) {
     super(props);
+
+    this.setState({ scores: this.props.scores.sort(this.compare) });
+  }
+
+  compare(a, b) {
+    if (a.score < b.score) {
+      return 1;
+    }
+    if (a.score > b.score) {
+      return -1;
+    }
+    return 0;
   }
 
   render() {
+    if (!this.state.scores) return <div>Waiting for scores...</div>;
     // console.log(this.state.choices);
     //map over all the black cards
     return (
       <React.Fragment>
-        <div>xyz won</div>
+        <div className="flex-column">
+          <div>{this.state.scores[0].username} won!</div>
+          {this.state.scores.map((el) => (
+            <div>
+              {el.username}: {el.score}
+            </div>
+          ))}
+        </div>
       </React.Fragment>
     );
   }
@@ -38,4 +58,4 @@ const mapStateToProps = (state) => ({
   blackCard: getBlackCard(state),
 });
 
-export default connect(mapStateToProps, null)(WinGame);
+export default connect(mapStateToProps, null)(WinRound);

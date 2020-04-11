@@ -44,7 +44,7 @@ exports.getLobby = (name) => {
   return false;
 };
 
-function getUser(lobby, username) {
+exports.getUser = (lobby, username) => {
   for (let user of lobby.userList) {
     if (username === user.username) {
       return user;
@@ -108,7 +108,7 @@ exports.loginLobby = (io, socket, info) => {
   if (lobby) {
     if (info.password === lobby.password) {
       // log(lobby.userList);
-      let user = getUser(lobby, info.username);
+      let user = exports.getUser(lobby, info.username);
 
       if (user) {
         log("user already joined.");
@@ -206,7 +206,7 @@ exports.setDecks = (io, socket, info) => {
 exports.hasUser = (io, socket, info) => {
   let lobby = exports.getLobby(info.lobbyName);
   if (lobby) {
-    let user = getUser(lobby, info.username);
+    let user = exports.getUser(lobby, info.username);
     if (user) {
       socket.emit(USER_EXISTS);
     }
