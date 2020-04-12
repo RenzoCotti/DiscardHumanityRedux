@@ -85,6 +85,18 @@ function drawWhiteCardsAll(lobby, x) {
   }
 }
 
+function drawUpTo10(lobby) {
+  for (let user of lobby.userList) {
+    let userInfo = getUserInfo(lobby, user.username);
+    let oldHand = userInfo.hand;
+
+    let cardsToDraw = 10 - oldHand.length;
+    let hand = drawXCards(lobby.gameState.whiteCards, cardsToDraw);
+    let newHand = oldHand ? oldHand.concat(hand) : hand;
+    userInfo.hand = newHand;
+  }
+}
+
 //draws a new black card for the lobby
 function drawBlackCard(lobby) {
   lobby.gameState.currentBlackCard = drawXCards(
@@ -183,13 +195,22 @@ function initGame(io, lobby) {
   playTurn(io, lobby);
 }
 
-function playTurn(io, lobby) {
-  pickNewTsar(lobby);
+function reinitialiseLobby(lobby) {
+  for (let info of lobby.gameState.userState.info) {
+    info.cardsChosen = [];
+  }
+  lobby.gameState.userState.chosen = 0;
+  //whitecards in userhand already in used, and so blackcards
+}
 
+function playTurn(io, lobby) {
+  reinitialiseLobby(lobby)
+  pickNewTsar(lobby);
+  drawUpTo10(lobby);
   drawBlackCard(lobby);
 
   if (lobby.gameState.currentBlackCard.pick === 3) {
-    //pick 3 want you to draw 2s
+    //pick 3 want you to draw 2s beforehand
     drawWhiteCardsAll(lobby, 2);
   }
 
@@ -197,12 +218,23 @@ function playTurn(io, lobby) {
   io.to(lobby.name).emit(GAME_READY);
 }
 
+function checkState(state) {
+  // selecting (everyone is picking cards)
+  // voting (tsar or demo or whatevs)
+  // result
+  // finished (end screen)
+  if (state === "selecting" || state === "voting" || state === "result" || state === "end") return true;
+  //deck-selection, init
+  return false;
+}
+
 exports.checkStart = (io, socket, lobbyName) => {
 
   let lobby = getLobby(lobbyName);
   if (lobby) {
-    if (lobby.state === "init" || lobby.state === "selecting") {
+    if (checkState(lobby.state)) {
       //game already started
+      log("game already started")
     } else if (
       lobby.currentUsers > 1 &&
       lobby.whiteCards &&
@@ -385,6 +417,13 @@ exports.tsarVoted = (io, msg) => {
           username: user.username,
           scores: scores
         });
+
+
+        setTimeout(() => {
+          log("new turn")
+          playTurn(io, lobby);
+          io.to(lobby.name).emit(GAME_READY)
+        }, 5000);
       }
 
 

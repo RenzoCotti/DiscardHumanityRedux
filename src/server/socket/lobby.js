@@ -22,7 +22,8 @@ const {
   DECKS_SELECTED,
   USER_EXISTS,
   CHAT_MESSAGE,
-  NOT_ENOUGH_CARDS
+  NOT_ENOUGH_CARDS,
+  GAME_READY
 
 } = require("./messages");
 
@@ -61,7 +62,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         let userInfo = getUserInfo(lobby, username);
 
         //we discard his hand
-        lobby.whiteCards.used = lobby.whiteCards.used.concat(userInfo.hand);
+        lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(userInfo.hand);
 
         //TODO, pick new tsar
         if (lobby.gameState.tsar === "TODO") return;

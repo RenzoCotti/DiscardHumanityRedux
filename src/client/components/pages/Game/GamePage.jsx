@@ -60,6 +60,7 @@ class GamePage extends Component {
       this.setState({
         winRound: true,
         tsar: false,
+        winGame: false,
         winningCard: msg.winningCard,
         winUsername: msg.username,
         scores: msg.scores,
@@ -67,7 +68,7 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(GAME_WIN, (msg) => {
-      console.log("game was won");
+      // console.log("game was won");
       this.setState({
         winRound: false,
         tsar: false,
@@ -77,6 +78,11 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(GAME_READY, () => {
+      this.setState({
+        winRound: false,
+        tsar: false,
+        winGame: false,
+      })
       this.props.socket.emit(GAME_STATE, {
         lobbyName: this.props.lobbyName,
         username: this.props.username,

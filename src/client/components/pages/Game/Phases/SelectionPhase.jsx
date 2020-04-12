@@ -41,6 +41,7 @@ class SelectionPhase extends Component {
     // });
   }
 
+
   sendCards() {
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;

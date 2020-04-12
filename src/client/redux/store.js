@@ -17,7 +17,6 @@ const INITIAL_STATE = {
   username: null,
   lobbyName: null,
   chatHistory: [],
-  socket: null,
   blackCard: null,
   hand: [],
   selectedCards: [null, null, null]

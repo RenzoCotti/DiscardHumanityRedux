@@ -15,6 +15,13 @@ class CardSelected extends Component {
     this.deselectCard = this.deselectCard.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.updateSelectedCards(0, null);
+    this.props.updateSelectedCards(1, null);
+    this.props.updateSelectedCards(2, null);
+  }
+
+
   deselectCard(index) {
     this.props.updateSelectedCards(index, null);
   }
