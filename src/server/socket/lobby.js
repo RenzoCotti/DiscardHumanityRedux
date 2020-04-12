@@ -1,7 +1,12 @@
 var {
   lobbies,
-  log
+  log,
+  getUserInfo,
+  getLobby,
+  getUser
 } = require("./utils");
+
+const {} = require("./game");
 
 const {
   LOBBY_NOT_FOUND,
@@ -21,50 +26,12 @@ const {
 
 } = require("./messages");
 
-// if (!(LOBBY_NOT_FOUND &&
-//     LOBBY_FULL &&
-//     USER_DISCONNECT &&
-//     USER_CONNECT &&
-//     LOBBY_LIST_UPDATE &&
-//     LOBBY_JOINED &&
-//     LOBBY_INCORRECT_CREDENTIALS &&
-//     LOBBY_EXISTS_ALREADY &&
-//     LOBBY_CREATED &&
-//     GAME_LOUNGE &&
-//     DECKS_SELECTED &&
-//     USER_EXISTS &&
-//     CHAT_MESSAGE)) {
-//   throw "Ayyyyy lmao message undefined"
-// }
 
 
-exports.getLobby = (name) => {
-  for (let lobby of lobbies) {
-    if (lobby.name === name) return lobby;
-  }
-  return false;
-};
 
-exports.getUser = (lobby, username) => {
-  for (let user of lobby.userList) {
-    if (username === user.username) {
-      return user;
-    }
-  }
-  return false;
-}
-
-exports.getUserFromID = (lobby, userID) => {
-  for (let user of lobby.userList) {
-    if (userID === user.id) {
-      return user;
-    }
-  }
-  return false;
-}
-
+//returns true if lobby exists
 exports.lobbyExists = (lobbyName) => {
-  return exports.getLobby(lobbyName) ? true : false;
+  return getLobby(lobbyName) ? true : false;
 };
 
 exports.disconnectFromLobby = (io, lobbyName, username) => {
@@ -87,6 +54,35 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
       }
       lobby.userList.splice(index, 1);
 
+      //remove user info if game started
+
+      if (lobby.state) {
+        //game has started
+        let userInfo = getUserInfo(lobby, username);
+
+        //we discard his hand
+        lobby.whiteCards.used = lobby.whiteCards.used.concat(userInfo.hand);
+
+        //TODO, pick new tsar
+        if (lobby.gameState.tsar === "TODO") return;
+
+        let index = -1;
+        for (let i = 0; i < lobby.gameState.userState.info.length; i++) {
+          let current = lobby.gameState.userState.info[i];
+          if (current.username === username) {
+            index = i;
+          }
+        }
+
+        //we remove user info at index
+        lobby.gameState.userState.info.splice(index, 1);
+        log("cards removed from lobby")
+
+        //sync clients
+        io.to(lobby.name).emit(GAME_READY);
+      }
+
+
       if (lobby.currentUsers === 0) {
         toRemove = i;
       }
@@ -104,12 +100,11 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
 exports.loginLobby = (io, socket, info) => {
   log("trying to access lobby " + info.lobbyName);
 
-  let lobby = exports.getLobby(info.lobbyName);
+  let lobby = getLobby(info.lobbyName);
 
   if (lobby) {
     if (info.password === lobby.password) {
-      // log(lobby.userList);
-      let user = exports.getUser(lobby, info.username);
+      let user = getUser(lobby, info.username);
 
       if (user) {
         log("user already joined.");
@@ -147,6 +142,7 @@ function socketJoinLobby(socket, lobbyName, username) {
   socket.join(lobbyName);
 }
 
+//returns a list of all lobbies, without pw obv
 exports.getLobbyList = () => {
   log("got all lobbies");
   let temp = [];
@@ -157,7 +153,7 @@ exports.getLobbyList = () => {
       currentUsers: lobby.currentUsers,
     };
 
-    if (lobby.password) {
+    if (lobby.password !== null) {
       tempLobby.password = true;
     }
     temp.push(tempLobby);
@@ -165,6 +161,7 @@ exports.getLobbyList = () => {
   return temp;
 };
 
+//this function creates a lobby from the given info
 exports.createLobby = (io, socket, info) => {
   if (exports.lobbyExists(info.lobbyName)) {
     log("lobby esists.");
@@ -173,7 +170,7 @@ exports.createLobby = (io, socket, info) => {
     socketJoinLobby(socket, info.lobbyName, info.username);
     let lobby = {
       name: info.lobbyName,
-      password: info.password,
+      password: info.password ? info.password : null,
       maxUsers: info.maxUsers,
       currentUsers: 1,
       userList: [{
@@ -190,10 +187,12 @@ exports.createLobby = (io, socket, info) => {
   }
 };
 
+
+//this function sets the decks, if the cards are sufficient to support the maximum number of players
 exports.setDecks = (io, socket, info) => {
   log("setting decks...");
 
-  let lobby = exports.getLobby(info.name);
+  let lobby = getLobby(info.name);
   if (lobby) {
 
     if (lobby.maxUsers * 12 <= info.whiteCards.length) {
@@ -212,9 +211,9 @@ exports.setDecks = (io, socket, info) => {
 };
 
 exports.hasUser = (io, socket, info) => {
-  let lobby = exports.getLobby(info.lobbyName);
+  let lobby = getLobby(info.lobbyName);
   if (lobby) {
-    let user = exports.getUser(lobby, info.username);
+    let user = getUser(lobby, info.username);
     if (user) {
       socket.emit(USER_EXISTS);
     }

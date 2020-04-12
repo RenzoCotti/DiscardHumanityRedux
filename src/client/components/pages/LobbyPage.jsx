@@ -35,7 +35,7 @@ class LobbyPage extends Component {
       this.setState({ lobbies: list });
     });
 
-    this.props.socket.on(USER_EXISTS, (list) => {
+    this.props.socket.on(USER_EXISTS, () => {
       this.setState({ redirect: true });
     });
   }

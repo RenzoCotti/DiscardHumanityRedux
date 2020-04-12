@@ -1,11 +1,14 @@
 const {
-  log
+  log,
+  getLobby,
+  getUser,
+  getUserInfo
 } = require('./utils');
 
 const {
-  getLobby,
-  getUser
+
 } = require('./lobby');
+
 
 const {
   NEW_HAND,
@@ -69,13 +72,7 @@ function setScore(lobby, username, value) {
   }
 }
 
-function getUserInfo(lobby, username) {
-  for (let user of lobby.gameState.userState.info) {
-    if (user.username === username) {
-      return user;
-    }
-  }
-}
+
 
 //draws x white cards for everybody, merges to old hand
 function drawWhiteCardsAll(lobby, x) {
@@ -121,6 +118,7 @@ exports.getGameState = (socket, msg) => {
     log("lobby not found");
   }
 }
+
 
 function initGame(io, lobby) {
   setGameState(lobby, "init");
@@ -200,6 +198,7 @@ function playTurn(io, lobby) {
 }
 
 exports.checkStart = (io, socket, lobbyName) => {
+
   let lobby = getLobby(lobbyName);
   if (lobby) {
     if (lobby.state === "init" || lobby.state === "selecting") {
@@ -209,7 +208,7 @@ exports.checkStart = (io, socket, lobbyName) => {
       lobby.whiteCards &&
       lobby.whiteCards.length > 0) {
 
-      console.log("game starting...")
+      log("game starting...")
 
       io.in(lobby.name).emit(GAME_START);
 
@@ -255,7 +254,7 @@ function pickNewTsar(lobby) {
       //set the tsar id
       tsar = lobby.userList[tsarIndex].id;
       lobby.gameState.tsar = tsar;
-      console.log("new tsar " + tsar)
+      log("new tsar " + tsar)
     }
   }
   //else democracy mode
