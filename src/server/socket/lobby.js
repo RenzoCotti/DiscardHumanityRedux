@@ -103,32 +103,45 @@ exports.loginLobby = (io, socket, info) => {
   let lobby = getLobby(info.lobbyName);
 
   if (lobby) {
-    if (info.password === lobby.password) {
-      let user = getUser(lobby, info.username);
+    let userJoin = false;
+    if (lobby.password !== null) {
+      if (info.password === lobby.password) {
+        let user = getUser(lobby, info.username);
 
-      if (user) {
-        log("user already joined.");
-      } else {
-        if (lobby.currentUsers + 1 <= lobby.maxUsers) {
-          socketJoinLobby(socket, info.lobbyName, info.username);
-          lobby.currentUsers++;
-          lobby.userList.push({
-            username: info.username,
-            id: socket.id,
-          });
-
-          socket.emit(LOBBY_JOINED, info.lobbyName);
-          io.in(info.lobbyName).emit(USER_CONNECT, info.username);
-          log("lobby joined, " + info.lobbyName);
+        if (user) {
+          log("user already joined.");
         } else {
-          socket.emit(LOBBY_FULL);
-          log("lobby is full.");
+          //user hasn't joined yet
+          if (lobby.currentUsers + 1 <= lobby.maxUsers) {
+            userJoin = true;
+          } else {
+            socket.emit(LOBBY_FULL);
+            log("lobby is full.");
+          }
         }
+      } else {
+        socket.emit(LOBBY_INCORRECT_CREDENTIALS);
+        log("incorrect credentials.");
       }
     } else {
-      socket.emit(LOBBY_INCORRECT_CREDENTIALS);
-      log("incorrect credentials.");
+      //free join
+      userJoin = true;
     }
+
+    if (userJoin) {
+      socketJoinLobby(socket, info.lobbyName, info.username);
+      lobby.currentUsers++;
+      lobby.userList.push({
+        username: info.username,
+        id: socket.id,
+      });
+
+      socket.emit(LOBBY_JOINED, info.lobbyName);
+      io.in(info.lobbyName).emit(USER_CONNECT, info.username);
+      log("lobby joined, " + info.lobbyName);
+    }
+
+
   } else {
     log("lobby not found.");
     socket.emit(LOBBY_NOT_FOUND);

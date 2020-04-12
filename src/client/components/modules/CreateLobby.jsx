@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Button from "./input/Button";
 import Input from "./input/Input";
+import Select from "./input/Select";
+
 import { connect } from "react-redux";
 import { getUsername, getLobbyName, updateUserInfo } from "../../redux/actions";
 import {
@@ -17,12 +19,15 @@ class CreateLobby extends Component {
     username: "",
     password: "",
     confirmPassword: "",
+    private: "No"
   };
 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+
 
     this.props.socket.on(LOBBY_EXISTS_ALREADY, () => {
       this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
@@ -88,21 +93,25 @@ class CreateLobby extends Component {
       });
     }
 
-    if (!this.state.password || this.state.password.length === 0) {
-      arr.push({ name: "password" });
-    } else if (this.state.password.length > 64) {
-      arr.push({
-        name: "password",
-        errorMessage: "Please input a shorter password.",
-      });
+    if (this.state.private === "Yes") {
+      if (!this.state.password || this.state.password.length === 0) {
+        arr.push({ name: "password" });
+      } else if (this.state.password.length > 64) {
+        arr.push({
+          name: "password",
+          errorMessage: "Please input a shorter password.",
+        });
+      }
+
+      if (this.state.password !== this.state.confirmPassword) {
+        arr.push({
+          name: "confirmPassword",
+          errorMessage: "The two passwords don't match",
+        });
+      }
     }
 
-    if (this.state.password !== this.state.confirmPassword) {
-      arr.push({
-        name: "confirmPassword",
-        errorMessage: "The two passwords don't match",
-      });
-    }
+
 
     if (!this.state.maxUsers) {
       arr.push({ name: "maxUsers" });
@@ -127,6 +136,13 @@ class CreateLobby extends Component {
     this.setState({
       [name]: e.target.value,
     });
+  }
+
+  handleSelect(e, name) {
+    this.setState({
+      [name]: e.target.value
+    });
+    return;
   }
 
   render() {
@@ -155,44 +171,57 @@ class CreateLobby extends Component {
                   fn={this.handleChange}
                   errors={this.state.errors}
                 />
-              </div>
 
+                <br />
+                <br />
+                <br />
+                <br />
+
+
+                <Input
+                  label="Username"
+                  name="username"
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+                <div className="errormsg" style={{ height: "30px" }}>
+                  {this.state.error}
+                </div>
+
+                <Button value="Create Lobby" fn={this.onSubmit} />
+              </div>
               <div className="flex-column">
-                <Input
-                  label="Lobby password"
-                  name="password"
-                  password={true}
+                <Select
+                  label="Private"
+                  name="private"
+                  arr={["No", "Yes"]}
+                  fn={this.handleSelect}
                   obj={this.state}
-                  fn={this.handleChange}
                   errors={this.state.errors}
                 />
-                <Input
-                  label="Confirm password"
-                  name="confirmPassword"
-                  password={true}
-                  obj={this.state}
-                  fn={this.handleChange}
-                  errors={this.state.errors}
-                />
+                {this.state.private === "Yes" ?
+                  <React.Fragment>
+                    <Input
+                      label="Lobby password"
+                      name="password"
+                      password={true}
+                      obj={this.state}
+                      fn={this.handleChange}
+                      errors={this.state.errors}
+                    />
+                    <Input
+                      label="Confirm password"
+                      name="confirmPassword"
+                      password={true}
+                      obj={this.state}
+                      fn={this.handleChange}
+                      errors={this.state.errors}
+                    />
+                  </React.Fragment>
+                  : ""}
+
               </div>
-            </div>
-
-            <br />
-            <br />
-
-            <div className="padded-right">
-              <Input
-                label="Username"
-                name="username"
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
-              <div className="errormsg" style={{ height: "30px" }}>
-                {this.state.error}
-              </div>
-
-              <Button value="Create Lobby" fn={this.onSubmit} />
             </div>
           </div>
         </form>
