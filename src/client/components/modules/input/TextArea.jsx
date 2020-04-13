@@ -1,5 +1,6 @@
 import React from "react";
 import { stringOrEmpty } from "../../../../utility/utility";
+import PropTypes from "prop-types";
 
 const TextArea = props => {
   let temp = stringOrEmpty(props.obj, props.name);
@@ -38,6 +39,14 @@ const TextArea = props => {
       </div>
     </div>
   );
+};
+
+TextArea.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  fn: PropTypes.func,
+  errors: PropTypes.array,
+  obj: PropTypes.object,
 };
 
 export default TextArea;

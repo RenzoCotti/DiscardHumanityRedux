@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Card extends Component {
-  state = {};
 
   /*
   a Card has the following props:
@@ -14,7 +14,23 @@ class Card extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
   }
+
+  static get propTypes() {
+    return {
+      fillGaps: PropTypes.array,
+      content: PropTypes.array,
+      size: PropTypes.string,
+      colour: PropTypes.string,
+      selected: PropTypes.bool,
+      hover: PropTypes.bool,
+      position: PropTypes.string,
+      remove: PropTypes.bool,
+      onClick: PropTypes.func,
+    };
+  }
+
 
   //removes the end dot.
   removeDot(string) {
@@ -187,9 +203,9 @@ class Card extends Component {
           <div className="giant-x card-normal">
             <div className="giant-x-content">X</div>
           </div>
-        ) : (
+        ) :
           ""
-        )}
+        }
         <div className={textClass}> {this.generateHTML(textArray)}</div>
       </div>
     );

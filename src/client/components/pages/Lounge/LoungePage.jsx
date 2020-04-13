@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import Chat from "../../modules/Chat";
 import { connect } from "react-redux";
 import { getLobbyName } from "../../../redux/actions";
+import PropTypes from "prop-types";
 
 import {
   GAME_START,
@@ -13,11 +14,17 @@ import {
 } from "../../../../server/socket/messages";
 
 class LoungePage extends Component {
-  state = {};
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.setupSocket();
+  }
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+    };
   }
 
   setupSocket() {

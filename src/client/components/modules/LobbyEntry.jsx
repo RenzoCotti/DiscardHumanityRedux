@@ -3,6 +3,8 @@ import Button from "../modules/input/Button";
 import Input from "../modules/input/Input";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 import { getLobbyName, updateUserInfo, getUsername } from "../../redux/actions";
 import {
   LOBBY_JOINED,
@@ -11,14 +13,26 @@ import {
 } from "../../../server/socket/messages";
 
 class LobbyEntry extends Component {
-  state = { username: "", password: "", redirect: false };
 
   constructor(props) {
     super(props);
+    this.state = { username: "", password: "", redirect: false };
+
     this.joinLobby = this.joinLobby.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      password: PropTypes.bool,
+      name: PropTypes.string,
+      updateUserInfo: PropTypes.func,
+      currentUsers: PropTypes.number,
+      maxUsers: PropTypes.number,
+    };
   }
 
   joinLobby() {
@@ -28,7 +42,7 @@ class LobbyEntry extends Component {
       username: this.state.username,
     });
 
-    this.props.socket.on(LOBBY_JOINED, (info) => {
+    this.props.socket.on(LOBBY_JOINED, () => {
       console.log("lobby joined!");
 
       this.props.updateUserInfo({
@@ -103,32 +117,32 @@ class LobbyEntry extends Component {
           </div>
 
           {this.state.selected === this.props.name &&
-          this.props.currentUsers < this.props.maxUsers ? (
-            <div className="flex-column">
+            this.props.currentUsers < this.props.maxUsers ? (
+              <div className="flex-column">
+                <Button
+                  value="Join"
+                  short="true"
+                  fn={() => {
+                    this.validate(this.props.name);
+                  }}
+                />
+                <Button
+                  value="Close"
+                  short="true"
+                  fn={() => {
+                    this.setState({ selected: "" });
+                  }}
+                />
+              </div>
+            ) : (
               <Button
-                value="Join"
+                value="Details"
                 short="true"
                 fn={() => {
-                  this.validate(this.props.name);
+                  this.setState({ selected: this.props.name });
                 }}
               />
-              <Button
-                value="Close"
-                short="true"
-                fn={() => {
-                  this.setState({ selected: "" });
-                }}
-              />
-            </div>
-          ) : (
-            <Button
-              value="Details"
-              short="true"
-              fn={() => {
-                this.setState({ selected: this.props.name });
-              }}
-            />
-          )}
+            )}
         </div>
 
         {this.state.selected === this.props.name ? (
@@ -149,13 +163,13 @@ class LobbyEntry extends Component {
                 fn={this.handleChange}
                 errors={this.state.errors}
               />
-            ) : (
+            ) :
               ""
-            )}
+            }
           </div>
-        ) : (
+        ) :
           ""
-        )}
+        }
       </div>
     );
   }

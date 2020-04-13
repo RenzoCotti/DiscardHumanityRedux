@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Button from "../modules/input/Button";
 import Input from "../modules/input/Input";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 import {
   getLobbyName,
   getUsername,
@@ -17,21 +19,31 @@ import {
 } from "../../../server/socket/messages";
 
 class Chat extends Component {
-  state = {
-    message: "",
-    history: [],
-    listeners: [],
-  };
-
-  listeners = {};
 
   constructor(props) {
     super(props);
+    this.state = {
+      message: "",
+      history: [],
+      listeners: [],
+    };
+    this.listeners = {};
+
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.addChatMessage = this.addChatMessage.bind(this);
     this.addSystemMessage = this.addSystemMessage.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+      username: PropTypes.string,
+      chatHistory: PropTypes.array,
+      addChatMessage: PropTypes.func,
+    };
   }
 
   componentDidMount() {

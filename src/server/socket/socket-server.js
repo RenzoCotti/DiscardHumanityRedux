@@ -37,21 +37,6 @@ module.exports = function (server) {
     TSAR_VOTE
   } = require("./messages");
 
-  // if (!(LOBBY_NEW &&
-  //     LOBBY_LOGIN &&
-  //     SET_DECKS &&
-  //     LOBBY_LEAVE &&
-  //     LOBBY_GET_LIST &&
-  //     LOBBY_LIST &&
-  //     LOBBY_HAS_USER &&
-  //     SEND_CHAT_MESSAGE &&
-  //     CHECK_START &&
-  //     GAME_STATE &&
-  //     CHOICE &&
-  //     TSAR_VOTE)) {
-  //   throw "Ayyy nyet messag"
-  // }
-
   io.on("connect", function (socket) {
     socket.join("general");
 

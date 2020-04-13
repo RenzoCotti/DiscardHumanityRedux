@@ -4,6 +4,7 @@ import Card from "../../modules/Card";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { getLobbyName } from "../../../redux/actions";
+import PropTypes from "prop-types";
 
 import {
   NOT_ENOUGH_CARDS,
@@ -12,18 +13,25 @@ import {
 } from "../../../../server/socket/messages";
 
 class DeckSelectionPage extends Component {
-  state = {
-    addedDecks: [],
-  };
 
   constructor(props) {
     super(props);
+    this.state = {
+      addedDecks: [],
+    };
 
     this.setupSocket();
 
     this.selectDeck = this.selectDeck.bind(this);
     this.toggleDeck = this.toggleDeck.bind(this);
     this.goToLobby = this.goToLobby.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+    };
   }
 
   setupSocket() {

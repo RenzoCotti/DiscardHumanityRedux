@@ -4,12 +4,13 @@ import { NavLink } from "react-router-dom";
 class Navbar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      options: ["Home", "Lobbies", "Deck Creation", "Login", "About"]
+    };
     this.getOptions = this.getOptions.bind(this);
   }
 
-  state = {
-    options: ["Home", "Lobbies", "Deck Creation", "Login", "About"]
-  };
+
 
   getOptions() {
     return (

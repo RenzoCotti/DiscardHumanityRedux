@@ -6,14 +6,8 @@ const {
 } = require('./utils');
 
 const {
-
-} = require('./lobby');
-
-
-const {
   NEW_HAND,
   NEW_BLACK_CARD,
-  NEW_TSAR,
   TSAR_VOTING,
   LOBBY_NOT_FOUND,
   GAME_START,
@@ -21,8 +15,18 @@ const {
   ROUND_WIN,
   GAME_WIN,
   IS_TSAR,
-  GAME_READY
+  GAME_READY,
+  TSAR_NO_VOTE,
+  USER_NO_VOTE,
+  NOBODY_VOTED
 } = require("./messages");
+
+
+const TSAR_TIMEOUT = 20000;
+const USER_TIMEOUT = 20000;
+const RESULT_TIMEOUT = 5000;
+
+
 
 //used to randomly shuffle an array
 function shuffle(a) {
@@ -64,13 +68,13 @@ function modifyScore(lobby, username, amount) {
   }
 }
 
-function setScore(lobby, username, value) {
-  for (let user of lobby.gameState.userState.info) {
-    if (user.username === username) {
-      user.score = value;
-    }
-  }
-}
+// function setScore(lobby, username, value) {
+//   for (let user of lobby.gameState.userState.info) {
+//     if (user.username === username) {
+//       user.score = value;
+//     }
+//   }
+// }
 
 
 
@@ -124,7 +128,7 @@ exports.getGameState = (socket, msg) => {
 
     socket.emit(NEW_HAND, getUserInfo(lobby, msg.username).hand);
     socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
-    socket.emit(IS_TSAR, lobby.gameState.tsar === socket.id);
+    socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
 
   } else {
     log("lobby not found");
@@ -149,8 +153,11 @@ function initGame(io, lobby) {
       chosen: 0
     },
     //id of tsar
-    tsar: undefined,
-    tsarIndex: 0,
+    tsar: {
+      id: undefined,
+      tsarIndex: 0,
+      tsarTimeout: undefined
+    },
     //username of last winner
     lastRoundWinner: undefined,
     numberOfTurns: 0
@@ -189,7 +196,7 @@ function initGame(io, lobby) {
       active: false,
       number: 0
     }
-  }
+  };
 
   drawWhiteCardsAll(lobby, 10);
   playTurn(io, lobby);
@@ -204,7 +211,7 @@ function reinitialiseLobby(lobby) {
 }
 
 function playTurn(io, lobby) {
-  reinitialiseLobby(lobby)
+  reinitialiseLobby(lobby);
   pickNewTsar(lobby);
   drawUpTo10(lobby);
   drawBlackCard(lobby);
@@ -215,6 +222,12 @@ function playTurn(io, lobby) {
   }
 
   setGameState(lobby, "selecting");
+
+  //case users don't vote
+  lobby.gameState.selectTimeout = setTimeout(() => {
+    sendCardsToVote(io, lobby);
+    io.to(lobby.name).emit(USER_NO_VOTE);
+  }, USER_TIMEOUT);
   io.to(lobby.name).emit(GAME_READY);
 }
 
@@ -234,13 +247,13 @@ exports.checkStart = (io, socket, lobbyName) => {
   if (lobby) {
     if (checkState(lobby.state)) {
       //game already started
-      log("game already started")
+      log("game already started");
     } else if (
       lobby.currentUsers > 1 &&
       lobby.whiteCards &&
       lobby.whiteCards.length > 0) {
 
-      log("game starting...")
+      log("game starting...");
 
       io.in(lobby.name).emit(GAME_START);
 
@@ -264,29 +277,27 @@ function pickNewTsar(lobby) {
         let user = getUser(lobby, lobby.gameSettings.lastRoundWinner);
         if (user) {
           //setting tsar to last winner
-          tsar = user.id;
+          tsar.id = user.id;
         } else {
           //no matching user found, setting to first one
-          tsar = lobby.userList[0].id;
+          tsar.id = lobby.userList[0].id;
         }
       } else {
         //no user beforehand, setting to 0
-        tsar = lobby.userList[0].id;
+        tsar.id = lobby.userList[0].id;
       }
     } else {
       //we simply go over the users in order
-      let tsarIndex = lobby.gameState.tsarIndex;
       //everybody tsar'd once at least, we loop
-      if (lobby.gameState.tsarIndex + 1 === lobby.userList.length) {
-        lobby.gameState.tsarIndex = 0;
+      if (tsar.tsarIndex + 1 === lobby.userList.length) {
+        tsar.tsarIndex = 0;
       } else {
-        lobby.gameState.tsarIndex++;
+        tsar.tsarIndex++;
       }
 
       //set the tsar id
-      tsar = lobby.userList[tsarIndex].id;
-      lobby.gameState.tsar = tsar;
-      log("new tsar " + tsar)
+      tsar.id = lobby.userList[tsar.tsarIndex].id;
+      log("new tsar " + tsar.id);
     }
   }
   //else democracy mode
@@ -326,41 +337,74 @@ exports.handleChoice = (io, socket, msg) => {
       lobby.gameState.userState.chosen++;
 
       if (lobby.gameState.userState.chosen === lobby.userList.length - 1) {
-
-
-        //creating the list to send to the tsar
-        let cards = [];
-
-        for (let user of lobby.gameState.userState.info) {
-          //otherwise tsar is included
-          if (user.cardsChosen.length > 0) {
-            cards.push({
-              choice: user.cardsChosen,
-              username: user.username
-            })
-          }
-        }
-
-
-        //everybody chose, except tsar
-        if (lobby.gameSettings.tsar) {
-          log("tsar is now voting");
-
-          setGameState(lobby, "tsar voting")
-          io.to(lobby.gameState.tsar).emit(TSAR_VOTING, cards);
-        } else {
-          log("democracy is now voting");
-          //democracy
-        }
+        clearTimeout(lobby.gameState.selectTimeout);
+        sendCardsToVote(io, lobby);
       } else {
-        log(socket.username + " sent his cards")
+        log(socket.username + " sent his cards");
         socket.emit(CHOICE_RECEIVED);
       }
     } else {
-      log("user already sent his cards.")
+      log("user already sent his cards.");
     }
   } else {
-    log("lobby not found: " + msg.lobbyName)
+    log("lobby not found: " + msg.lobbyName);
+  }
+}
+
+function sendCardsToVote(io, lobby) {
+  //creating the list to send to the tsar
+  let cards = [];
+
+  for (let user of lobby.gameState.userState.info) {
+    //otherwise tsar is included
+    if (user.cardsChosen.length > 0) {
+      cards.push({
+        choice: user.cardsChosen,
+        username: user.username
+      });
+    }
+  }
+
+
+  if (cards.length === 0) {
+    //nobody voted
+    let scores = getAllScores(lobby);
+
+    io.to(lobby.name).emit(NOBODY_VOTED, scores);
+
+    setTimeout(() => {
+      log("new turn");
+      playTurn(io, lobby);
+      io.to(lobby.name).emit(GAME_READY);
+    }, 5000);
+    return;
+  }
+
+
+  //everybody chose, except tsar
+  if (lobby.gameSettings.tsar) {
+    let tsar = lobby.gameState.tsar;
+
+    log("tsar is now voting");
+
+    setGameState(lobby, "voting");
+    io.to(tsar.id).emit(TSAR_VOTING, cards);
+
+    tsar.tsarTimeout = setTimeout(() => {
+      log("tsar hasn't voted");
+      let scores = getAllScores(lobby);
+      io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
+
+      setTimeout(() => {
+        log("new turn");
+        playTurn(io, lobby);
+        io.to(lobby.name).emit(GAME_READY);
+      }, 5000);
+
+    }, TSAR_TIMEOUT);
+  } else {
+    log("democracy is now voting");
+    //democracy
   }
 }
 
@@ -368,9 +412,15 @@ exports.handleChoice = (io, socket, msg) => {
 //the tsar has voted, send all clients the info for the result screen
 exports.tsarVoted = (io, msg) => {
 
+
   let lobby = getLobby(msg.lobbyName);
 
   if (lobby) {
+
+    if (lobby.gameSettings.tsar) {
+      clearTimeout(lobby.gameState.tsar.tsarTimeout);
+    }
+
     let user = getUser(lobby, msg.username);
 
     if (user) {
@@ -399,15 +449,7 @@ exports.tsarVoted = (io, msg) => {
       }
 
       //creating the score
-      let infos = getAllUserInfos(lobby);
-
-      let scores = [];
-      for (let info of infos) {
-        scores.push({
-          username: info.username,
-          score: info.score
-        });
-      }
+      let scores = getAllScores(lobby);
 
       if (end) {
         io.to(msg.lobbyName).emit(GAME_WIN, scores);
@@ -420,10 +462,10 @@ exports.tsarVoted = (io, msg) => {
 
 
         setTimeout(() => {
-          log("new turn")
+          log("new turn");
           playTurn(io, lobby);
-          io.to(lobby.name).emit(GAME_READY)
-        }, 5000);
+          io.to(lobby.name).emit(GAME_READY);
+        }, RESULT_TIMEOUT);
       }
 
 
@@ -435,4 +477,19 @@ exports.tsarVoted = (io, msg) => {
   } else {
     log("lobby not found");
   }
+}
+
+
+function getAllScores(lobby) {
+  let infos = getAllUserInfos(lobby);
+
+  let scores = [];
+  for (let info of infos) {
+    scores.push({
+      username: info.username,
+      score: info.score
+    });
+  }
+
+  return scores;
 }

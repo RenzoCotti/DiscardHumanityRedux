@@ -1,6 +1,7 @@
 import React from "react";
 import { capitalise, arrOrEmpty } from "../../../../utility/utility";
 import { Select as MaterializeSelect } from "react-materialize";
+import PropTypes from "prop-types";
 
 const MultiSelect = props => {
   let temp = arrOrEmpty(props.obj, props.name);
@@ -44,5 +45,15 @@ const MultiSelect = props => {
     </div>
   );
 };
+
+MultiSelect.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  arr: PropTypes.array,
+  fn: PropTypes.func,
+  errors: PropTypes.array,
+  obj: PropTypes.object,
+};
+
 
 export default MultiSelect;

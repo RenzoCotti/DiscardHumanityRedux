@@ -3,8 +3,9 @@ import { Redirect } from "react-router";
 import Button from "./input/Button";
 import Input from "./input/Input";
 import Select from "./input/Select";
-
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 import { getUsername, getLobbyName, updateUserInfo } from "../../redux/actions";
 import {
   LOBBY_EXISTS_ALREADY,
@@ -13,17 +14,19 @@ import {
 } from "../../../server/socket/messages";
 
 class CreateLobby extends Component {
-  state = {
-    maxUsers: 4,
-    lobbyName: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-    private: "No"
-  };
+
 
   constructor(props) {
     super(props);
+    this.state = {
+      maxUsers: 4,
+      lobbyName: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+      private: "No"
+    };
+
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -44,6 +47,13 @@ class CreateLobby extends Component {
         lobbyName: info,
       });
     });
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      updateUserInfo: PropTypes.func
+    };
   }
 
   // async updatePersistence(username, lobbyName, password) {

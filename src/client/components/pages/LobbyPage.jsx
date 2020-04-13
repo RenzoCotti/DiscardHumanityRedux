@@ -3,6 +3,7 @@ import LobbyEntry from "../modules/LobbyEntry";
 import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import PropTypes from "prop-types";
 import { getUsername, getLobbyName } from "../../redux/actions";
 import {
   LOBBY_GET_LIST,
@@ -13,9 +14,9 @@ import {
 } from "../../../server/socket/messages";
 
 class LobbyPage extends Component {
-  state = {};
   constructor(props) {
     super(props);
+    this.state = {};
 
     this.setupSocket();
     this.props.socket.emit(LOBBY_GET_LIST);
@@ -24,6 +25,14 @@ class LobbyPage extends Component {
       username: this.props.username,
       lobbyName: this.props.lobbyName,
     });
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+      username: PropTypes.string,
+    };
   }
 
   setupSocket() {

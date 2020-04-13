@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 
 class DeckCreationPage extends Component {
-  state = {};
   constructor(props) {
     super(props);
+    this.state = {};
+
   }
 
   render() {

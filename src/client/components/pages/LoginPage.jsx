@@ -6,56 +6,57 @@ import Button from "../modules/input/Button";
 
 class LoginPage extends Component {
   //initialise the state for controlled component
-  state = { username: "", password: "", error: "" };
 
   constructor(props) {
     super(props);
-    this.postRequest = this.postRequest.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.login = this.login.bind(this);
+    this.state = { username: "", password: "", error: "" };
+
+    // this.postRequest = this.postRequest.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.login = this.login.bind(this);
     // this.deleteAccount = this.deleteAccount.bind(this);
     // this.createNewAccount = this.createNewAccount.bind(this);
-    this.logout = this.logout.bind(this);
-    this.validate = this.validate.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    // this.logout = this.logout.bind(this);
+    // this.validate = this.validate.bind(this);
+    // this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  handleChange(e) {
-    let name = e.target.name;
-    this.setState({
-      [name]: e.target.value
-    });
-  }
+  // handleChange(e) {
+  //   let name = e.target.name;
+  //   this.setState({
+  //     [name]: e.target.value
+  //   });
+  // }
 
-  handleKeyDown(e) {
-    if (e.key === 'Enter') {
-      this.validate()
-    }
-  }
+  // handleKeyDown(e) {
+  //   if (e.key === "Enter") {
+  //     this.validate();
+  //   }
+  // }
 
-  async postRequest(url) {
-    let req = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state)
-    });
-    let res = await req.text();
+  // async postRequest(url) {
+  //   let req = await fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(this.state)
+  //   });
+  //   let res = await req.text();
 
-    if (res.toLowerCase() === "ok") {
-      this.setState({ username: "", password: "" });
-      this.props.updateLogin(true);
-    } else if (res.toLowerCase() === "nope") {
-      this.setState({ errors: [{ name: "general", errorMessage: "Invalid credentials." }] })
-    }
-    return res;
-  }
+  //   if (res.toLowerCase() === "ok") {
+  //     this.setState({ username: "", password: "" });
+  //     this.props.updateLogin(true);
+  //   } else if (res.toLowerCase() === "nope") {
+  //     this.setState({ errors: [{ name: "general", errorMessage: "Invalid credentials." }] })
+  //   }
+  //   return res;
+  // }
 
-  async login() {
-    await this.postRequest("/api/admin/login");
-  }
+  // async login() {
+  //   await this.postRequest("/api/admin/login");
+  // }
 
   // async createNewAccount(ev) {
   //   ev.preventDefault();
@@ -74,11 +75,11 @@ class LoginPage extends Component {
   //   await req.text();
   // }
 
-  async logout() {
-    let req = await fetch("/api/admin/logout");
-    let res = await req.text();
-    if (res === "logout") this.props.updateLogin(false);
-  }
+  // async logout() {
+  //   let req = await fetch("/api/admin/logout");
+  //   let res = await req.text();
+  //   if (res === "logout") this.props.updateLogin(false);
+  // }
 
   validate() {
     let arr = [];
@@ -103,28 +104,28 @@ class LoginPage extends Component {
 
   render() {
     //the user is logged in
-    if (this.props.login) {
-      return (
-        <div className="secondary-container" style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center"
-        }}>
-          <div style={{ marginBottom: "20px", textAlign: "center" }}>Logged in.</div>
-          <Button value="Logout" fn={this.logout} />
-        </div>
-      );
-    }
+    // if (this.props.login) {
+    //   return (
+    //     <div className="secondary-container" style={{
+    //       display: "flex",
+    //       flexDirection: "column",
+    //       justifyContent: "center"
+    //     }}>
+    //       <div style={{ marginBottom: "20px", textAlign: "center" }}>Logged in.</div>
+    //       <Button value="Logout" fn={this.logout} />
+    //     </div>
+    //   );
+    // }
 
 
-    let general = "";
-    if (this.state.errors) {
-      this.state.errors.forEach(el => {
-        if (el.name === "general") {
-          general = el.errorMessage;
-        }
-      });
-    }
+    // let general = "";
+    // if (this.state.errors) {
+    //   this.state.errors.forEach(el => {
+    //     if (el.name === "general") {
+    //       general = el.errorMessage;
+    //     }
+    //   });
+    // }
 
     return (
       <div className="secondary-container">
@@ -148,12 +149,12 @@ class LoginPage extends Component {
               errors={this.state.errors}
             />
 
-
+            {/* 
             <div className="errormsg" style={general ?
               { height: "30px", display: "flex", flexDirection: "row", justifyContent: "center" } :
               { height: "30px" }}>
               {general}
-            </div>
+            </div> */}
 
 
 

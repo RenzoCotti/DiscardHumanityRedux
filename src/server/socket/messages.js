@@ -15,7 +15,8 @@ exports.TSAR_VOTE = "game-tsar-vote";
 exports.ROUND_WIN = "game-round-win";
 exports.GAME_WIN = "game-win";
 exports.IS_TSAR = "game-is-tsar";
-
+exports.TSAR_NO_VOTE = "game-tsar-no-vote";
+exports.NOBODY_VOTED = "game-nobody-voted"
 
 
 
@@ -29,6 +30,7 @@ exports.CHOICE = "game-choice";
 exports.USER_EXISTS = "user-exists";
 exports.USER_CONNECT = "user-connect";
 exports.USER_DISCONNECT = "user-disconnect";
+exports.USER_NO_VOTE = "user-no-vote";
 
 /**LOBBY MESSAGES */
 exports.LOBBY_LOGIN = "lobby-login";

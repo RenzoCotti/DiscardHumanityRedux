@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Card from "../../../modules/Card";
+import PropTypes from "prop-types";
 
 import {
   getHand,
@@ -14,6 +15,16 @@ class CardSelected extends Component {
     super(props);
     this.deselectCard = this.deselectCard.bind(this);
   }
+
+  static get propTypes() {
+    return {
+      blackCard: PropTypes.object,
+      selectedCards: PropTypes.array,
+      hand: PropTypes.array,
+      updateSelectedCards: PropTypes.func,
+    };
+  }
+
 
   componentWillUnmount() {
     this.props.updateSelectedCards(0, null);

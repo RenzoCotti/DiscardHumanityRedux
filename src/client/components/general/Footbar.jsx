@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footbar = props => {
+const Footbar = () => {
   return (
     <div className="foot">
       <div className="foot-note">

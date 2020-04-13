@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Card from "../../../modules/Card";
-import Chat from "../../../modules/Chat";
 import Hand from "../Views/Hand";
-import { Redirect } from "react-router";
+import PropTypes from "prop-types";
+
 
 import { connect } from "react-redux";
 import {
@@ -20,25 +20,42 @@ import Button from "../../../modules/input/Button";
 import {
   CHOICE_RECEIVED,
   CHOICE,
-  TSAR_VOTING,
+  USER_NO_VOTE
 } from "../../../../../server/socket/messages";
 
 class SelectionPhase extends Component {
-  state = {};
   constructor(props) {
     super(props);
 
     this.sendCards = this.sendCards.bind(this);
+    this.state = {
+      waiting: false,
+      notVoted: false,
+      voted: false
+    };
 
     this.props.socket.on(CHOICE_RECEIVED, () => {
       console.log("received");
       this.setState({ waiting: true });
     });
 
-    // this.props.socket.on(TSAR_VOTING, () => {
-    //   console.log("tsar voting");
-    //   this.setState({ tsar: true });
-    // });
+    this.props.socket.on(USER_NO_VOTE, () => {
+      if (!this.state.voted) {
+        this.setState({ notVoted: true });
+      }
+    });
+
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+      username: PropTypes.string,
+      selectedCards: PropTypes.array,
+      hand: PropTypes.array,
+      blackCard: PropTypes.object,
+    };
   }
 
 
@@ -59,10 +76,13 @@ class SelectionPhase extends Component {
   }
 
   render() {
-    if (this.state.waiting) return <div>Waiting for the Tsar to vote...</div>;
-    else if (this.state.waiting)
+    if (this.state.waiting) {
+      return <div>Waiting for the Tsar to vote...</div>;
+    } else if (this.state.voted) {
       return <div>Waiting for others to vote...</div>;
-    else if (this.state.voted) return <div>You voted</div>;
+    } else if (this.state.notVoted) {
+      return <div>You haven&apos;t voted in time :/</div>;
+    }
 
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
@@ -82,17 +102,13 @@ class SelectionPhase extends Component {
 
     return (
       <React.Fragment>
-        <div className="flex-row">
-          <div className="flex-column">
-            <div className="flex-row">
-              {blackCard}
-              <CardSelected />
-              <Button value="Confirm" fn={this.sendCards} />
-            </div>
-            <Hand />
+        <div className="flex-column">
+          <div className="flex-row">
+            {blackCard}
+            <CardSelected />
+            <Button value="Confirm" fn={this.sendCards} />
           </div>
-
-          <Chat socket={this.props.socket} />
+          <Hand />
         </div>
       </React.Fragment>
     );

@@ -33,42 +33,43 @@ function reducer(state = INITIAL_STATE, action) {
   };
 
   switch (action.type) {
-    case CLEANUP_STORE:
-      return INITIAL_STATE;
+  case CLEANUP_STORE:
+    return INITIAL_STATE;
 
-    case SET_USER_INFO:
-      newState.username = action.username;
-      newState.lobbyName = action.lobbyName;
-      return newState;
+  case SET_USER_INFO:
+    newState.username = action.username;
+    newState.lobbyName = action.lobbyName;
+    return newState;
 
-    case SET_LOGIN:
-      newState.login = action.login;
-      return newState;
+  case SET_LOGIN:
+    newState.login = action.login;
+    return newState;
 
-    case ADD_CHAT_MESSAGE:
-      newState.chatHistory = pushItem(state.chatHistory, action.message);
-      return newState;
+  case ADD_CHAT_MESSAGE:
+    newState.chatHistory = pushItem(state.chatHistory, action.message);
+    return newState;
 
-    case SET_BLACKCARD:
-      newState.blackCard = action.blackCard;
-      return newState;
+  case SET_BLACKCARD:
+    newState.blackCard = action.blackCard;
+    return newState;
 
-    case SET_HAND:
-      newState.hand = action.hand;
-      return newState;
+  case SET_HAND:
+    newState.hand = action.hand;
+    return newState;
 
-    case SET_SELECTED_CARDS:
-      let newSelectedCards = [];
-      newSelectedCards[0] = state.selectedCards[0];
-      newSelectedCards[1] = state.selectedCards[1];
-      newSelectedCards[2] = state.selectedCards[2];
-      newSelectedCards[action.index] = action.value;
+  case SET_SELECTED_CARDS:
+    // eslint-disable-next-line no-case-declarations
+    let newSelectedCards = [];
+    newSelectedCards[0] = state.selectedCards[0];
+    newSelectedCards[1] = state.selectedCards[1];
+    newSelectedCards[2] = state.selectedCards[2];
+    newSelectedCards[action.index] = action.value;
 
-      newState.selectedCards = newSelectedCards;
-      return newState;
+    newState.selectedCards = newSelectedCards;
+    return newState;
 
-    default:
-      return state;
+  default:
+    return state;
   }
 }
 // const persistConfig = {

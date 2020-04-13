@@ -4,6 +4,7 @@ import Card from "../../../modules/Card";
 // import Chat from "../../modules/Chat";
 // import Hand from "./Views/Hand";
 // import { Redirect } from "react-router";
+import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import {
@@ -16,16 +17,28 @@ import Button from "../../../modules/input/Button";
 // import Button from "../../../modules/input/Button";
 
 class TsarPhase extends Component {
-  state = { selected: null, choices: null };
   constructor(props) {
     super(props);
 
     this.selectCard = this.selectCard.bind(this);
     this.voteCard = this.voteCard.bind(this);
+    this.state = { selected: null, choices: null };
+
 
     this.props.socket.on(TSAR_VOTING, (arr) => {
       this.setState({ choices: arr });
     });
+  }
+
+  static get propTypes() {
+    return {
+      socket: PropTypes.object,
+      lobbyName: PropTypes.string,
+      username: PropTypes.string,
+      selectedCards: PropTypes.array,
+      hand: PropTypes.array,
+      blackCard: PropTypes.object,
+    };
   }
 
   selectCard(index) {
@@ -51,7 +64,12 @@ class TsarPhase extends Component {
   }
 
   render() {
-    if (!this.state.choices) return <div>You're the Tsar</div>;
+    if (!this.state.choices) {
+      return <div>You&apos;re the Tsar</div>;
+    } else if (this.state.choices.length === 0) {
+      return <div>No user voted D:</div>;
+    }
+
 
     let arr = [];
 

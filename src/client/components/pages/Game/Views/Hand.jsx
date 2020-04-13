@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Card from "../../../modules/Card";
 
@@ -13,6 +14,15 @@ class Hand extends Component {
   constructor(props) {
     super(props);
     this.selectCard = this.selectCard.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      blackCard: PropTypes.object,
+      selectedCards: PropTypes.array,
+      hand: PropTypes.array,
+      updateSelectedCards: PropTypes.func,
+    };
   }
 
   selectCard(index) {

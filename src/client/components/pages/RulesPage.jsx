@@ -1,6 +1,6 @@
 import React from "react";
 
-const RulesPage = props => {
+const RulesPage = () => {
   return (
     <React.Fragment>
       <div className="home-container">

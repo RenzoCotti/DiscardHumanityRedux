@@ -40,9 +40,9 @@ import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
 import DeckSelection from "./pages/Lounge/DeckSelectionPage";
 
-function requireAll(r) {
-  r.keys().forEach(r);
-}
+// function requireAll(r) {
+//   r.keys().forEach(r);
+// }
 
 class App extends Component {
   constructor(props) {
@@ -50,11 +50,13 @@ class App extends Component {
 
     let config;
     try {
+      // eslint-disable-next-line no-undef
       config = require("../../server/config/config");
     } catch (e) {
       console.log(e);
     }
 
+    // eslint-disable-next-line no-undef
     let socketName = process.env.socket;
     if (config) socketName = config.socket;
 
@@ -64,14 +66,7 @@ class App extends Component {
 
     this.socket = socket;
 
-    requireAll(require.context("../../../public/images/", true, /\.png$/));
-
-    //TODO
-    // window.addEventListener("beforeunload", ev => {
-    //   // ev.preventDefault();
-    //   this.props.cleanupStore();
-    //   // return (ev.returnValue = "Are you sure you want to close?");
-    // });
+    // requireAll(require.context("../../../public/images/", true, /\.png$/));
 
     // sync backend and frontend for login status
     // fetch("/api/admin/status")

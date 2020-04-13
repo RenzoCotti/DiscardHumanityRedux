@@ -1,5 +1,6 @@
 import React from "react";
-import { stringOrEmpty, capitalise } from "../../../../utility/utility";
+import { stringOrEmpty } from "../../../../utility/utility";
+import PropTypes from "prop-types";
 
 /**
  * input text field
@@ -52,4 +53,17 @@ const Input = props => {
   );
 };
 
+Input.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  text: PropTypes.string,
+  password: PropTypes.string,
+  fn: PropTypes.func,
+  required: PropTypes.bool,
+  errors: PropTypes.array,
+  obj: PropTypes.object,
+};
+
 export default Input;
+
+

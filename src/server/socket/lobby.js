@@ -6,8 +6,6 @@ var {
   getUser
 } = require("./utils");
 
-const {} = require("./game");
-
 const {
   LOBBY_NOT_FOUND,
   LOBBY_FULL,
@@ -30,10 +28,12 @@ const {
 
 
 
+
+
 //returns true if lobby exists
 exports.lobbyExists = (lobbyName) => {
   return getLobby(lobbyName) ? true : false;
-};
+}
 
 exports.disconnectFromLobby = (io, lobbyName, username) => {
   log("disconnecting from " + lobbyName);
@@ -62,7 +62,9 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         let userInfo = getUserInfo(lobby, username);
 
         //we discard his hand
-        lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(userInfo.hand);
+        lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
+          userInfo.hand
+        );
 
         //TODO, pick new tsar
         if (lobby.gameState.tsar === "TODO") return;
@@ -77,12 +79,11 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
 
         //we remove user info at index
         lobby.gameState.userState.info.splice(index, 1);
-        log("cards removed from lobby")
+        log("cards removed from lobby");
 
         //sync clients
         io.to(lobby.name).emit(GAME_READY);
       }
-
 
       if (lobby.currentUsers === 0) {
         toRemove = i;
@@ -95,7 +96,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
     lobbies.splice(toRemove, 1);
     io.in("general").emit(LOBBY_LIST_UPDATE);
   }
-};
+}
 
 //logins to a new lobby
 exports.loginLobby = (io, socket, info) => {
@@ -141,13 +142,11 @@ exports.loginLobby = (io, socket, info) => {
       io.in(info.lobbyName).emit(USER_CONNECT, info.username);
       log("lobby joined, " + info.lobbyName);
     }
-
-
   } else {
     log("lobby not found.");
     socket.emit(LOBBY_NOT_FOUND);
   }
-};
+}
 
 //adds name of lobby to socket for disconnect
 function socketJoinLobby(socket, lobbyName, username) {
@@ -173,11 +172,12 @@ exports.getLobbyList = () => {
     temp.push(tempLobby);
   }
   return temp;
-};
+}
 
 //this function creates a lobby from the given info
 exports.createLobby = (io, socket, info) => {
-  if (exports.lobbyExists(info.lobbyName)) {
+  if (
+    exports.lobbyExists(info.lobbyName)) {
     log("lobby esists.");
     socket.emit(LOBBY_EXISTS_ALREADY);
   } else {
@@ -190,7 +190,7 @@ exports.createLobby = (io, socket, info) => {
       userList: [{
         username: info.username,
         id: socket.id,
-      }, ],
+      },],
       state: "deck-selection",
     };
 
@@ -199,8 +199,7 @@ exports.createLobby = (io, socket, info) => {
     socket.emit(LOBBY_CREATED, lobby.name);
     io.in("general").emit(LOBBY_LIST_UPDATE);
   }
-};
-
+}
 
 //this function sets the decks, if the cards are sufficient to support the maximum number of players
 exports.setDecks = (io, socket, info) => {
@@ -208,7 +207,6 @@ exports.setDecks = (io, socket, info) => {
 
   let lobby = getLobby(info.name);
   if (lobby) {
-
     if (lobby.maxUsers * 12 <= info.whiteCards.length) {
       lobby.blackCards = info.blackCards;
       lobby.whiteCards = info.whiteCards;
@@ -220,9 +218,8 @@ exports.setDecks = (io, socket, info) => {
       //not enough cards
       socket.emit(NOT_ENOUGH_CARDS);
     }
-
   }
-};
+}
 
 exports.hasUser = (io, socket, info) => {
   let lobby = getLobby(info.lobbyName);
@@ -232,9 +229,9 @@ exports.hasUser = (io, socket, info) => {
       socket.emit(USER_EXISTS);
     }
   }
-};
+}
 
 exports.chatMessage = (io, message) => {
-  log(message.username + ' says "' + message.message + '"')
+  log(message.username + " says \"" + message.message + "\"");
   io.in(message.lobbyName).emit(CHAT_MESSAGE, message);
-};
+}

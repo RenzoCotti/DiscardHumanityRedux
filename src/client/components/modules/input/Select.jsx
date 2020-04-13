@@ -1,6 +1,7 @@
 import React from "react";
 import { capitalise, stringOrEmpty } from "../../../../utility/utility";
 import { Select as MaterializeSelect } from "react-materialize";
+import PropTypes from "prop-types";
 
 //label, name, arr, fn
 const Select = props => {
@@ -34,11 +35,11 @@ const Select = props => {
                   return <option value={capitalise(o)} key={capitalise(o)} data-icon={"./public/images/" + props.link + o + ".png"}
                   >
                     {capitalise(o)}
-                  </option>
+                  </option>;
                 } else {
                   return <option value={capitalise(o)} key={capitalise(o)} >
                     {capitalise(o)}
-                  </option>
+                  </option>;
                 }
               })
             }
@@ -51,5 +52,17 @@ const Select = props => {
     </div>
   );
 };
+
+Select.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  arr: PropTypes.array,
+  customArr: PropTypes.array,
+  link: PropTypes.string,
+  fn: PropTypes.func,
+  errors: PropTypes.array,
+  obj: PropTypes.object,
+};
+
 
 export default Select;
