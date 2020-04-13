@@ -53,8 +53,8 @@ module.exports = function (server) {
     //sets decks in a lobby
     socket.on(SET_DECKS, (info) => setDecks(io, socket, info));
 
-    socket.on(LOBBY_LEAVE, (lobbyName) =>
-      disconnectFromLobby(io, lobbyName, socket.username)
+    socket.on(LOBBY_LEAVE, (msg) =>
+      disconnectFromLobby(io, msg.lobbyName, msg.username)
     );
 
     socket.on(LOBBY_GET_LIST, () =>
@@ -80,7 +80,7 @@ module.exports = function (server) {
     socket.on(TSAR_VOTE, (msg) => tsarVoted(io, msg));
 
 
-    socket.on("disconnect", function () {
+    socket.on("disconnect", () => {
       log("user disconnected " + socket.id);
 
       if (socket.lobby) {

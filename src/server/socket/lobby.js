@@ -22,7 +22,6 @@ const {
   CHAT_MESSAGE,
   NOT_ENOUGH_CARDS,
   GAME_READY
-
 } = require("./messages");
 
 
@@ -35,14 +34,24 @@ exports.lobbyExists = (lobbyName) => {
   return getLobby(lobbyName) ? true : false;
 }
 
+function stopGame(lobby) {
+  lobby.state = "deck-selection";
+  if (lobby.gameState) {
+    clearTimeout(lobby.gameState.turnTimeout);
+    clearTimeout(lobby.gameState.tsarTimeout);
+  }
+}
+
 exports.disconnectFromLobby = (io, lobbyName, username) => {
-  log("disconnecting from " + lobbyName);
+  log("disconnecting user " + username + " from " + lobbyName);
 
   let toRemove = -1;
   for (let i = 0; i < lobbies.length; i++) {
     let lobby = lobbies[i];
     if (lobby.name === lobbyName) {
       io.to(lobbyName).emit(USER_DISCONNECT, username);
+      log(lobby.gameState.userState.info);
+
       lobby.currentUsers--;
       let index;
 
@@ -61,13 +70,16 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         //game has started
         let userInfo = getUserInfo(lobby, username);
 
-        //we discard his hand
-        lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
-          userInfo.hand
-        );
+        if (userInfo && userInfo.hand) {
+          //we discard his hand
+          lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
+            userInfo.hand
+          );
+        }
+
 
         //TODO, pick new tsar
-        if (lobby.gameState.tsar === "TODO") return;
+        // if (lobby.gameState.tsar.id === "TODO") return;
 
         let index = -1;
         for (let i = 0; i < lobby.gameState.userState.info.length; i++) {
@@ -80,13 +92,19 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         //we remove user info at index
         lobby.gameState.userState.info.splice(index, 1);
         log("cards removed from lobby");
-
+        log(lobby.gameState.userState.info);
         //sync clients
         io.to(lobby.name).emit(GAME_READY);
       }
 
       if (lobby.currentUsers === 0) {
         toRemove = i;
+        stopGame(lobby)
+      } else if (lobby.currentUsers === 1) {
+        //tolobby
+        // lobby.state = "deck-selection"
+        stopGame(lobby)
+        io.to(lobby.name).emit(GAME_LOUNGE);
       }
     }
   }
@@ -226,8 +244,12 @@ exports.hasUser = (io, socket, info) => {
   if (lobby) {
     let user = getUser(lobby, info.username);
     if (user) {
+      log("user exists")
       socket.emit(USER_EXISTS);
     }
+  } else {
+    log("lobby not found")
+    socket.emit(LOBBY_NOT_FOUND)
   }
 }
 

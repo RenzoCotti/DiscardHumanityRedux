@@ -43,7 +43,6 @@ exports.LOBBY_GET_LIST = "lobby-get-list";
 exports.LOBBY_LIST = "lobby-list";
 exports.LOBBY_HAS_USER = "lobby-has-user";
 
-
 /**DECKS MESSAGES */
 exports.SET_DECKS = "lobby-set-decks";
 exports.DECKS_SELECTED = "lobby-decks-selected";

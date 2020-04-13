@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Chat from "../../modules/Chat";
 import { connect } from "react-redux";
-import { getLobbyName } from "../../../redux/actions";
+import { getLobbyName, getUsername } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -11,7 +11,10 @@ import {
   DECKS_SELECTED,
   CHECK_START,
   USER_CONNECT,
+  LOBBY_LEAVE,
+  GAME_LOUNGE
 } from "../../../../server/socket/messages";
+import GamePage from "../Game/GamePage";
 
 class LoungePage extends Component {
 
@@ -24,7 +27,13 @@ class LoungePage extends Component {
     return {
       socket: PropTypes.object,
       lobbyName: PropTypes.string,
+      username: PropTypes.string
     };
+  }
+
+  //on page leave, leave lobby
+  componentWillUnmount() {
+    this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
   }
 
   setupSocket() {
@@ -43,7 +52,12 @@ class LoungePage extends Component {
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, () => {
+      console.log("to home");
       this.setState({ home: true });
+    });
+
+    this.props.socket.on(GAME_LOUNGE, () => {
+      this.setState({ start: false });
     });
 
     //every time we get here, we launch this and check if the game can start
@@ -51,16 +65,18 @@ class LoungePage extends Component {
   }
 
   render() {
+
+    let div = <div>Waiting for players to join...</div>;
     if (this.state.home) {
       return <Redirect push to={"/"} />;
     }
     if (this.state.start) {
-      return <Redirect push to={"/game"} />;
+      div = <GamePage socket={this.props.socket} />;
     }
 
     return (
       <div className="flex-row">
-        <div>Waiting for players to join...</div>
+        {div}
         <Chat socket={this.props.socket} />
       </div>
     );
@@ -69,6 +85,7 @@ class LoungePage extends Component {
 
 const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
+  username: getUsername(state)
 });
 
 export default connect(mapStateToProps, null)(LoungePage);

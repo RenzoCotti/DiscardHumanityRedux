@@ -3,7 +3,7 @@ import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import SelectionPhase from "./Phases/SelectionPhase";
 import TsarPhase from "./Phases/TsarPhase";
-import Chat from "../../modules/Chat";
+// import Chat from "../../modules/Chat";
 import PropTypes from "prop-types";
 
 
@@ -21,14 +21,15 @@ import {
   NEW_BLACK_CARD,
   NEW_HAND,
   LOBBY_NOT_FOUND,
-  LOBBY_LEAVE,
   GAME_STATE,
   ROUND_WIN,
   GAME_WIN,
   GAME_READY,
   IS_TSAR,
   TSAR_NO_VOTE,
-  NOBODY_VOTED
+  NOBODY_VOTED,
+  LOBBY_HAS_USER,
+  GAME_LOUNGE
 } from "../../../../server/socket/messages";
 import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";
@@ -58,11 +59,6 @@ class GamePage extends Component {
       // console.log("new hand");
 
       this.props.updateHand(hand);
-    });
-
-    this.props.socket.on(LOBBY_NOT_FOUND, () => {
-      // console.log("lobby 404");
-      this.setState({ home: true });
     });
 
     this.props.socket.on(IS_TSAR, (value) => {
@@ -132,6 +128,7 @@ class GamePage extends Component {
         nobodyVoted: false,
         scores: msg,
       });
+      // this.props.socket.emit(LOBBY_HAS_USER);
 
       // this.props.socket.emit(GAME_STATE, {
       //   lobbyName: this.props.lobbyName,
@@ -152,12 +149,6 @@ class GamePage extends Component {
     };
   }
 
-
-  //on page leave, leave lobby
-  componentWillUnmount() {
-    this.props.socket.emit(LOBBY_LEAVE, this.props.username);
-  }
-
   //all we have to do, is verify if user is in lobby.
   //if so, we log him in automatically
   //broken rn due to no persist
@@ -166,6 +157,8 @@ class GamePage extends Component {
     let toReturn;
     if (this.state.home) {
       return <Redirect push to={"/"} />;
+    } else if (this.state.toLounge) {
+      return <Redirect push to={"/lounge"} />;
     } else if (this.state.winRound) {
       toReturn = (
         <WinRound
@@ -190,7 +183,7 @@ class GamePage extends Component {
     return (
       <div className="flex-row">
         {toReturn}
-        <Chat socket={this.props.socket} />
+        {/* <Chat socket={this.props.socket} /> */}
       </div>
     );
   }

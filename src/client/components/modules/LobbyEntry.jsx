@@ -36,6 +36,8 @@ class LobbyEntry extends Component {
   }
 
   joinLobby() {
+    // console.log("username " + this.state.username);
+    // console.log("lobby " + this.props.name);
     this.props.socket.emit(LOBBY_LOGIN, {
       lobbyName: this.props.name,
       password: this.state.password,

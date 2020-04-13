@@ -123,12 +123,23 @@ function setGameState(lobby, status) {
 
 exports.getGameState = (socket, msg) => {
   let lobby = getLobby(msg.lobbyName);
+  // log(msg)
   if (lobby) {
-    log("getting game state...");
+    let user = getUser(lobby, msg.username);
+    if (user) {
+      log("getting game state for user " + msg.username);
 
-    socket.emit(NEW_HAND, getUserInfo(lobby, msg.username).hand);
-    socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
-    socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
+      let userInfo = getUserInfo(lobby, msg.username);
+      if (userInfo && userInfo.hand) {
+        socket.emit(NEW_HAND, userInfo.hand);
+      }
+      socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
+      socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
+    } else {
+      log("user " + msg.username + " not found.")
+    }
+    //else user isn't there
+
 
   } else {
     log("lobby not found");
@@ -160,7 +171,8 @@ function initGame(io, lobby) {
     },
     //username of last winner
     lastRoundWinner: undefined,
-    numberOfTurns: 0
+    numberOfTurns: 0,
+    turnTimeout: undefined
 
   };
 
@@ -224,12 +236,14 @@ function playTurn(io, lobby) {
   setGameState(lobby, "selecting");
 
   //case users don't vote
-  lobby.gameState.selectTimeout = setTimeout(() => {
+  lobby.gameState.turnTimeout = setTimeout(() => {
     sendCardsToVote(io, lobby);
     io.to(lobby.name).emit(USER_NO_VOTE);
   }, USER_TIMEOUT);
   io.to(lobby.name).emit(GAME_READY);
 }
+
+
 
 function checkState(state) {
   // selecting (everyone is picking cards)
@@ -297,7 +311,7 @@ function pickNewTsar(lobby) {
 
       //set the tsar id
       tsar.id = lobby.userList[tsar.tsarIndex].id;
-      log("new tsar " + tsar.id);
+      log("new tsar " + lobby.userList[tsar.tsarIndex].username);
     }
   }
   //else democracy mode
@@ -337,7 +351,7 @@ exports.handleChoice = (io, socket, msg) => {
       lobby.gameState.userState.chosen++;
 
       if (lobby.gameState.userState.chosen === lobby.userList.length - 1) {
-        clearTimeout(lobby.gameState.selectTimeout);
+        clearTimeout(lobby.gameState.turnTimeout);
         sendCardsToVote(io, lobby);
       } else {
         log(socket.username + " sent his cards");
@@ -372,7 +386,7 @@ function sendCardsToVote(io, lobby) {
 
     io.to(lobby.name).emit(NOBODY_VOTED, scores);
 
-    setTimeout(() => {
+    lobby.gameState.turnTimeout = setTimeout(() => {
       log("new turn");
       playTurn(io, lobby);
       io.to(lobby.name).emit(GAME_READY);
@@ -395,7 +409,7 @@ function sendCardsToVote(io, lobby) {
       let scores = getAllScores(lobby);
       io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
 
-      setTimeout(() => {
+      lobby.gameState.turnTimeout = setTimeout(() => {
         log("new turn");
         playTurn(io, lobby);
         io.to(lobby.name).emit(GAME_READY);
@@ -461,7 +475,7 @@ exports.tsarVoted = (io, msg) => {
         });
 
 
-        setTimeout(() => {
+        lobby.gameState.turnTimeout = setTimeout(() => {
           log("new turn");
           playTurn(io, lobby);
           io.to(lobby.name).emit(GAME_READY);
