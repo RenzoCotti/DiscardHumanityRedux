@@ -71,7 +71,7 @@ module.exports = function (server) {
     /*GAME */
 
     //checks if you can start the game
-    socket.on(CHECK_START, (lobbyName) => checkStart(io, socket, lobbyName));
+    socket.on(CHECK_START, (msg) => checkStart(io, socket, msg));
 
     socket.on(GAME_STATE, (msg) => getGameState(socket, msg));
 

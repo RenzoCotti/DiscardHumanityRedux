@@ -49,20 +49,12 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   for (let i = 0; i < lobbies.length; i++) {
     let lobby = lobbies[i];
     if (lobby.name === lobbyName) {
+      let tempUser = getUser(lobby, username);
+      if (!tempUser) return;
+
       io.to(lobbyName).emit(USER_DISCONNECT, username);
       log(lobby.gameState.userState.info);
 
-      lobby.currentUsers--;
-      let index;
-
-      //remove user from userlist
-      for (let j = 0; j < lobby.userList.length; j++) {
-        let user = lobby.userList[j];
-        if (user === username) {
-          index = j;
-        }
-      }
-      lobby.userList.splice(index, 1);
 
       //remove user info if game started
 
@@ -96,6 +88,25 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         //sync clients
         io.to(lobby.name).emit(GAME_READY);
       }
+
+
+      //remove user from userlist
+      for (let j = 0; j < lobby.userList.length; j++) {
+        let user = lobby.userList[j];
+        if (user.username === username) {
+          index = j;
+        }
+      }
+
+      if (index !== -1) {
+        lobby.userList.splice(index, 1);
+      }
+
+      lobby.currentUsers--;
+      let index = -1;
+
+
+
 
       if (lobby.currentUsers === 0) {
         toRemove = i;
@@ -162,7 +173,7 @@ exports.loginLobby = (io, socket, info) => {
     }
   } else {
     log("lobby not found.");
-    socket.emit(LOBBY_NOT_FOUND);
+    socket.emit(LOBBY_NOT_FOUND, info.lobbyName);
   }
 }
 
@@ -249,7 +260,7 @@ exports.hasUser = (io, socket, info) => {
     }
   } else {
     log("lobby not found")
-    socket.emit(LOBBY_NOT_FOUND)
+    socket.emit(LOBBY_NOT_FOUND, info.lobbyName)
   }
 }
 

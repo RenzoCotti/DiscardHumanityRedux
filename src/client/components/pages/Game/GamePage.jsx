@@ -20,7 +20,6 @@ import {
 import {
   NEW_BLACK_CARD,
   NEW_HAND,
-  LOBBY_NOT_FOUND,
   GAME_STATE,
   ROUND_WIN,
   GAME_WIN,
@@ -28,8 +27,6 @@ import {
   IS_TSAR,
   TSAR_NO_VOTE,
   NOBODY_VOTED,
-  LOBBY_HAS_USER,
-  GAME_LOUNGE
 } from "../../../../server/socket/messages";
 import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";

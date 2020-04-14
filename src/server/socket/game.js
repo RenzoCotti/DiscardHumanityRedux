@@ -17,13 +17,12 @@ const {
   IS_TSAR,
   GAME_READY,
   TSAR_NO_VOTE,
-  USER_NO_VOTE,
   NOBODY_VOTED
 } = require("./messages");
 
 
-const TSAR_TIMEOUT = 20000;
-const USER_TIMEOUT = 20000;
+const TSAR_VOTE_TIMEOUT = 20000;
+const USER_CHOICE_TIMEOUT = 20000;
 const RESULT_TIMEOUT = 5000;
 
 
@@ -77,6 +76,22 @@ function modifyScore(lobby, username, amount) {
 // }
 
 
+function initNewUser(lobby, username) {
+  let userInfo = getUserInfo(lobby, username);
+  if (userInfo) {
+    //user already in
+  } else {
+    let hand = drawXCards(lobby.gameState.whiteCards, 10);
+
+    lobby.gameState.userState.info.push({
+      username: username,
+      hand: hand,
+      cardsChosen: [],
+      score: 0
+    });
+  }
+
+}
 
 //draws x white cards for everybody, merges to old hand
 function drawWhiteCardsAll(lobby, x) {
@@ -91,6 +106,7 @@ function drawWhiteCardsAll(lobby, x) {
 
 function drawUpTo10(lobby) {
   for (let user of lobby.userList) {
+    log("drawing " + user.username);
     let userInfo = getUserInfo(lobby, user.username);
     let oldHand = userInfo.hand;
 
@@ -237,9 +253,14 @@ function playTurn(io, lobby) {
 
   //case users don't vote
   lobby.gameState.turnTimeout = setTimeout(() => {
-    sendCardsToVote(io, lobby);
-    io.to(lobby.name).emit(USER_NO_VOTE);
-  }, USER_TIMEOUT);
+    let scores = getAllScores(lobby);
+
+    io.to(lobby.name).emit(NOBODY_VOTED, scores);
+    lobby.gameState.turnTimeout = setTimeout(() => {
+      playTurn(io, lobby);
+    }, RESULT_TIMEOUT);
+  }, USER_CHOICE_TIMEOUT);
+
   io.to(lobby.name).emit(GAME_READY);
 }
 
@@ -250,18 +271,29 @@ function checkState(state) {
   // voting (tsar or demo or whatevs)
   // result
   // finished (end screen)
-  if (state === "selecting" || state === "voting" || state === "result" || state === "end") return true;
-  //deck-selection, init
+  // init
+  if (state === "selecting" || state === "voting" || state === "result" || state === "end" || state === "init") return true;
+  //deck-selection 
   return false;
 }
 
-exports.checkStart = (io, socket, lobbyName) => {
+exports.checkStart = (io, socket, msg) => {
 
-  let lobby = getLobby(lobbyName);
+  let lobby = getLobby(msg.lobbyName);
   if (lobby) {
     if (checkState(lobby.state)) {
       //game already started
       log("game already started");
+
+      if (lobby.gameState) {
+        let info = getUserInfo(lobby, msg.username);
+        if (!info) {
+          initNewUser(lobby, msg.username);
+          socket.emit(GAME_START);
+          socket.emit(GAME_READY);
+        }
+      }
+
     } else if (
       lobby.currentUsers > 1 &&
       lobby.whiteCards &&
@@ -276,7 +308,7 @@ exports.checkStart = (io, socket, lobbyName) => {
     }
 
   } else {
-    socket.emit(LOBBY_NOT_FOUND);
+    socket.emit(LOBBY_NOT_FOUND, msg.lobbyName);
   }
 }
 
@@ -303,7 +335,8 @@ function pickNewTsar(lobby) {
     } else {
       //we simply go over the users in order
       //everybody tsar'd once at least, we loop
-      if (tsar.tsarIndex + 1 === lobby.userList.length) {
+      //we reset the counter if we can't find the user either
+      if (tsar.tsarIndex + 1 === lobby.userList.length || !lobby.userList[tsar.tsarIndex]) {
         tsar.tsarIndex = 0;
       } else {
         tsar.tsarIndex++;
@@ -390,7 +423,7 @@ function sendCardsToVote(io, lobby) {
       log("new turn");
       playTurn(io, lobby);
       io.to(lobby.name).emit(GAME_READY);
-    }, 5000);
+    }, RESULT_TIMEOUT);
     return;
   }
 
@@ -413,9 +446,9 @@ function sendCardsToVote(io, lobby) {
         log("new turn");
         playTurn(io, lobby);
         io.to(lobby.name).emit(GAME_READY);
-      }, 5000);
+      });
 
-    }, TSAR_TIMEOUT);
+    }, TSAR_VOTE_TIMEOUT);
   } else {
     log("democracy is now voting");
     //democracy
