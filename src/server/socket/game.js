@@ -1,8 +1,7 @@
 const {
   log,
   getLobby,
-  getUser,
-  getUserInfo
+  getUser
 } = require('./utils');
 
 const {
@@ -55,14 +54,10 @@ function drawXCards(array, x) {
   return temp;
 }
 
-function getAllUserInfos(lobby) {
-  return lobby.gameState.userState.info;
-}
-
 function modifyScore(lobby, username, amount) {
-  for (let user of lobby.gameState.userState.info) {
+  for (let user of lobby.userList) {
     if (user.username === username) {
-      user.score += amount;
+      user.info.score += amount;
     }
   }
 }
@@ -77,43 +72,38 @@ function modifyScore(lobby, username, amount) {
 
 
 function initNewUser(lobby, username) {
-  let userInfo = getUserInfo(lobby, username);
-  if (userInfo) {
+  let user = getUser(lobby, username);
+  if (user && user.info) {
     //user already in
   } else {
     let hand = drawXCards(lobby.gameState.whiteCards, 10);
-
-    lobby.gameState.userState.info.push({
-      username: username,
+    user.info = {
       hand: hand,
       cardsChosen: [],
       score: 0
-    });
+    }
   }
-
 }
 
 //draws x white cards for everybody, merges to old hand
 function drawWhiteCardsAll(lobby, x) {
   for (let user of lobby.userList) {
-    let userInfo = getUserInfo(lobby, user.username);
-    let oldHand = userInfo.hand;
+    let oldHand = user.info.hand;
     let hand = drawXCards(lobby.gameState.whiteCards, x);
     let newHand = oldHand ? oldHand.concat(hand) : hand;
-    userInfo.hand = newHand;
+    user.info.hand = newHand;
   }
 }
 
 function drawUpTo10(lobby) {
   for (let user of lobby.userList) {
     log("drawing " + user.username);
-    let userInfo = getUserInfo(lobby, user.username);
-    let oldHand = userInfo.hand;
+    let oldHand = user.info.hand;
 
     let cardsToDraw = 10 - oldHand.length;
     let hand = drawXCards(lobby.gameState.whiteCards, cardsToDraw);
     let newHand = oldHand ? oldHand.concat(hand) : hand;
-    userInfo.hand = newHand;
+    user.info.hand = newHand;
   }
 }
 
@@ -145,9 +135,8 @@ exports.getGameState = (socket, msg) => {
     if (user) {
       log("getting game state for user " + msg.username);
 
-      let userInfo = getUserInfo(lobby, msg.username);
-      if (userInfo && userInfo.hand) {
-        socket.emit(NEW_HAND, userInfo.hand);
+      if (user.info && user.info.hand) {
+        socket.emit(NEW_HAND, user.info.hand);
       }
       socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
       socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
@@ -175,10 +164,7 @@ function initGame(io, lobby) {
       fresh: shuffle(lobby.whiteCards),
       used: []
     },
-    userState: {
-      info: [],
-      chosen: 0
-    },
+    userChosen: 0,
     //id of tsar
     tsar: {
       id: undefined,
@@ -194,12 +180,11 @@ function initGame(io, lobby) {
 
   //setting all scores to 0
   for (let user of lobby.userList) {
-    lobby.gameState.userState.info.push({
-      username: user.username,
+    user.info = {
       hand: [],
       cardsChosen: [],
       score: 0
-    });
+    }
   }
 
 
@@ -231,10 +216,10 @@ function initGame(io, lobby) {
 }
 
 function reinitialiseLobby(lobby) {
-  for (let info of lobby.gameState.userState.info) {
-    info.cardsChosen = [];
+  for (let user of lobby.userList) {
+    user.info.cardsChosen = [];
   }
-  lobby.gameState.userState.chosen = 0;
+  lobby.gameState.userChosen = 0;
   //whitecards in userhand already in used, and so blackcards
 }
 
@@ -253,12 +238,13 @@ function playTurn(io, lobby) {
 
   //case users don't vote
   lobby.gameState.turnTimeout = setTimeout(() => {
-    let scores = getAllScores(lobby);
-
-    io.to(lobby.name).emit(NOBODY_VOTED, scores);
-    lobby.gameState.turnTimeout = setTimeout(() => {
-      playTurn(io, lobby);
-    }, RESULT_TIMEOUT);
+    // let scores = getAllScores(lobby);
+    log("not all users voted");
+    sendCardsToVote(io, lobby);
+    // io.to(lobby.name).emit(NOBODY_VOTED, scores);
+    // lobby.gameState.turnTimeout = setTimeout(() => {
+    //   playTurn(io, lobby);
+    // }, RESULT_TIMEOUT);
   }, USER_CHOICE_TIMEOUT);
 
   io.to(lobby.name).emit(GAME_READY);
@@ -286,7 +272,7 @@ exports.checkStart = (io, socket, msg) => {
       log("game already started");
 
       if (lobby.gameState) {
-        let info = getUserInfo(lobby, msg.username);
+        let info = getUser(lobby, msg.username).info;
         if (!info) {
           initNewUser(lobby, msg.username);
           socket.emit(GAME_START);
@@ -308,6 +294,8 @@ exports.checkStart = (io, socket, msg) => {
     }
 
   } else {
+    log("lobby 404:" + msg.lobbyName);
+    log(socket.username)
     socket.emit(LOBBY_NOT_FOUND, msg.lobbyName);
   }
 }
@@ -355,7 +343,7 @@ function pickNewTsar(lobby) {
 exports.handleChoice = (io, socket, msg) => {
   let lobby = getLobby(msg.lobbyName);
   if (lobby) {
-    let userInfo = getUserInfo(lobby, msg.username);
+    let userInfo = getUser(lobby, msg.username).info;
 
     //the user hasn't already voted
     if (userInfo.cardsChosen.length === 0) {
@@ -381,9 +369,10 @@ exports.handleChoice = (io, socket, msg) => {
       }
 
       userInfo.cardsChosen = msg.choice;
-      lobby.gameState.userState.chosen++;
+      lobby.gameState.userChosen++;
 
-      if (lobby.gameState.userState.chosen === lobby.userList.length - 1) {
+      log("userChosen: " + lobby.gameState.userChosen + " vs users: " + lobby.userList.length)
+      if (lobby.gameState.userChosen === lobby.userList.length - 1) {
         clearTimeout(lobby.gameState.turnTimeout);
         sendCardsToVote(io, lobby);
       } else {
@@ -402,11 +391,13 @@ function sendCardsToVote(io, lobby) {
   //creating the list to send to the tsar
   let cards = [];
 
-  for (let user of lobby.gameState.userState.info) {
+  // console.log(lobby.userList)
+
+  for (let user of lobby.userList) {
     //otherwise tsar is included
-    if (user.cardsChosen.length > 0) {
+    if (user.info && user.info.cardsChosen.length > 0) {
       cards.push({
-        choice: user.cardsChosen,
+        choice: user.info.cardsChosen,
         username: user.username
       });
     }
@@ -427,6 +418,7 @@ function sendCardsToVote(io, lobby) {
     return;
   }
 
+  log(cards);
 
   //everybody chose, except tsar
   if (lobby.gameSettings.tsar) {
@@ -528,13 +520,11 @@ exports.tsarVoted = (io, msg) => {
 
 
 function getAllScores(lobby) {
-  let infos = getAllUserInfos(lobby);
-
   let scores = [];
-  for (let info of infos) {
+  for (let user of lobby.userList) {
     scores.push({
-      username: info.username,
-      score: info.score
+      username: user.username,
+      score: user.info.score
     });
   }
 

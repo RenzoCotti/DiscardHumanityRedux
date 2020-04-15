@@ -1,7 +1,6 @@
 var {
   lobbies,
   log,
-  getUserInfo,
   getLobby,
   getUser
 } = require("./utils");
@@ -49,46 +48,12 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   for (let i = 0; i < lobbies.length; i++) {
     let lobby = lobbies[i];
     if (lobby.name === lobbyName) {
-      let tempUser = getUser(lobby, username);
-      if (!tempUser) return;
+      let user = getUser(lobby, username);
+      if (!user) return;
 
       io.to(lobbyName).emit(USER_DISCONNECT, username);
-      log(lobby.gameState.userState.info);
 
-
-      //remove user info if game started
-
-      if (lobby.state) {
-        //game has started
-        let userInfo = getUserInfo(lobby, username);
-
-        if (userInfo && userInfo.hand) {
-          //we discard his hand
-          lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
-            userInfo.hand
-          );
-        }
-
-
-        //TODO, pick new tsar
-        // if (lobby.gameState.tsar.id === "TODO") return;
-
-        let index = -1;
-        for (let i = 0; i < lobby.gameState.userState.info.length; i++) {
-          let current = lobby.gameState.userState.info[i];
-          if (current.username === username) {
-            index = i;
-          }
-        }
-
-        //we remove user info at index
-        lobby.gameState.userState.info.splice(index, 1);
-        log("cards removed from lobby");
-        log(lobby.gameState.userState.info);
-        //sync clients
-        io.to(lobby.name).emit(GAME_READY);
-      }
-
+      let index = -1;
 
       //remove user from userlist
       for (let j = 0; j < lobby.userList.length; j++) {
@@ -103,9 +68,21 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
       }
 
       lobby.currentUsers--;
-      let index = -1;
 
+      //remove user info if game started
 
+      if (lobby.state) {
+        //game has started
+
+        if (user.info && user.info.hand) {
+          //we discard his hand
+          lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
+            user.info.hand
+          );
+        }
+        //sync clients
+        io.to(lobby.name).emit(GAME_READY);
+      }
 
 
       if (lobby.currentUsers === 0) {

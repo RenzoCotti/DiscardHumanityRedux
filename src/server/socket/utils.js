@@ -35,11 +35,3 @@ exports.getUser = (lobby, username) => {
   }
   return false;
 }
-
-exports.getUserInfo = (lobby, username) => {
-  for (let user of lobby.gameState.userState.info) {
-    if (user.username === username) {
-      return user;
-    }
-  }
-}

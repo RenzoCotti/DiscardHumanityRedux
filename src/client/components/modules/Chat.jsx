@@ -111,7 +111,7 @@ class Chat extends Component {
         <div className="chat-history">{messages}</div>
         <div className="flex-row" onKeyDown={this.handleKeyDown}>
           <Input name="message" obj={this.state} fn={this.handleChange} />
-          <Button value="Send" short="true" fn={this.sendMessage} />
+          <Button value="Send" short={true} fn={this.sendMessage} />
         </div>
       </div>
     );
