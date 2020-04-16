@@ -1,7 +1,9 @@
 const {
   log,
   getLobby,
-  getUser
+  getUser,
+  disconnectFromLobby,
+  getUserByID
 } = require('./utils');
 
 const {
@@ -16,14 +18,15 @@ const {
   IS_TSAR,
   GAME_READY,
   TSAR_NO_VOTE,
-  NOBODY_VOTED
+  NOBODY_VOTED,
+  USER_NOT_FOUND
 } = require("./messages");
 
 
 const TSAR_VOTE_TIMEOUT = 20000;
 const USER_CHOICE_TIMEOUT = 20000;
 const RESULT_TIMEOUT = 5000;
-
+const USER_INACTIVITY_MAX_TURNS = 3;
 
 
 //used to randomly shuffle an array
@@ -183,7 +186,8 @@ function initGame(io, lobby) {
     user.info = {
       hand: [],
       cardsChosen: [],
-      score: 0
+      score: 0,
+      inactivityCounter: 0
     }
   }
 
@@ -267,31 +271,39 @@ exports.checkStart = (io, socket, msg) => {
 
   let lobby = getLobby(msg.lobbyName);
   if (lobby) {
-    if (checkState(lobby.state)) {
-      //game already started
-      log("game already started");
 
-      if (lobby.gameState) {
-        let info = getUser(lobby, msg.username).info;
-        if (!info) {
-          initNewUser(lobby, msg.username);
-          socket.emit(GAME_START);
-          socket.emit(GAME_READY);
+    let user = getUser(lobby, msg.username);
+
+    if (user) {
+      if (checkState(lobby.state)) {
+        //game already started
+        log("game already started");
+
+        if (lobby.gameState) {
+          let info = user.info;
+          if (!info) {
+            initNewUser(lobby, msg.username);
+            socket.emit(GAME_START);
+            socket.emit(GAME_READY);
+          }
         }
+
+      } else if (
+        lobby.currentUsers > 1 &&
+        lobby.whiteCards &&
+        lobby.whiteCards.length > 0) {
+
+        log("game starting...");
+
+        io.in(lobby.name).emit(GAME_START);
+
+        initGame(io, lobby);
+
       }
-
-    } else if (
-      lobby.currentUsers > 1 &&
-      lobby.whiteCards &&
-      lobby.whiteCards.length > 0) {
-
-      log("game starting...");
-
-      io.in(lobby.name).emit(GAME_START);
-
-      initGame(io, lobby);
-
+    } else {
+      socket.emit(USER_NOT_FOUND);
     }
+
 
   } else {
     log("lobby 404:" + msg.lobbyName);
@@ -348,6 +360,8 @@ exports.handleChoice = (io, socket, msg) => {
     //the user hasn't already voted
     if (userInfo.cardsChosen.length === 0) {
 
+      userInfo.inactivityCounter = 0;
+
       let hand = userInfo.hand;
 
       //we remove the cards chosen from the users hand
@@ -387,6 +401,15 @@ exports.handleChoice = (io, socket, msg) => {
   }
 }
 
+function checkIfKick(io, lobby, user) {
+  if (user.info.inactivityCounter >= USER_INACTIVITY_MAX_TURNS) {
+    log("kicking " + user.username + " for inactivity");
+    disconnectFromLobby(io, lobby.name, user.username);
+  } else {
+    log("user " + user.username + " is inactive: " + user.info.inactivityCounter);
+  }
+}
+
 function sendCardsToVote(io, lobby) {
   //creating the list to send to the tsar
   let cards = [];
@@ -395,12 +418,21 @@ function sendCardsToVote(io, lobby) {
 
   for (let user of lobby.userList) {
     //otherwise tsar is included
-    if (user.info && user.info.cardsChosen.length > 0) {
-      cards.push({
-        choice: user.info.cardsChosen,
-        username: user.username
-      });
+
+    if (user.info) {
+      if (user.info.cardsChosen.length > 0) {
+        cards.push({
+          choice: user.info.cardsChosen,
+          username: user.username
+        });
+      } else if (user.info.cardsChosen.length === 0) {
+        if (lobby.gameSettings.tsar && user.id === lobby.gameState.tsar.id) continue;
+        //user hasn't voted
+        user.info.inactivityCounter++;
+        checkIfKick(io, lobby, user);
+      }
     }
+
   }
 
 
@@ -431,6 +463,16 @@ function sendCardsToVote(io, lobby) {
 
     tsar.tsarTimeout = setTimeout(() => {
       log("tsar hasn't voted");
+
+      let tsarUser = getUserByID(lobby, tsar.id);
+
+      if (tsarUser) {
+        tsarUser.info.inactivityCounter++;
+        checkIfKick(io, lobby, tsarUser);
+      }
+
+
+
       let scores = getAllScores(lobby);
       io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
 
@@ -438,7 +480,7 @@ function sendCardsToVote(io, lobby) {
         log("new turn");
         playTurn(io, lobby);
         io.to(lobby.name).emit(GAME_READY);
-      });
+      }, RESULT_TIMEOUT);
 
     }, TSAR_VOTE_TIMEOUT);
   } else {
@@ -450,14 +492,21 @@ function sendCardsToVote(io, lobby) {
 
 //the tsar has voted, send all clients the info for the result screen
 exports.tsarVoted = (io, msg) => {
-
+  log("tsar has voted.")
 
   let lobby = getLobby(msg.lobbyName);
 
   if (lobby) {
 
     if (lobby.gameSettings.tsar) {
+
       clearTimeout(lobby.gameState.tsar.tsarTimeout);
+
+      let tsarUser = getUserByID(lobby, lobby.gameState.tsar.id);
+
+      if (tsarUser) {
+        tsarUser.info.inactivityCounter = 0;
+      }
     }
 
     let user = getUser(lobby, msg.username);

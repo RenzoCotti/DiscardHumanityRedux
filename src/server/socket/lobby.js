@@ -8,7 +8,6 @@ var {
 const {
   LOBBY_NOT_FOUND,
   LOBBY_FULL,
-  USER_DISCONNECT,
   USER_CONNECT,
   LOBBY_LIST_UPDATE,
   LOBBY_JOINED,
@@ -19,8 +18,7 @@ const {
   DECKS_SELECTED,
   USER_EXISTS,
   CHAT_MESSAGE,
-  NOT_ENOUGH_CARDS,
-  GAME_READY
+  NOT_ENOUGH_CARDS
 } = require("./messages");
 
 
@@ -33,76 +31,6 @@ exports.lobbyExists = (lobbyName) => {
   return getLobby(lobbyName) ? true : false;
 }
 
-function stopGame(lobby) {
-  lobby.state = "deck-selection";
-  if (lobby.gameState) {
-    clearTimeout(lobby.gameState.turnTimeout);
-    clearTimeout(lobby.gameState.tsarTimeout);
-  }
-}
-
-exports.disconnectFromLobby = (io, lobbyName, username) => {
-  log("disconnecting user " + username + " from " + lobbyName);
-
-  let toRemove = -1;
-  for (let i = 0; i < lobbies.length; i++) {
-    let lobby = lobbies[i];
-    if (lobby.name === lobbyName) {
-      let user = getUser(lobby, username);
-      if (!user) return;
-
-      io.to(lobbyName).emit(USER_DISCONNECT, username);
-
-      let index = -1;
-
-      //remove user from userlist
-      for (let j = 0; j < lobby.userList.length; j++) {
-        let user = lobby.userList[j];
-        if (user.username === username) {
-          index = j;
-        }
-      }
-
-      if (index !== -1) {
-        lobby.userList.splice(index, 1);
-      }
-
-      lobby.currentUsers--;
-
-      //remove user info if game started
-
-      if (lobby.state) {
-        //game has started
-
-        if (user.info && user.info.hand) {
-          //we discard his hand
-          lobby.gameState.whiteCards.used = lobby.gameState.whiteCards.used.concat(
-            user.info.hand
-          );
-        }
-        //sync clients
-        io.to(lobby.name).emit(GAME_READY);
-      }
-
-
-      if (lobby.currentUsers === 0) {
-        toRemove = i;
-        stopGame(lobby)
-      } else if (lobby.currentUsers === 1) {
-        //tolobby
-        // lobby.state = "deck-selection"
-        stopGame(lobby)
-        io.to(lobby.name).emit(GAME_LOUNGE);
-      }
-    }
-  }
-
-  if (toRemove !== -1) {
-    log("lobby empty now, removing.");
-    lobbies.splice(toRemove, 1);
-    io.in("general").emit(LOBBY_LIST_UPDATE);
-  }
-}
 
 //logins to a new lobby
 exports.loginLobby = (io, socket, info) => {

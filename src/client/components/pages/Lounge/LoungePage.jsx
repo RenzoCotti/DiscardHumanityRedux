@@ -12,7 +12,8 @@ import {
   CHECK_START,
   USER_CONNECT,
   LOBBY_LEAVE,
-  GAME_LOUNGE
+  GAME_LOUNGE,
+  USER_NOT_FOUND
 } from "../../../../server/socket/messages";
 import GamePage from "../Game/GamePage";
 
@@ -52,7 +53,12 @@ class LoungePage extends Component {
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, (msg) => {
-      console.log("to home: " + msg);
+      console.log("lobby not found: " + msg);
+      this.setState({ home: true });
+    });
+
+    this.props.socket.on(USER_NOT_FOUND, (msg) => {
+      console.log("user not found: " + msg);
       this.setState({ home: true });
     });
 

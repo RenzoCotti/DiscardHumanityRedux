@@ -31,6 +31,7 @@ exports.USER_EXISTS = "user-exists";
 exports.USER_CONNECT = "user-connect";
 exports.USER_DISCONNECT = "user-disconnect";
 exports.USER_NO_VOTE = "user-no-vote";
+exports.USER_NOT_FOUND = "user-not-found";
 
 /**LOBBY MESSAGES */
 exports.LOBBY_LOGIN = "lobby-login";

@@ -119,7 +119,7 @@ module.exports = {
     },
     {
       text:
-        "My mom freaked out when she looked at my browser history and found _.com\\/_.",
+        "My mom freaked out when she looked at my browser history and found _.com/_.",
       pick: 2
     },
     {
@@ -194,7 +194,7 @@ module.exports = {
       pick: 2
     },
     {
-      text: "Tonight on 20\\/20: What you don't know about _ could kill you.",
+      text: "Tonight on 20/20: What you don't know about _ could kill you.",
       pick: 1
     },
     {

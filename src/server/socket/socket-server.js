@@ -5,7 +5,6 @@ module.exports = function (server) {
     createLobby,
     loginLobby,
     setDecks,
-    disconnectFromLobby,
     getLobbyList,
     hasUser,
     chatMessage,
@@ -19,7 +18,8 @@ module.exports = function (server) {
   } = require("./game");
 
   const {
-    log
+    log,
+    disconnectFromLobby,
   } = require("./utils");
 
   const {
