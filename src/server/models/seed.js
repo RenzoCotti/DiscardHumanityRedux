@@ -1,3 +1,5 @@
+"use strict";
+
 const mongoose = require("mongoose");
 const config = require("../config/config");
 const Deck = require("./deckModel");
@@ -31,16 +33,18 @@ let decks = [
 ];
 
 function formatText(text, arr) {
-  if (!text) return {
-    text: "",
-    tag: "text"
-  };
+  if (!text) {
+    return {
+      text: "",
+      tag: "text"
+    };
+  }
   let splitForI = text.split(/<i>(.+)/);
   if (splitForI.length > 1) {
     //there is an <i>
 
     let splitForIEnd = splitForI[1].split(/<\/i>(.*)/);
-    if (splitForIEnd.length == 1) {
+    if (splitForIEnd.length === 1) {
       //string is at the end
       splitForIEnd[1] = "";
     }
@@ -60,7 +64,7 @@ function formatText(text, arr) {
     arr.push({
       text: text,
       tag: "text"
-    })
+    });
     // return ;
   }
 }
@@ -107,7 +111,7 @@ for (let deck of decks) {
     let arr = card.text.split("_");
 
     //case there's no _, meaning implied at the end.
-    if (arr.length == 1) {
+    if (arr.length === 1) {
       arr.push("");
     }
 
@@ -130,7 +134,7 @@ for (let deck of decks) {
                 tag: "br"
               });
             } else {
-              formatText(a, temp)
+              formatText(a, temp);
               // temp.push();
             }
           }
@@ -142,7 +146,7 @@ for (let deck of decks) {
           s = arr[i];
           //there might be an i
           if (s) {
-            formatText(s, temp)
+            formatText(s, temp);
             // temp.push();
           }
           if (i + 1 !== arr.length) {
@@ -187,10 +191,10 @@ mongoose.connect(config.dbURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-Deck.collection.drop((err, ok) => {
+Deck.collection.drop((err) => {
   if (err) {
     console.log(err);
-    mongoose.connection.close;
+    mongoose.connection.close();
   } else {
     Deck.create(arr)
       .then(decks => {

@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import SelectionPhase from "./Phases/SelectionPhase";
-import TsarPhase from "./Phases/TsarPhase";
-// import Chat from "../../modules/Chat";
 import PropTypes from "prop-types";
-
 
 import {
   getLobbyName,
@@ -28,8 +24,11 @@ import {
   TSAR_NO_VOTE,
   NOBODY_VOTED,
 } from "../../../../server/socket/messages";
+
 import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";
+import SelectionPhase from "./Phases/SelectionPhase";
+import VotePhase from "./Phases/VotePhase";
 
 class GamePage extends Component {
   constructor(props) {
@@ -169,7 +168,7 @@ class GamePage extends Component {
     } else if (this.state.winGame) {
       toReturn = <WinGame scores={this.state.scores} />;
     } else if (this.state.tsar) {
-      toReturn = <TsarPhase socket={this.props.socket} />;
+      toReturn = <VotePhase socket={this.props.socket} />;
     } else if (!this.props.hand || !this.props.blackCard) {
       // console.log(this.props);
       toReturn = <div>Initialising...</div>;

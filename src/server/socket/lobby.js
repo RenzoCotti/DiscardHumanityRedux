@@ -1,4 +1,6 @@
-var {
+"use strict";
+
+let {
   lobbies,
   log,
   getLobby,
@@ -21,15 +23,10 @@ const {
   NOT_ENOUGH_CARDS
 } = require("./messages");
 
-
-
-
-
-
 //returns true if lobby exists
 exports.lobbyExists = (lobbyName) => {
   return getLobby(lobbyName) ? true : false;
-}
+};
 
 
 //logins to a new lobby
@@ -80,7 +77,7 @@ exports.loginLobby = (io, socket, info) => {
     log("lobby not found.");
     socket.emit(LOBBY_NOT_FOUND, info.lobbyName);
   }
-}
+};
 
 //adds name of lobby to socket for disconnect
 function socketJoinLobby(socket, lobbyName, username) {
@@ -106,7 +103,7 @@ exports.getLobbyList = () => {
     temp.push(tempLobby);
   }
   return temp;
-}
+};
 
 //this function creates a lobby from the given info
 exports.createLobby = (io, socket, info) => {
@@ -133,7 +130,7 @@ exports.createLobby = (io, socket, info) => {
     socket.emit(LOBBY_CREATED, lobby.name);
     io.in("general").emit(LOBBY_LIST_UPDATE);
   }
-}
+};
 
 //this function sets the decks, if the cards are sufficient to support the maximum number of players
 exports.setDecks = (io, socket, info) => {
@@ -153,23 +150,23 @@ exports.setDecks = (io, socket, info) => {
       socket.emit(NOT_ENOUGH_CARDS);
     }
   }
-}
+};
 
 exports.hasUser = (io, socket, info) => {
   let lobby = getLobby(info.lobbyName);
   if (lobby) {
     let user = getUser(lobby, info.username);
     if (user) {
-      log("user exists")
+      log("user exists");
       socket.emit(USER_EXISTS);
     }
   } else {
-    log("lobby not found")
-    socket.emit(LOBBY_NOT_FOUND, info.lobbyName)
+    log("lobby not found");
+    socket.emit(LOBBY_NOT_FOUND, info.lobbyName);
   }
-}
+};
 
 exports.chatMessage = (io, message) => {
   log(message.username + " says \"" + message.message + "\"");
   io.in(message.lobbyName).emit(CHAT_MESSAGE, message);
-}
+};

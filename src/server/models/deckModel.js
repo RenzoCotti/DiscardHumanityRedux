@@ -1,6 +1,6 @@
+"use strict";
+
 const mongoose = require("mongoose");
-// const whiteCard = require("./whiteCardModel");
-// const blackCard = require("./blackCardModel");
 
 const Deck = new mongoose.Schema({
   name: {
@@ -29,7 +29,7 @@ const Deck = new mongoose.Schema({
 Deck.pre("save", function (next) {
   let that = this;
 
-  if (that.name == "") that.name = "UNNAMED DECK";
+  if (that.name === "") { that.name = "UNNAMED DECK"; }
 
   next();
 });

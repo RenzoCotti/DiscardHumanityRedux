@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function (server) {
   const io = require("socket.io").listen(server);
 
@@ -12,10 +14,13 @@ module.exports = function (server) {
 
   const {
     checkStart,
-    getGameState,
     handleChoice,
-    tsarVoted
+    getGameState
   } = require("./game");
+
+  const {
+    tsarVoted
+  } = require("./vote");
 
   const {
     log,

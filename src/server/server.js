@@ -1,3 +1,5 @@
+"use strict";
+
 //modules import
 const express = require("express");
 const path = require("path");
@@ -10,7 +12,7 @@ const MongoStore = require("connect-mongo")(session);
 //constants for server
 const app = express();
 //try to import the config, on dev there is none
-var config = {};
+let config = {};
 try {
   config = require("./config/config");
 } catch (e) {
@@ -72,8 +74,8 @@ if (process.env.NODE_ENV === "production") {
 
 let port = process.env.PORT || config.port;
 
-var http = require("http"); //.Server(app);
-var server = http.createServer(app);
+let http = require("http"); //.Server(app);
+let server = http.createServer(app);
 
 server.listen(port, () => console.log(`Server running on port ${port}!`));
 

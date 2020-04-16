@@ -1,3 +1,5 @@
+"use strict";
+
 export function capitalise(string) {
   try {
     return string.charAt(0).toUpperCase() + string.slice(1);

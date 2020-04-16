@@ -1,0 +1,16 @@
+{
+  "esversion": 6,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "latedef": false,
+  "leanswitch": true,
+  "nonbsp": true,
+  "nonew": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "varstmt": true,
+  "node": true
+}

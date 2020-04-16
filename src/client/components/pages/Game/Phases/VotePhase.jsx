@@ -16,7 +16,7 @@ import Button from "../../../modules/input/Button";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
-class TsarPhase extends Component {
+class VotePhase extends Component {
   constructor(props) {
     super(props);
 
@@ -118,4 +118,4 @@ const mapStateToProps = (state) => ({
   blackCard: getBlackCard(state),
 });
 
-export default connect(mapStateToProps, null)(TsarPhase);
+export default connect(mapStateToProps, null)(VotePhase);

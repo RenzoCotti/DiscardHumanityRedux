@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const router = express.Router();
 const Deck = require("../models/deckModel");
@@ -14,7 +16,7 @@ router.post("/new", (req, res) => {
   let deck = new Deck(req.body);
 
   deck.save((err, saved) => {
-    if (err) return console.log(err);
+    if (err) { return console.log(err); }
     // console.log(saved)
     console.log("Saved " + saved.name);
     return res.status(201).send(saved);
@@ -70,7 +72,7 @@ router.delete("/delete/:id", (req, res) => {
 // Retrieves all the decks in the database
 router.get("/all", (req, res) => {
   Deck.find({}, (err, decks) => {
-    if (err) return console.log(err);
+    if (err) { return console.log(err); }
     console.log("Fetching all decks");
     return res.json(decks);
   });

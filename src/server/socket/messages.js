@@ -2,8 +2,9 @@ exports.GAME_START = "game-start";
 exports.GAME_LOUNGE = "game-lounge";
 exports.CHECK_START = "game-check-start";
 exports.GAME_STATE = "game-get-state";
-exports.GAME_READY = "game-state-ready"
-
+exports.GAME_READY = "game-state-ready";
+exports.ROUND_WIN = "game-round-win";
+exports.GAME_WIN = "game-win";
 
 
 exports.NEW_HAND = "game-new-hand";
@@ -12,12 +13,10 @@ exports.NEW_BLACK_CARD = "game-new-black-card";
 exports.NEW_TSAR = "game-tsar-new";
 exports.TSAR_VOTING = "game-tsar-voting";
 exports.TSAR_VOTE = "game-tsar-vote";
-exports.ROUND_WIN = "game-round-win";
-exports.GAME_WIN = "game-win";
 exports.IS_TSAR = "game-is-tsar";
 exports.TSAR_NO_VOTE = "game-tsar-no-vote";
-exports.NOBODY_VOTED = "game-nobody-voted"
-
+exports.NOBODY_VOTED = "game-nobody-voted";
+exports.DEMOCRACY_VOTE = "game-democracy-vote";
 
 
 
@@ -47,7 +46,7 @@ exports.LOBBY_HAS_USER = "lobby-has-user";
 /**DECKS MESSAGES */
 exports.SET_DECKS = "lobby-set-decks";
 exports.DECKS_SELECTED = "lobby-decks-selected";
-exports.NOT_ENOUGH_CARDS = "lobby-not-enough-cards"
+exports.NOT_ENOUGH_CARDS = "lobby-not-enough-cards";
 
 /**CHAT MESSAGES */
 exports.CHAT_MESSAGE = "chat-message-new";
