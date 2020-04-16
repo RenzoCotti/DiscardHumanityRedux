@@ -5,7 +5,7 @@ let {
   log,
   getLobby,
   getUser
-} = require("./utils");
+} = require("../utils");
 
 const {
   LOBBY_NOT_FOUND,
@@ -18,10 +18,9 @@ const {
   LOBBY_CREATED,
   GAME_LOUNGE,
   DECKS_SELECTED,
-  USER_EXISTS,
   CHAT_MESSAGE,
   NOT_ENOUGH_CARDS
-} = require("./messages");
+} = require("../messages");
 
 //returns true if lobby exists
 exports.lobbyExists = (lobbyName) => {
@@ -152,19 +151,7 @@ exports.setDecks = (io, socket, info) => {
   }
 };
 
-exports.hasUser = (io, socket, info) => {
-  let lobby = getLobby(info.lobbyName);
-  if (lobby) {
-    let user = getUser(lobby, info.username);
-    if (user) {
-      log("user exists");
-      socket.emit(USER_EXISTS);
-    }
-  } else {
-    log("lobby not found");
-    socket.emit(LOBBY_NOT_FOUND, info.lobbyName);
-  }
-};
+
 
 exports.chatMessage = (io, message) => {
   log(message.username + " says \"" + message.message + "\"");

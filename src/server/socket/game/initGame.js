@@ -5,27 +5,27 @@ const {
   getLobby,
   getUser,
   setGameState,
-  playTurn,
-  sendCardsToVote
-} = require('./utils');
+} = require('../utils');
 
 const {
   NEW_HAND,
   NEW_BLACK_CARD,
   LOBBY_NOT_FOUND,
   GAME_START,
-  CHOICE_RECEIVED,
   IS_TSAR,
   GAME_READY,
   USER_NOT_FOUND,
-} = require("./messages");
+} = require("../messages");
 
 
 const {
   drawWhiteCardsAll,
   drawXCards
-} = require("./drawing");
+} = require("./drawCards");
 
+const {
+  playTurn
+} = require("../voting/turn");
 
 
 
@@ -51,6 +51,7 @@ function shuffle(a) {
 // }
 
 
+//this funciton initialises a new user if needed
 function initNewUser(lobby, username) {
   let user = getUser(lobby, username);
   if (user && user.info) {
@@ -70,7 +71,6 @@ function initNewUser(lobby, username) {
 
 exports.getGameState = (socket, msg) => {
   let lobby = getLobby(msg.lobbyName);
-  // log(msg)
   if (lobby) {
     let user = getUser(lobby, msg.username);
     if (user) {
@@ -220,54 +220,3 @@ exports.checkStart = (io, socket, msg) => {
 };
 
 
-
-//this function handles reception of a choice from a player, and sends 
-//the cards if needed to the tsar
-exports.handleChoice = (io, socket, msg) => {
-  let lobby = getLobby(msg.lobbyName);
-  if (lobby) {
-    let userInfo = getUser(lobby, msg.username).info;
-
-    //the user hasn't already voted
-    if (userInfo.cardsChosen.length === 0) {
-
-      userInfo.inactivityCounter = 0;
-
-      let hand = userInfo.hand;
-
-      //we remove the cards chosen from the users hand
-      for (let choice of msg.choice) {
-        if (choice !== null) {
-          let index = -1;
-
-          //we have a card 
-          for (let i = 0; i < hand.length; i++) {
-            let currentCard = hand[i];
-            //we found the card
-            if (currentCard._id === choice._id) {
-              index = i;
-            }
-          }
-          //we remove the card from the hand
-          if (index > -1) { hand.splice(index, 1); }
-        }
-      }
-
-      userInfo.cardsChosen = msg.choice;
-      lobby.gameState.userChosen++;
-
-      log(lobby.gameState.userChosen + "/" + (lobby.userList.length - 1) + " users voted.");
-      if (lobby.gameState.userChosen === lobby.userList.length - 1) {
-        clearTimeout(lobby.gameState.turnTimeout);
-        sendCardsToVote(io, lobby);
-      } else {
-        log(socket.username + " sent his cards");
-        socket.emit(CHOICE_RECEIVED);
-      }
-    } else {
-      log("user already sent his cards.");
-    }
-  } else {
-    log("lobby not found: " + msg.lobbyName);
-  }
-};

@@ -1,5 +1,5 @@
 import React from "react";
-import { stringOrEmpty } from "../../../../utility/utility";
+import { stringOrEmpty } from "../../../utility/utility";
 import PropTypes from "prop-types";
 
 /**

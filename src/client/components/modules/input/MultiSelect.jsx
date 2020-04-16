@@ -1,5 +1,5 @@
 import React from "react";
-import { capitalise, arrOrEmpty } from "../../../../utility/utility";
+import { capitalise, arrOrEmpty } from "../../../utility/utility";
 import { Select as MaterializeSelect } from "react-materialize";
 import PropTypes from "prop-types";
 

@@ -8,24 +8,31 @@ module.exports = function (server) {
     loginLobby,
     setDecks,
     getLobbyList,
-    hasUser,
     chatMessage,
-  } = require("./lobby");
+  } = require("./lobby/lobby");
 
   const {
     checkStart,
-    handleChoice,
     getGameState
-  } = require("./game");
+  } = require("./game/initGame");
 
   const {
     tsarVoted
-  } = require("./vote");
+  } = require("./voting/voteCards");
+
+
+  const {
+    handleChoice
+  } = require("./voting/choice");
 
   const {
     log,
-    disconnectFromLobby,
+    hasUser,
   } = require("./utils");
+
+  const {
+    disconnectFromLobby
+  } = require("./lobby/disconnect");
 
   const {
     LOBBY_NEW,
