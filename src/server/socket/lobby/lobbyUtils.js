@@ -3,7 +3,7 @@
 let {
   lobbies,
   log
-} = require("../utils");
+} = require("../internal");
 
 const {
   LOBBY_NOT_FOUND,

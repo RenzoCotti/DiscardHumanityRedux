@@ -3,7 +3,7 @@
 const {
   log,
   shuffle
-} = require("../utils");
+} = require("../internal");
 
 //this function returns an array of x cards taken from array. cycles if necessary
 function drawXCards(array, x) {

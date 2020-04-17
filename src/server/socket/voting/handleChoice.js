@@ -5,21 +5,12 @@ const {
 } = require("../messages");
 
 const {
-  log
-} = require("../utils");
-
-const {
-  sendCardsToVote
-} = require("./sendCardsToVote");
-
-const {
-  setTimeoutAndPlayTurn
-} = require("../game/turn");
-
-const {
+  log,
+  sendCardsToVote,
+  setTimeoutAndPlayTurn,
   getUser,
   getLobby
-} = require("../lobby/lobbyUtils");
+} = require("../internal");
 
 
 
@@ -58,8 +49,16 @@ exports.handleChoice = (io, socket, msg) => {
       userInfo.cardsChosen = msg.choice;
       lobby.gameState.userChosen++;
 
-      log(lobby.gameState.userChosen + "/" + (lobby.userList.length - 1) + " users voted.");
-      if (lobby.gameState.userChosen === lobby.userList.length - 1) {
+      let target;
+      if (lobby.gameSettings.tsar) {
+        //we exclude the tsar
+        target = lobby.userList.length - 1;
+      } else {
+        target = lobby.userList.length;
+      }
+
+      log(lobby.gameState.userChosen + "/" + target + " users voted.");
+      if (lobby.gameState.userChosen === target) {
         clearTimeout(lobby.gameState.turnTimeout);
         sendCardsToVote(io, lobby, setTimeoutAndPlayTurn);
       } else {

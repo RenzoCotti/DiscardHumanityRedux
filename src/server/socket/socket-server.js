@@ -8,35 +8,16 @@ module.exports = function (server) {
     getLobbyList,
     chatMessage,
     hasUser,
-  } = require("./lobby/lobbyUtils");
-
-  const {
     createLobby,
     loginLobby,
-  } = require("./lobby/joinLobby");
-
-  const {
-    disconnectFromLobby
-  } = require("./lobby/disconnectLobby");
-
-  const {
+    disconnectFromLobby,
     checkStart,
-    getGameState
-  } = require("./game/initGame");
-
-  const {
-    tsarVoted
-  } = require("./voting/voteCards");
-
-
-  const {
-    handleChoice
-  } = require("./voting/choice");
-
-  const {
+    getGameState,
+    tsarVoted,
+    userDemocracyVote,
+    handleChoice,
     log,
-  } = require("./utils");
-
+  } = require("./internal");
 
 
   const {
@@ -51,7 +32,8 @@ module.exports = function (server) {
     CHECK_START,
     GAME_STATE,
     CHOICE,
-    TSAR_VOTE
+    TSAR_VOTE,
+    DEMOCRACY_VOTE
   } = require("./messages");
 
   io.on("connect", function (socket) {
@@ -95,6 +77,8 @@ module.exports = function (server) {
     socket.on(CHOICE, (msg) => handleChoice(io, socket, msg));
 
     socket.on(TSAR_VOTE, (msg) => tsarVoted(io, msg));
+
+    socket.on(DEMOCRACY_VOTE, (msg) => userDemocracyVote(io, msg));
 
 
     socket.on("disconnect", () => {

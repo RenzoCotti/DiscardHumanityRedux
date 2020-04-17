@@ -3,28 +3,18 @@
 const {
   log,
   RESULT_TIMEOUT,
-  USER_CHOICE_TIMEOUT
-} = require("../utils");
-
-const {
+  USER_CHOICE_TIMEOUT,
+  drawBlackCard,
+  drawUpTo10,
+  drawWhiteCardsAll,
   setGameState,
   getUser,
-} = require("../lobby/lobbyUtils");
+  sendCardsToVote,
+} = require("../internal");
 
 const {
   GAME_READY
 } = require("../messages");
-
-const {
-  drawBlackCard,
-  drawUpTo10,
-  drawWhiteCardsAll
-} = require("./drawCards");
-
-
-const {
-  sendCardsToVote
-} = require("../voting/sendCardsToVote");
 
 
 exports.setTimeoutAndPlayTurn = (io, lobby) => {

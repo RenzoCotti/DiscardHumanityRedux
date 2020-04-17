@@ -2,30 +2,21 @@
 
 
 const {
-  DEMOCRACY_VOTE,
+  DEMOCRACY_CHOICES,
   NOBODY_VOTED,
   TSAR_VOTING,
   TSAR_NO_VOTE,
 } = require("../messages");
 
-
-
 const {
   log,
   TSAR_VOTE_TIMEOUT,
-
-} = require("../utils");
-
-const {
   getAllScores,
   setGameState,
   getUserByID,
-} = require("../lobby/lobbyUtils");
-
-const {
-  checkIfKick
-} = require("../lobby/disconnectLobby");
-
+  checkIfKick,
+  democracyCalculateWinner
+} = require("../internal");
 
 
 
@@ -99,22 +90,24 @@ exports.sendCardsToVote = (io, lobby, fn) => {
     log("Democracy is now voting...");
     setGameState(lobby, "voting");
 
-    io.to(lobby.name).emit(DEMOCRACY_VOTE, cards);
+    io.to(lobby.name).emit(DEMOCRACY_CHOICES, cards);
 
     //reusing tsar timeout because
     //TODO maybe add a specific timer?
     lobby.gameState.tsar.tsarTimeout = setTimeout(() => {
-      log("somebody didn't vote");
+      log("Somebody didn't vote...");
 
-      let scores = getAllScores(lobby);
-      io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
-
-      fn(io, lobby);
-
+      democracyCalculateWinner(io, lobby, fn);
 
     }, TSAR_VOTE_TIMEOUT);
   }
 };
+
+
+
+
+
+
 
 
 

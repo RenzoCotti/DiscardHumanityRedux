@@ -1,8 +1,14 @@
 "use strict";
 
 const {
-  log
-} = require('../utils');
+  log,
+  drawWhiteCardsAll,
+  drawXCards,
+  playTurn,
+  getLobby,
+  getUser,
+  setGameState,
+} = require('../internal');
 
 const {
   NEW_HAND,
@@ -12,23 +18,6 @@ const {
   IS_TSAR,
   USER_NOT_FOUND,
 } = require("../messages");
-
-
-const {
-  drawWhiteCardsAll,
-  drawXCards
-} = require("./drawCards");
-
-const {
-  playTurn
-} = require("./turn");
-
-const {
-  getLobby,
-  getUser,
-  setGameState,
-} = require("../lobby/lobbyUtils");
-
 
 //used to randomly shuffle an array
 function shuffle(a) {
@@ -109,7 +98,10 @@ function initGame(io, lobby) {
       fresh: shuffle(lobby.whiteCards),
       used: []
     },
+    //how many users chose a card
     userChosen: 0,
+    //has the user voted already? DEMO ONLY
+    userVoted: 0,
     //id of tsar
     tsar: {
       //user id of the current tsar
@@ -141,7 +133,6 @@ function initGame(io, lobby) {
       inactivityCounter: 0,
       //votes the user got DEMO ONLY
       votes: 0,
-      //has the user voted already? DEMO ONLY
       voted: false
     };
   }
@@ -149,7 +140,7 @@ function initGame(io, lobby) {
 
   lobby.gameSettings = {
     //tsar or demo
-    tsar: true,
+    tsar: false,
     //extra card TODO decide to keep or not
     gambling: false,
     //happy, score, turns, russianroulette

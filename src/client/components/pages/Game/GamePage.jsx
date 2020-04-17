@@ -23,6 +23,7 @@ import {
   IS_TSAR,
   TSAR_NO_VOTE,
   NOBODY_VOTED,
+  DEMOCRACY_CHOICES,
 } from "../../../../server/socket/messages";
 
 import WinRound from "./Phases/WinRound";
@@ -42,33 +43,50 @@ class GamePage extends Component {
       winningCard: null,
       winUsername: null,
       nobodyVoted: false,
+      democracy: null,
       scores: [],
     };
 
-    this.props.socket.on(NEW_BLACK_CARD, (card) => {
-      // console.log("new card of colour");
+    this.resetState = this.resetState.bind(this);
 
+    this.props.socket.on(NEW_BLACK_CARD, (card) => {
       this.props.updateBlackCard(card);
     });
 
     this.props.socket.on(NEW_HAND, (hand) => {
-      // console.log("new hand");
-
       this.props.updateHand(hand);
     });
 
     this.props.socket.on(IS_TSAR, (value) => {
-      // console.log("new tsar");
       this.setState({ tsar: value });
     });
 
-    this.props.socket.on(ROUND_WIN, (msg) => {
-      // console.log("round was won");
+    this.props.socket.on(DEMOCRACY_CHOICES, (value) => {
+      // console.log("new tsar");
+      this.setState({ democracy: value });
+    });
+
+    this.props.socket.on(NOBODY_VOTED, (msg) => {
+      this.resetState();
       this.setState({
         winRound: true,
-        winGame: false,
-        tsar: false,
-        noVote: false,
+        scores: msg,
+      });
+    });
+
+    this.props.socket.on(TSAR_NO_VOTE, (msg) => {
+      this.resetState();
+      this.setState({
+        winRound: true,
+        scores: msg,
+      });
+    });
+
+
+    this.props.socket.on(ROUND_WIN, (msg) => {
+      this.resetState();
+      this.setState({
+        winRound: true,
         winningCard: msg.winningCard,
         winUsername: msg.username,
         scores: msg.scores,
@@ -76,37 +94,16 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(GAME_WIN, (msg) => {
-      // console.log("game was won");
+      this.resetState();
       this.setState({
-        winRound: false,
         winGame: true,
-        tsar: false,
-        noVote: false,
-        nobodyVoted: false,
         scores: msg,
       });
     });
 
-    this.props.socket.on(NOBODY_VOTED, (msg) => {
-      // console.log("game was won");
-      this.setState({
-        winRound: true,
-        winGame: false,
-        tsar: false,
-        noVote: false,
-        nobodyVoted: true,
-        scores: msg,
-      });
-    });
 
     this.props.socket.on(GAME_READY, () => {
-      this.setState({
-        winRound: false,
-        winGame: false,
-        tsar: false,
-        noVote: false,
-        nobodyVoted: false,
-      });
+      this.resetState();
 
       this.props.socket.emit(GAME_STATE, {
         lobbyName: this.props.lobbyName,
@@ -114,23 +111,7 @@ class GamePage extends Component {
       });
     });
 
-    this.props.socket.on(TSAR_NO_VOTE, (msg) => {
-      console.log("tsar didnt vote");
-      this.setState({
-        winRound: true,
-        winGame: false,
-        tsar: false,
-        noVote: true,
-        nobodyVoted: false,
-        scores: msg,
-      });
-      // this.props.socket.emit(LOBBY_HAS_USER);
 
-      // this.props.socket.emit(GAME_STATE, {
-      //   lobbyName: this.props.lobbyName,
-      //   username: this.props.username,
-      // });
-    });
   }
 
   static get propTypes() {
@@ -143,6 +124,21 @@ class GamePage extends Component {
       updateHand: PropTypes.func,
       hand: PropTypes.array,
     };
+  }
+
+  resetState() {
+    this.setState({
+      winRound: false,
+      winGame: false,
+      tsar: false,
+      noVote: false,
+      home: false,
+      winningCard: null,
+      winUsername: null,
+      nobodyVoted: false,
+      democracy: null,
+      scores: [],
+    });
   }
 
   //all we have to do, is verify if user is in lobby.
@@ -169,7 +165,10 @@ class GamePage extends Component {
       toReturn = <WinGame scores={this.state.scores} />;
     } else if (this.state.tsar) {
       toReturn = <VotePhase socket={this.props.socket} />;
-    } else if (!this.props.hand || !this.props.blackCard) {
+    } else if (this.state.democracy) {
+      toReturn = <VotePhase socket={this.props.socket} democracy={this.state.democracy} />;
+    }
+    else if (!this.props.hand || !this.props.blackCard) {
       // console.log(this.props);
       toReturn = <div>Initialising...</div>;
     } else {

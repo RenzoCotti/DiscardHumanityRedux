@@ -65,7 +65,8 @@ class WinRound extends Component {
                 colour="card-black"
                 size="card-big"
                 fillGaps={arr}
-              /></React.Fragment>}
+              />
+            </React.Fragment>}
           {this.props.scores.map((el, index) => (
             <div key={index}>
               {el.username}: {el.score}

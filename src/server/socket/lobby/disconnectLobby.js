@@ -7,14 +7,15 @@ const {
 } = require("../messages");
 
 let {
-  log,
-  lobbies,
-  USER_INACTIVITY_MAX_TURNS,
-} = require("../utils");
+  lobbies
+} = require("../internal");
 
 const {
+  log,
   getUser,
-} = require("./lobbyUtils");
+  USER_INACTIVITY_MAX_TURNS,
+} = require("../internal");
+
 
 exports.disconnectFromLobby = (io, lobbyName, username) => {
   log("Disconnecting " + username + " from lobby " + lobbyName);

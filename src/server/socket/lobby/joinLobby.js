@@ -2,14 +2,11 @@
 
 let {
   lobbies,
-  log
-} = require("../utils");
-
-const {
+  log,
   getLobby,
   getUser,
   lobbyExists
-} = require("./lobbyUtils");
+} = require("../internal");
 
 const {
   LOBBY_NOT_FOUND,

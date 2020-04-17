@@ -17,6 +17,7 @@ exports.IS_TSAR = "game-is-tsar";
 exports.TSAR_NO_VOTE = "game-tsar-no-vote";
 exports.NOBODY_VOTED = "game-nobody-voted";
 exports.DEMOCRACY_VOTE = "game-democracy-vote";
+exports.DEMOCRACY_CHOICES = "game-democracy-choices";
 
 
 
