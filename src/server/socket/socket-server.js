@@ -4,12 +4,20 @@ module.exports = function (server) {
   const io = require("socket.io").listen(server);
 
   const {
-    createLobby,
-    loginLobby,
     setDecks,
     getLobbyList,
     chatMessage,
-  } = require("./lobby/lobby");
+    hasUser,
+  } = require("./lobby/lobbyUtils");
+
+  const {
+    createLobby,
+    loginLobby,
+  } = require("./lobby/joinLobby");
+
+  const {
+    disconnectFromLobby
+  } = require("./lobby/disconnectLobby");
 
   const {
     checkStart,
@@ -27,12 +35,9 @@ module.exports = function (server) {
 
   const {
     log,
-    hasUser,
   } = require("./utils");
 
-  const {
-    disconnectFromLobby
-  } = require("./lobby/disconnect");
+
 
   const {
     LOBBY_NEW,

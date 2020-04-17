@@ -12,15 +12,19 @@ const {
 
 const {
   log,
-  getAllScores,
   TSAR_VOTE_TIMEOUT,
-  setGameState,
-  getUserByID,
+
 } = require("../utils");
 
 const {
+  getAllScores,
+  setGameState,
+  getUserByID,
+} = require("../lobby/lobbyUtils");
+
+const {
   checkIfKick
-} = require("../lobby/disconnect");
+} = require("../lobby/disconnectLobby");
 
 
 

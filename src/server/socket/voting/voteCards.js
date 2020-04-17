@@ -6,16 +6,19 @@ const {
 } = require("../messages");
 
 const {
-  log,
-  getUser,
-  getLobby,
-  getUserByID,
-  getAllScores
+  log
 } = require("../utils");
 
 const {
   setTimeoutAndPlayTurn
-} = require("./turn");
+} = require("../game/turn");
+
+const {
+  getUser,
+  getLobby,
+  getUserByID,
+  getAllScores
+} = require("../lobby/lobbyUtils");
 
 
 
@@ -134,7 +137,6 @@ function roundWon(io, lobby, username, winningCard) {
   if (user) {
 
     lobby.gameState.lastRoundWinner = username;
-    lobby.gameState.numberOfTurns++;
 
     //winner gets a point
     modifyScore(lobby, username, +1);

@@ -4,21 +4,22 @@ const {
   CHOICE_RECEIVED
 } = require("../messages");
 
-
-
 const {
-  log,
-  getUser,
-  getLobby
+  log
 } = require("../utils");
 
 const {
   sendCardsToVote
-} = require("./chooseCards");
+} = require("./sendCardsToVote");
 
 const {
   setTimeoutAndPlayTurn
-} = require("./turn");
+} = require("../game/turn");
+
+const {
+  getUser,
+  getLobby
+} = require("../lobby/lobbyUtils");
 
 
 
@@ -62,13 +63,13 @@ exports.handleChoice = (io, socket, msg) => {
         clearTimeout(lobby.gameState.turnTimeout);
         sendCardsToVote(io, lobby, setTimeoutAndPlayTurn);
       } else {
-        log(socket.username + " sent his cards");
+        log(msg.username + " sent his cards");
         socket.emit(CHOICE_RECEIVED);
       }
     } else {
       log("user already sent his cards.");
     }
   } else {
-    log("lobby not found: " + msg.lobbyName);
+    log("handleChoice, lobby not found: " + msg.lobbyName);
   }
 };

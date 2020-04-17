@@ -9,12 +9,15 @@ const {
 let {
   log,
   lobbies,
-  getUser,
   USER_INACTIVITY_MAX_TURNS,
 } = require("../utils");
 
+const {
+  getUser,
+} = require("./lobbyUtils");
+
 exports.disconnectFromLobby = (io, lobbyName, username) => {
-  log("disconnecting user " + username + " from " + lobbyName);
+  log("Disconnecting " + username + " from lobby " + lobbyName);
 
   let toRemove = -1;
   for (let i = 0; i < lobbies.length; i++) {
@@ -70,7 +73,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   }
 
   if (toRemove !== -1) {
-    log("lobby empty now, removing.");
+    log("Lobby empty now, removing.");
     lobbies.splice(toRemove, 1);
     io.in("general").emit(LOBBY_LIST_UPDATE);
   }
@@ -80,15 +83,15 @@ function stopGame(lobby) {
   lobby.state = "deck-selection";
   if (lobby.gameState) {
     clearTimeout(lobby.gameState.turnTimeout);
-    clearTimeout(lobby.gameState.tsarTimeout);
+    clearTimeout(lobby.gameState.tsar.tsarTimeout);
   }
 }
 
 exports.checkIfKick = (io, lobby, user) => {
   if (user.info.inactivityCounter >= USER_INACTIVITY_MAX_TURNS) {
-    log("kicking " + user.username + " for inactivity");
+    log("Kicking " + user.username + " for inactivity.");
     exports.disconnectFromLobby(io, lobby.name, user.username);
   } else {
-    log("user " + user.username + " is inactive: " + user.info.inactivityCounter);
+    log("User " + user.username + " is inactive: " + user.info.inactivityCounter);
   }
 };
