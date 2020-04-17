@@ -67,7 +67,7 @@ class LoungePage extends Component {
     });
 
     //every time we get here, we launch this and check if the game can start
-    this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
+    // this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
   }
 
   render() {

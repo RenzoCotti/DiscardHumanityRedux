@@ -67,7 +67,7 @@ exports.handleChoice = (io, socket, msg) => {
         socket.emit(CHOICE_RECEIVED);
       }
     } else {
-      log("user already sent his cards.");
+      log("User " + msg.username + " already sent his cards.");
     }
   } else {
     log("handleChoice, lobby not found: " + msg.lobbyName);

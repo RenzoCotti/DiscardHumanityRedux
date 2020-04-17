@@ -30,7 +30,6 @@ const {
 exports.setTimeoutAndPlayTurn = (io, lobby) => {
   lobby.gameState.turnTimeout = setTimeout(() => {
     exports.playTurn(io, lobby);
-    io.to(lobby.name).emit(GAME_READY);
   }, RESULT_TIMEOUT);
 };
 

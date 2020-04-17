@@ -58,7 +58,7 @@ exports.sendCardsToVote = (io, lobby, fn) => {
   if (cards.length === 0) {
     //nobody voted
     let scores = getAllScores(lobby);
-
+    log("Nobody voted.");
     io.to(lobby.name).emit(NOBODY_VOTED, scores);
 
     //to solve for circular dependency
@@ -67,20 +67,18 @@ exports.sendCardsToVote = (io, lobby, fn) => {
     return;
   }
 
-  // log(cards);
-
-  //everybody chose, except tsar
   if (lobby.gameSettings.tsar) {
     let tsar = lobby.gameState.tsar;
 
-    log("tsar is now voting");
+    log("Tsar is now voting...");
 
     setGameState(lobby, "voting");
     io.to(tsar.id).emit(TSAR_VOTING, cards);
 
     tsar.tsarTimeout = setTimeout(() => {
-      log("tsar hasn't voted");
+      log("Tsar hasn't voted.");
 
+      //kicks tsar if necessary
       let tsarUser = getUserByID(lobby, tsar.id);
 
       if (tsarUser) {
@@ -89,15 +87,16 @@ exports.sendCardsToVote = (io, lobby, fn) => {
       }
 
 
-
       let scores = getAllScores(lobby);
       io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
 
       fn(io, lobby);
 
     }, TSAR_VOTE_TIMEOUT);
+
   } else {
-    log("democracy is now voting");
+    //democracy
+    log("Democracy is now voting...");
     setGameState(lobby, "voting");
 
     io.to(lobby.name).emit(DEMOCRACY_VOTE, cards);
@@ -114,7 +113,6 @@ exports.sendCardsToVote = (io, lobby, fn) => {
 
 
     }, TSAR_VOTE_TIMEOUT);
-    //democracy
   }
 };
 

@@ -34,7 +34,7 @@ function modifyScore(lobby, username, amount) {
 
 //the tsar has voted, send all clients the info for the result screen
 exports.tsarVoted = (io, msg) => {
-  log("tsar has voted.");
+  log("Tsar has voted.");
 
   let lobby = getLobby(msg.lobbyName);
 
@@ -55,7 +55,7 @@ exports.tsarVoted = (io, msg) => {
     roundWon(io, lobby, msg.username, msg.winningCard);
 
   } else {
-    log("lobby not found");
+    log("tsarvoted: Lobby not found.");
   }
 };
 
@@ -135,6 +135,7 @@ function roundWon(io, lobby, username, winningCard) {
   let user = getUser(lobby, username);
 
   if (user) {
+    log(username + " won the round.");
 
     lobby.gameState.lastRoundWinner = username;
 
@@ -162,6 +163,7 @@ function roundWon(io, lobby, username, winningCard) {
     let scores = getAllScores(lobby);
 
     if (end) {
+      log("Game over!");
       io.to(lobby.name).emit(GAME_WIN, scores);
     } else {
       io.to(lobby.name).emit(ROUND_WIN, {
@@ -169,13 +171,10 @@ function roundWon(io, lobby, username, winningCard) {
         username: username,
         scores: scores
       });
-
-
-
       setTimeoutAndPlayTurn(io, lobby);
     }
   } else {
-    log("user not found");
+    log("roundwon User not found.");
   }
 }
 
