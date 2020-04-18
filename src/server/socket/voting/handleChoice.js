@@ -57,7 +57,7 @@ exports.handleChoice = (io, socket, msg) => {
         target = lobby.userList.length;
       }
 
-      log(lobby.gameState.userChosen + "/" + target + " users voted.");
+      log(lobby.gameState.userChosen + "/" + target + " users picked.");
       if (lobby.gameState.userChosen === target) {
         clearTimeout(lobby.gameState.turnTimeout);
         sendCardsToVote(io, lobby, setTimeoutAndPlayTurn);

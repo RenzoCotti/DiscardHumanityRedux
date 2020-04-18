@@ -29,9 +29,6 @@ exports.drawXCards = drawXCards;
 exports.drawBlackCard = drawBlackCard;
 exports.drawUpTo10 = drawUpTo10;
 
-
-
-
 const {
   setDecks,
   getLobbyList,
@@ -60,7 +57,7 @@ exports.setGameState = setGameState;
 
 const {
   pickNewTsar
-} = require("./game/pickNewTsar");
+} = require("./game/tsar");
 exports.pickNewTsar = pickNewTsar;
 
 const {
@@ -77,41 +74,19 @@ const {
 exports.disconnectFromLobby = disconnectFromLobby;
 exports.checkIfKick = checkIfKick;
 
-const {
-  playTurn,
-  setTimeoutAndPlayTurn
-} = require("./game/turn");
-exports.playTurn = playTurn;
-exports.setTimeoutAndPlayTurn = setTimeoutAndPlayTurn;
-
-const {
-  roundWon
-} = require("./game/roundWon");
-exports.roundWon = roundWon;
-
-const {
-  democracyCalculateWinner
-} = require("./voting/democracy");
-exports.democracyCalculateWinner = democracyCalculateWinner;
 
 const {
   tsarVoted,
   userDemocracyVote,
+  sendCardsToVote,
+  playTurn,
+  setTimeoutAndPlayTurn
 } = require("./voting/voteCards");
 exports.tsarVoted = tsarVoted;
 exports.userDemocracyVote = userDemocracyVote;
-
-
-
-
-const {
-  sendCardsToVote
-} = require("./voting/sendCardsToVote");
 exports.sendCardsToVote = sendCardsToVote;
-
-
-
-
+exports.playTurn = playTurn;
+exports.setTimeoutAndPlayTurn = setTimeoutAndPlayTurn;
 
 
 const {
