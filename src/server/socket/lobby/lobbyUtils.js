@@ -47,18 +47,6 @@ exports.getUserByID = (lobby, id) => {
 };
 
 
-/*
-  init (setting up game, drawing cards for everyone) X CANT JOIN, wait
-  selecting (everyone is picking cards)
-  voting (tsar or demo or whatevs)
-  result
-  finished (end screen)
-*/
-exports.setGameState = (lobby, status) => {
-  lobby.state = status;
-};
-
-
 exports.getAllScores = (lobby) => {
   let scores = [];
   for (let user of lobby.userList) {

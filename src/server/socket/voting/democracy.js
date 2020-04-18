@@ -63,7 +63,7 @@ exports.democracyCalculateWinner = (io, lobby, fn) => {
     //an individual winner
     username = user.username;
     winningCard = user.info.userChoice;
-    roundWon(io, lobby, username, winningCard, multipleWinners);
+    roundWon(io, lobby, username, winningCard, multipleWinners, fn);
   }
 
 };

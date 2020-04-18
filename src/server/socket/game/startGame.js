@@ -7,27 +7,15 @@ const {
   playTurn,
   getLobby,
   getUser,
-  setGameState,
+  shuffle,
+  setGameState
 } = require('../internal');
 
 const {
-  NEW_HAND,
-  NEW_BLACK_CARD,
   LOBBY_NOT_FOUND,
   GAME_START,
-  IS_TSAR,
   USER_NOT_FOUND,
 } = require("../messages");
-
-//used to randomly shuffle an array
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 
 
 
@@ -57,31 +45,6 @@ function initNewUser(lobby, username) {
   }
 }
 
-
-
-
-exports.getGameState = (socket, msg) => {
-  let lobby = getLobby(msg.lobbyName);
-  if (lobby) {
-    let user = getUser(lobby, msg.username);
-    if (user) {
-      log("Getting game state for user: " + msg.username);
-
-      if (user.info && user.info.hand) {
-        socket.emit(NEW_HAND, user.info.hand);
-      }
-      socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
-      socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
-    } else {
-      log("User " + msg.username + " not found.");
-    }
-    //else user isn't there
-
-
-  } else {
-    log("Gamestate, Lobby not found: " + msg.lobbyName);
-  }
-};
 
 
 function initGame(io, lobby) {
