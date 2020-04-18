@@ -39,6 +39,7 @@ import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
 import DeckSelection from "./pages/Lounge/DeckSelectionPage";
+import LobbyCreationPage from "./pages/LobbyCreationPage";
 
 // function requireAll(r) {
 //   r.keys().forEach(r);
@@ -96,6 +97,10 @@ class App extends Component {
               component={() => <Lobby socket={this.socket} />}
             />
             <Route
+              path="/create-lobby"
+              component={() => <LobbyCreationPage socket={this.socket} />}
+            />
+            <Route
               path="/lounge"
               component={() => <Lounge socket={this.socket} />}
             />
@@ -105,7 +110,10 @@ class App extends Component {
             />
 
             <Route path="/rules" component={Rules} />
-            <Route path="/deck-creation" component={Deck} />
+            <Route
+              path="/deck-creation"
+              component={() => <Deck socket={this.socket} />}
+            />
             <Route path="/login" component={Login} />
             <Route path="/about" component={About} />
           </div>

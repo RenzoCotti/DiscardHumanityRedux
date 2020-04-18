@@ -88,7 +88,7 @@ exports.createLobby = (io, socket, info) => {
     let lobby = {
       name: info.lobbyName,
       password: info.password ? info.password : null,
-      maxUsers: info.maxUsers,
+      maxUsers: Number(info.maxUsers),
       currentUsers: 1,
       userList: [{
         username: info.username,
@@ -96,6 +96,31 @@ exports.createLobby = (io, socket, info) => {
       },],
       state: "deck-selection",
     };
+
+    let gameSettings = {
+      //tsar or demo
+      tsar: (info.voting === "tsar" ? true : false),
+      //happy, score, turns, russianroulette
+      ending: {
+        type: info.ending,
+        max: (info.ending === "score" || info.ending === "turns" ? Number(info.points) : 0)
+      },
+      //he who gets voted becomes tsar
+      meritocracy: (info.meritocracy === "no" ? false : true),
+      //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
+      // russianRoulette: false,
+      //discard cards for points
+      // refreshHand: false,
+      //rando c;
+      // randoCardissian: false,
+      //jolly cards, allows a user to write in sth
+      // jollyCards: {
+      //   active: false,
+      //   number: 0
+      // }
+    };
+
+    lobby.gameSettings = gameSettings;
 
     lobbies.push(lobby);
     log("Lobby " + info.lobbyName + " created.");

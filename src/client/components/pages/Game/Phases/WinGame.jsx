@@ -20,7 +20,7 @@ class WinRound extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.setState({ scores: this.props.scores.sort(this.compare) });
+    this.state = { scores: this.props.scores.sort(this.compare) };
   }
 
   static get propTypes() {

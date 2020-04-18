@@ -37,7 +37,8 @@ const {
   getLobby,
   getUser,
   lobbyExists,
-  getAllScores
+  getAllScores,
+  getUserByID
 } = require("./lobby/lobbyUtils");
 exports.setDecks = setDecks;
 exports.getLobbyList = getLobbyList;
@@ -47,6 +48,7 @@ exports.getLobby = getLobby;
 exports.getUser = getUser;
 exports.lobbyExists = lobbyExists;
 exports.getAllScores = getAllScores;
+exports.getUserByID = getUserByID;
 
 const {
   getGameState,

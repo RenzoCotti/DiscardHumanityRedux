@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import LobbyEntry from "../modules/LobbyEntry";
-import CreateLobby from "../modules/CreateLobby";
+// import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import Button from "../modules/input/Button";
+
 import PropTypes from "prop-types";
 import { getUsername, getLobbyName } from "../../redux/actions";
 import {
@@ -19,6 +21,8 @@ class LobbyPage extends Component {
     this.state = {};
 
     this.setupSocket();
+    this.createLobby = this.createLobby.bind(this);
+
     this.props.socket.emit(LOBBY_GET_LIST);
     //checks if a user already joined a lobby
     if (this.props.username && this.props.lobbyName) {
@@ -47,13 +51,19 @@ class LobbyPage extends Component {
     });
 
     this.props.socket.on(USER_EXISTS, () => {
-      this.setState({ redirect: true });
+      this.setState({ lounge: true });
     });
   }
 
+  createLobby() {
+    this.setState({ create: true });
+  }
+
   render() {
-    if (this.state.redirect) {
+    if (this.state.lounge) {
       return <Redirect push to={"/lounge"} />;
+    } else if (this.state.create) {
+      return <Redirect push to={"/create-lobby"} />;
     }
 
     let list;
@@ -81,7 +91,10 @@ class LobbyPage extends Component {
           </div>
         </div>
 
-        <CreateLobby socket={this.props.socket} />
+
+        <Button value="Create Lobby" fn={this.createLobby} />
+
+        {/* <CreateLobby socket={this.props.socket} /> */}
 
         {/* <div className="errormsg"></div> */}
 

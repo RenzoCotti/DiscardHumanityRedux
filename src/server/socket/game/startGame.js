@@ -100,31 +100,33 @@ function initGame(io, lobby) {
     };
   }
 
+  // console.log(lobby.gameSettings);
 
-  lobby.gameSettings = {
-    //tsar or demo
-    tsar: false,
-    //extra card TODO decide to keep or not
-    gambling: false,
-    //happy, score, turns, russianroulette
-    ending: {
-      type: "score",
-      max: 20
-    },
-    //he who gets voted becomes tsar
-    meritocracy: false,
-    //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
-    russianRoulette: false,
-    //discard cards for points
-    refreshHand: false,
-    //rando c;
-    randoCardissian: false,
-    //jolly cards, allows a user to write in sth
-    jollyCards: {
-      active: false,
-      number: 0
-    }
-  };
+
+  // lobby.gameSettings = {
+  //   //tsar or demo
+  //   tsar: false,
+  //   //extra card TODO decide to keep or not
+  //   gambling: false,
+  //   //happy, score, turns, russianroulette
+  //   ending: {
+  //     type: "score",
+  //     max: 20
+  //   },
+  //   //he who gets voted becomes tsar
+  //   meritocracy: false,
+  //   //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
+  //   russianRoulette: false,
+  //   //discard cards for points
+  //   refreshHand: false,
+  //   //rando c;
+  //   randoCardissian: false,
+  //   //jolly cards, allows a user to write in sth
+  //   jollyCards: {
+  //     active: false,
+  //     number: 0
+  //   }
+  // };
 
   drawWhiteCardsAll(lobby, 10);
   log("Game initialised.");

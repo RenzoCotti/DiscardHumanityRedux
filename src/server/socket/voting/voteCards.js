@@ -309,15 +309,19 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
     //check win conditions of the game
     let end = false;
 
-    if (lobby.gameSettings.ending === "score") {
+    log(lobby.gameSettings.ending);
+
+    if (lobby.gameSettings.ending.type === "score") {
       for (let user of lobby.gameState.userState.info) {
+        log(user.score);
+
         if (user.score === lobby.gameSettings.ending.max) {
           end = true;
         }
       }
 
-    } else if (lobby.gameSettings.ending === "turns") {
-      if (lobby.gameState.numberOfTurns === lobby.gameSettings.max) {
+    } else if (lobby.gameSettings.ending.type === "turns") {
+      if (lobby.gameState.numberOfTurns === lobby.gameSettings.ending.max) {
         end = true;
       }
     }

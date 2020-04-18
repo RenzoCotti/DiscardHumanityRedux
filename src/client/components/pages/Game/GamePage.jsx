@@ -100,6 +100,8 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(GAME_WIN, (msg) => {
+      console.log("game won");
+      console.log(msg);
       this.resetState();
       this.setState({
         winGame: true,
