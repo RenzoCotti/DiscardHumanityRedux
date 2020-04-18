@@ -75,6 +75,8 @@ class VotePhase extends Component {
   }
 
   render() {
+    console.log("state: ");
+    console.log(this.state);
     if (!this.state.choices) {
       if (this.props.democracy) {
         return <div>Democracy: Waiting for users to pick a card.</div>;

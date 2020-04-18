@@ -61,12 +61,16 @@ class GamePage extends Component {
       this.setState({ tsar: value });
     });
 
-    this.props.socket.on(DEMOCRACY_CHOICES, (value) => {
+    this.props.socket.on(DEMOCRACY_CHOICES, (msg) => {
       // console.log("new tsar");
-      this.setState({ democracy: value });
+      console.log("democracy");
+      console.log(msg);
+      this.setState({ democracy: msg });
     });
 
     this.props.socket.on(NOBODY_VOTED, (msg) => {
+      console.log("nobody voted");
+      console.log(msg);
       this.resetState();
       this.setState({
         winRound: true,
@@ -84,6 +88,8 @@ class GamePage extends Component {
 
 
     this.props.socket.on(ROUND_WIN, (msg) => {
+      console.log("round won");
+      console.log(msg);
       this.resetState();
       this.setState({
         winRound: true,

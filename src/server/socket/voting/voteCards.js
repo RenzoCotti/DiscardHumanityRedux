@@ -144,9 +144,10 @@ function democracyCalculateWinner(io, lobby, fn) {
   }
 
   if (user) {
+    log(user.info);
     //an individual winner
     username = user.username;
-    winningCard = user.info.userChoice;
+    winningCard = user.info.cardsChosen;
     roundWon(io, lobby, username, winningCard, multipleWinners, fn);
   }
 
