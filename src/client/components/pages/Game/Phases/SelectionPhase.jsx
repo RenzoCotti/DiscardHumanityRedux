@@ -16,6 +16,7 @@ import {
 } from "../../../../redux/actions";
 import CardSelected from "../Views/CardSelected";
 import Button from "../../../modules/input/Button";
+import AdminDashboard from "../../../modules/AdminDashboard";
 
 import {
   CHOICE_RECEIVED,
@@ -55,6 +56,7 @@ class SelectionPhase extends Component {
       selectedCards: PropTypes.array,
       hand: PropTypes.array,
       blackCard: PropTypes.object,
+      admin: PropTypes.bool
     };
   }
 
@@ -109,6 +111,8 @@ class SelectionPhase extends Component {
             <Button value="Confirm" fn={this.sendCards} />
           </div>
           <Hand />
+          {this.props.admin ?
+            <AdminDashboard socket={this.props.socket} /> : ""}
         </div>
       </React.Fragment>
     );

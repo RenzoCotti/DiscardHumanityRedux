@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import { getUsername, getLobbyName } from "../../redux/actions";
 import {
   LOBBY_GET_LIST,
-  LOBBY_HAS_USER,
   LOBBY_LIST_UPDATE,
   USER_EXISTS,
   LOBBY_LIST,

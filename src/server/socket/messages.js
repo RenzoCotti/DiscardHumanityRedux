@@ -9,7 +9,6 @@ exports.GAME_BREAK = "game-break";
 exports.GAME_PAUSED = "game-paused";
 exports.GAME_RESUME = "game-resume";
 exports.GAME_UNPAUSED = "game-unpaused";
-
 exports.GAME_END = "game-end";
 
 exports.NEW_HAND = "game-new-hand";

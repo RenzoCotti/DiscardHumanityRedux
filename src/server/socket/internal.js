@@ -86,8 +86,9 @@ const {
   playTurn,
   setTimeoutAndPlayTurn,
   gameBreak,
-  unpauseGame
-} = require("./voting/voteCards");
+  unpauseGame,
+  endGame
+} = require("./general");
 exports.tsarVoted = tsarVoted;
 exports.userDemocracyVote = userDemocracyVote;
 exports.sendCardsToVote = sendCardsToVote;
@@ -95,6 +96,8 @@ exports.playTurn = playTurn;
 exports.setTimeoutAndPlayTurn = setTimeoutAndPlayTurn;
 exports.gameBreak = gameBreak;
 exports.unpauseGame = unpauseGame;
+exports.endGame = endGame;
+
 
 const {
   checkStart,

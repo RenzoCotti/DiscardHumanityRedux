@@ -32,7 +32,6 @@ import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";
 import SelectionPhase from "./Phases/SelectionPhase";
 import VotePhase from "./Phases/VotePhase";
-import AdminDashboard from "../../modules/AdminDashboard";
 
 class GamePage extends Component {
   constructor(props) {
@@ -71,13 +70,13 @@ class GamePage extends Component {
     this.props.socket.on(DEMOCRACY_CHOICES, (msg) => {
       // console.log("new tsar");
       console.log("democracy");
-      console.log(msg);
+      // console.log(msg);
       this.setState({ democracy: msg });
     });
 
     this.props.socket.on(NOBODY_VOTED, (msg) => {
       console.log("nobody voted");
-      console.log(msg);
+      // console.log(msg);
       this.resetState();
       this.setState({
         winRound: true,
@@ -96,7 +95,7 @@ class GamePage extends Component {
 
     this.props.socket.on(ROUND_WIN, (msg) => {
       console.log("round won");
-      console.log(msg);
+      // console.log(msg);
       this.resetState();
       this.setState({
         winRound: true,
@@ -108,11 +107,12 @@ class GamePage extends Component {
 
     this.props.socket.on(GAME_WIN, (msg) => {
       console.log("game won");
-      console.log(msg);
+      // console.log(msg);
       this.resetState();
       this.setState({
         winGame: true,
-        scores: msg,
+        scores: msg.scores,
+        winner: msg.username
       });
     });
 
@@ -191,14 +191,12 @@ class GamePage extends Component {
       // console.log(this.props);
       toReturn = <div>Initialising...</div>;
     } else {
-      toReturn = <SelectionPhase socket={this.props.socket} />;
+      toReturn = <SelectionPhase socket={this.props.socket} admin={this.state.isAdmin} />;
     }
 
     return (
       <div className="flex-column">
         {toReturn}
-        {this.state.isAdmin ?
-          <AdminDashboard socket={this.props.socket} /> : ""}
       </div>
     );
   }

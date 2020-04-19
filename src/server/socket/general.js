@@ -9,7 +9,7 @@ const {
   ROUND_WIN,
   GAME_PAUSED,
   GAME_UNPAUSED
-} = require("../messages");
+} = require("./messages");
 
 const {
   log,
@@ -27,7 +27,7 @@ const {
   drawUpTo10,
   drawWhiteCardsAll,
   pickNewTsar,
-} = require("../internal");
+} = require("./internal");
 
 
 //the tsar has voted, send all clients the info for the result screen
@@ -50,7 +50,7 @@ exports.tsarVoted = (io, msg) => {
     }
 
 
-    roundWon(io, lobby, msg.username, msg.winningCard, false, exports.setTimeoutAndPlayTurn);
+    roundWon(io, lobby, msg.username, msg.winningCard, false);
 
   } else {
     log("tsarvoted: Lobby not found.");
@@ -85,7 +85,7 @@ exports.userDemocracyVote = (io, msg) => {
 
       if (lobby.gameState.userVoted === lobby.userList.length) {
         clearTimeout(lobby.gameState.tsar.tsarTimeout);
-        democracyCalculateWinner(io, lobby, exports.setTimeoutAndPlayTurn);
+        democracyCalculateWinner(io, lobby);
       }
 
     } else {
@@ -102,7 +102,7 @@ exports.userDemocracyVote = (io, msg) => {
 
 
 //calculates who won in democracy
-function democracyCalculateWinner(io, lobby, fn) {
+function democracyCalculateWinner(io, lobby) {
   //everybody voted, pick winner
   lobby.gameState.userVoted = 0;
   let winners = [];
@@ -142,22 +142,28 @@ function democracyCalculateWinner(io, lobby, fn) {
   } else {
     //nobody voted
     let scores = getAllScores(lobby);
-    io.to(lobby.name).emit(NOBODY_VOTED, scores);
-    fn(io, lobby);
+
+    if (lobby.gameState.isGameEnding) {
+      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+    } else {
+      io.to(lobby.name).emit(NOBODY_VOTED, scores);
+      exports.setTimeoutAndPlayTurn(io, lobby);
+    }
+
   }
 
   if (user) {
-    log(user.info);
+    // log(user.info);
     //an individual winner
     username = user.username;
     winningCard = user.info.cardsChosen;
-    roundWon(io, lobby, username, winningCard, multipleWinners, fn);
+    roundWon(io, lobby, username, winningCard, multipleWinners);
   }
 
 }
 
 
-exports.sendCardsToVote = (io, lobby, fn) => {
+exports.sendCardsToVote = (io, lobby) => {
 
   //creating the list to send to the tsar
   let cards = [];
@@ -183,6 +189,7 @@ exports.sendCardsToVote = (io, lobby, fn) => {
   }
 
   if (lobby.userList.length < 2) {
+    //lobby doesn't have enough users anymore
     return;
   }
 
@@ -193,8 +200,11 @@ exports.sendCardsToVote = (io, lobby, fn) => {
     log("Nobody chose a card.");
     io.to(lobby.name).emit(NOBODY_VOTED, scores);
 
-    //to solve for circular dependency
-    fn(io, lobby);
+    if (lobby.gameState.isGameEnding) {
+      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+    } else {
+      exports.setTimeoutAndPlayTurn(io, lobby);
+    }
 
     return;
   }
@@ -220,9 +230,15 @@ exports.sendCardsToVote = (io, lobby, fn) => {
 
 
       let scores = getAllScores(lobby);
-      io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
 
-      fn(io, lobby);
+      if (lobby.gameState.isGameEnding) {
+        io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+      } else {
+        io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
+        exports.setTimeoutAndPlayTurn(io, lobby);
+
+      }
+
 
     }, TSAR_VOTE_TIMEOUT);
 
@@ -238,7 +254,7 @@ exports.sendCardsToVote = (io, lobby, fn) => {
     lobby.gameState.tsar.tsarTimeout = setTimeout(() => {
       log("Somebody didn't vote...");
 
-      democracyCalculateWinner(io, lobby, fn);
+      democracyCalculateWinner(io, lobby);
 
     }, TSAR_VOTE_TIMEOUT);
   }
@@ -247,9 +263,11 @@ exports.sendCardsToVote = (io, lobby, fn) => {
 
 
 exports.setTimeoutAndPlayTurn = (io, lobby) => {
-  lobby.gameState.turnTimeout = setTimeout(() => {
-    exports.playTurn(io, lobby);
-  }, RESULT_TIMEOUT);
+  if (!lobby.gameState.isGameEnding) {
+    lobby.gameState.turnTimeout = setTimeout(() => {
+      exports.playTurn(io, lobby);
+    }, RESULT_TIMEOUT);
+  }
 };
 
 
@@ -276,7 +294,7 @@ exports.playTurn = (io, lobby) => {
   //case users don't vote
   lobby.gameState.turnTimeout = setTimeout(() => {
     log("Not all users made a choice...");
-    exports.sendCardsToVote(io, lobby, exports.setTimeoutAndPlayTurn);
+    exports.sendCardsToVote(io, lobby);
   }, USER_CHOICE_TIMEOUT);
 
   io.to(lobby.name).emit(GAME_READY);
@@ -301,7 +319,7 @@ function modifyScore(lobby, username, amount) {
 
 
 
-function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
+function roundWon(io, lobby, username, winningCard, multipleWinners) {
   let user = getUser(lobby, username);
 
   if (user) {
@@ -316,11 +334,11 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
     //check win conditions of the game
     let end = false;
 
-    log(lobby.gameSettings.ending);
+    // log(lobby.gameSettings.ending);
 
     if (lobby.gameSettings.ending.type === "score") {
       for (let user of lobby.gameState.userState.info) {
-        log(user.score);
+        // log(user.score);
 
         if (user.score === lobby.gameSettings.ending.max) {
           end = true;
@@ -331,6 +349,8 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
       if (lobby.gameState.numberOfTurns === lobby.gameSettings.ending.max) {
         end = true;
       }
+    } else if (lobby.gameSettings.ending.type === "haiku" && lobby.gameState.isGameEnding) {
+      end = true;
     }
 
     //creating the score
@@ -338,7 +358,11 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
 
     if (end) {
       log("Game over!");
-      io.to(lobby.name).emit(GAME_WIN, scores);
+      if (lobby.gameSettings.ending.type === "haiku" && lobby.gameState.isGameEnding) {
+        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winner: username });
+      } else {
+        io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+      }
     } else {
       io.to(lobby.name).emit(ROUND_WIN, {
         winningCard: winningCard,
@@ -346,7 +370,7 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
         scores: scores,
         multipleWinners: multipleWinners
       });
-      fn(io, lobby);
+      exports.setTimeoutAndPlayTurn(io, lobby);
     }
   } else {
     log("roundwon User not found.");
@@ -395,4 +419,68 @@ exports.unpauseGame = (io, socket, lobbyName) => {
 
     }
   }
+};
+
+exports.endGame = (io, socket, lobbyName) => {
+
+  let lobby = getLobby(lobbyName);
+
+  if (lobby) {
+    clearTimeout(lobby.gameState.tsar.tsarTimeout);
+    clearTimeout(lobby.gameState.turnTimeout);
+
+    log(lobby.gameSettings.ending);
+    if (lobby.gameSettings.ending.type === "haiku") {
+      log("Haiku time!");
+
+
+      lobby.gameState.isGameEnding = true;
+
+      let haikuCard = {
+        content: [
+          {
+            _id: 'haikuCard0',
+            text: 'Make a haiku.',
+            tag: 'text'
+          },
+          { _id: "haikuCard01", text: '', tag: 'br' },
+          { _id: "haikuCard02", text: '', tag: '_' },
+          { _id: "haikuCard03", text: '.', tag: 'text' },
+          { _id: "haikuCard04", text: '', tag: 'br' },
+          { _id: "haikuCard05", text: '', tag: '_' },
+          { _id: "haikuCard06", text: '.', tag: 'text' },
+          { _id: "haikuCard07", text: '', tag: 'br' },
+          { _id: "haikuCard08", text: '', tag: '_' },
+          { _id: "haikuCard09", text: '.', tag: 'text' }
+        ],
+        _id: 'haikuCard',
+        pick: 3
+      };
+
+      //forcing the next black card to be haiku
+      lobby.gameState.currentBlackCard = haikuCard;
+
+      drawUpTo10(lobby);
+      drawWhiteCardsAll(lobby, 2);
+      setGameState(lobby, "selecting");
+
+
+      //case users don't vote
+      lobby.gameState.turnTimeout = setTimeout(() => {
+        log("Not all users made a choice...");
+        exports.sendCardsToVote(io, lobby);
+      }, USER_CHOICE_TIMEOUT);
+
+      io.to(lobby.name).emit(GAME_READY);
+
+
+    } else {
+      log("GAME OVER");
+      //turns, score: send to end screen directly
+      let scores = getAllScores(lobby);
+      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+
+    }
+  }
+
 };

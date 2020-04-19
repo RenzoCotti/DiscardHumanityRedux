@@ -260,11 +260,11 @@ class LobbyCreationPage extends Component {
                 errors={this.state.errors}
               />
 
-              {/* , "Haiku", "Russian Roulette" */}
+              {/* "Russian Roulette" */}
               <Select
                 label="Ending"
                 name="ending"
-                arr={["score", "turns"]}
+                arr={["score", "turns", "haiku"]}
                 fn={this.handleSelect}
                 obj={this.state}
                 errors={this.state.errors}

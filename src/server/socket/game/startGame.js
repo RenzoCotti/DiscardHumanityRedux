@@ -80,7 +80,8 @@ function initGame(io, lobby) {
     numberOfTurns: 0,
     //timeout that allows game looping
     turnTimeout: undefined,
-    paused: false
+    paused: false,
+    isGameEnding: false,
 
   };
 
