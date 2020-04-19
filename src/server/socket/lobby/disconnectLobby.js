@@ -3,7 +3,7 @@ const {
   LOBBY_LIST_UPDATE,
   USER_DISCONNECT,
   GAME_LOUNGE,
-  GAME_READY,
+  USER_KICKED
 } = require("../messages");
 
 let {
@@ -24,10 +24,13 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
   for (let i = 0; i < lobbies.length; i++) {
     let lobby = lobbies[i];
     if (lobby.name === lobbyName) {
+
       let user = getUser(lobby, username);
       if (!user) { return; }
 
       io.to(lobbyName).emit(USER_DISCONNECT, username);
+      io.to(lobbyName).emit(USER_KICKED, username);
+
 
       let index = -1;
 
@@ -43,7 +46,17 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         lobby.userList.splice(index, 1);
       }
 
+
       lobby.currentUsers--;
+
+      if (lobby.gameSettings.admin === user.id) {
+        if (lobby.userList.length >= 1) {
+          lobby.gameSettings.admin = lobby.userList[0].id;
+        } else {
+          lobby.gameSettings.admin = null;
+        }
+      }
+
 
       //remove user info if game started
 
@@ -57,7 +70,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
           );
         }
         //sync clients
-        io.to(lobby.name).emit(GAME_READY);
+        // io.to(lobby.name).emit(GAME_READY);
       }
 
 
@@ -66,6 +79,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         stopGame(lobby);
       } else if (lobby.currentUsers === 1) {
         //tolobby
+        log("just one player left, lobby");
         // lobby.state = "deck-selection"
         stopGame(lobby);
         io.to(lobby.name).emit(GAME_LOUNGE);

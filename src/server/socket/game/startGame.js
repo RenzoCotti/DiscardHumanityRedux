@@ -79,7 +79,8 @@ function initGame(io, lobby) {
     //n of turns elapsed so far
     numberOfTurns: 0,
     //timeout that allows game looping
-    turnTimeout: undefined
+    turnTimeout: undefined,
+    paused: false
 
   };
 

@@ -5,7 +5,12 @@ exports.GAME_STATE = "game-get-state";
 exports.GAME_READY = "game-state-ready";
 exports.ROUND_WIN = "game-round-win";
 exports.GAME_WIN = "game-win";
+exports.GAME_BREAK = "game-break";
+exports.GAME_PAUSED = "game-paused";
+exports.GAME_RESUME = "game-resume";
+exports.GAME_UNPAUSED = "game-unpaused";
 
+exports.GAME_END = "game-end";
 
 exports.NEW_HAND = "game-new-hand";
 exports.NEW_BLACK_CARD = "game-new-black-card";
@@ -32,6 +37,7 @@ exports.USER_CONNECT = "user-connect";
 exports.USER_DISCONNECT = "user-disconnect";
 exports.USER_NO_VOTE = "user-no-vote";
 exports.USER_NOT_FOUND = "user-not-found";
+exports.USER_KICKED = "user-kicked";
 
 /**LOBBY MESSAGES */
 exports.LOBBY_LOGIN = "lobby-login";
@@ -43,6 +49,7 @@ exports.LOBBY_LEAVE = "lobby-leave";
 exports.LOBBY_GET_LIST = "lobby-get-list";
 exports.LOBBY_LIST = "lobby-list";
 exports.LOBBY_HAS_USER = "lobby-has-user";
+exports.IS_ADMIN = "lobby-is-admin";
 
 /**DECKS MESSAGES */
 exports.SET_DECKS = "lobby-set-decks";

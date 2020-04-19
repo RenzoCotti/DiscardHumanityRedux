@@ -10,6 +10,7 @@ const {
   NEW_HAND,
   NEW_BLACK_CARD,
   IS_TSAR,
+  IS_ADMIN
 } = require("../messages");
 
 
@@ -38,10 +39,14 @@ exports.getGameState = (socket, msg) => {
       if (user.info && user.info.hand) {
         socket.emit(NEW_HAND, user.info.hand);
       }
+      if (lobby.gameSettings.admin === socket.id) {
+        socket.emit(IS_ADMIN, lobby.gameSettings.admin === socket.id);
+      }
       socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
       socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
     } else {
       log("User " + msg.username + " not found.");
+      // log(lobby.userList)
     }
     //else user isn't there
 

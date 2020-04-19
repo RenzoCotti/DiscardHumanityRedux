@@ -98,6 +98,7 @@ exports.createLobby = (io, socket, info) => {
     };
 
     let gameSettings = {
+      admin: socket.id,
       //tsar or demo
       tsar: (info.voting === "tsar" ? true : false),
       //happy, score, turns, russianroulette
@@ -124,7 +125,7 @@ exports.createLobby = (io, socket, info) => {
 
     lobbies.push(lobby);
     log("Lobby " + info.lobbyName + " created.");
-    socket.emit(LOBBY_CREATED, lobby.name);
+    io.to(lobby.gameSettings.admin).emit(LOBBY_CREATED, lobby.name);
     io.in("general").emit(LOBBY_LIST_UPDATE);
   }
 };

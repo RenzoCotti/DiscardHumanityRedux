@@ -24,12 +24,15 @@ import {
   TSAR_NO_VOTE,
   NOBODY_VOTED,
   DEMOCRACY_CHOICES,
+  IS_ADMIN,
+  USER_KICKED,
 } from "../../../../server/socket/messages";
 
 import WinRound from "./Phases/WinRound";
 import WinGame from "./Phases/WinGame";
 import SelectionPhase from "./Phases/SelectionPhase";
 import VotePhase from "./Phases/VotePhase";
+import AdminDashboard from "../../modules/AdminDashboard";
 
 class GamePage extends Component {
   constructor(props) {
@@ -39,11 +42,11 @@ class GamePage extends Component {
       winGame: false,
       tsar: false,
       noVote: false,
-      home: false,
       winningCard: null,
       winUsername: null,
       nobodyVoted: false,
       democracy: null,
+      isAdmin: false,
       scores: [],
     };
 
@@ -59,6 +62,10 @@ class GamePage extends Component {
 
     this.props.socket.on(IS_TSAR, (value) => {
       this.setState({ tsar: value });
+    });
+
+    this.props.socket.on(IS_ADMIN, () => {
+      this.setState({ isAdmin: true });
     });
 
     this.props.socket.on(DEMOCRACY_CHOICES, (msg) => {
@@ -119,6 +126,10 @@ class GamePage extends Component {
       });
     });
 
+    this.props.socket.on(USER_KICKED, () => {
+      this.resetState();
+      this.setState({ kicked: true });
+    });
 
   }
 
@@ -140,11 +151,11 @@ class GamePage extends Component {
       winGame: false,
       tsar: false,
       noVote: false,
-      home: false,
       winningCard: null,
       winUsername: null,
       nobodyVoted: false,
       democracy: null,
+      kicked: false,
       scores: [],
     });
   }
@@ -155,8 +166,8 @@ class GamePage extends Component {
 
   render() {
     let toReturn;
-    if (this.state.home) {
-      return <Redirect push to={"/"} />;
+    if (this.state.kicked) {
+      return <Redirect push to={"/lobby"} />;
     } else if (this.state.toLounge) {
       return <Redirect push to={"/lounge"} />;
     } else if (this.state.winRound) {
@@ -184,9 +195,10 @@ class GamePage extends Component {
     }
 
     return (
-      <div className="flex-row">
+      <div className="flex-column">
         {toReturn}
-        {/* <Chat socket={this.props.socket} /> */}
+        {this.state.isAdmin ?
+          <AdminDashboard socket={this.props.socket} /> : ""}
       </div>
     );
   }

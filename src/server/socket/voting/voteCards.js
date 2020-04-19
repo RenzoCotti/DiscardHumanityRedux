@@ -6,7 +6,9 @@ const {
   TSAR_NO_VOTE,
   GAME_READY,
   GAME_WIN,
-  ROUND_WIN
+  ROUND_WIN,
+  GAME_PAUSED,
+  GAME_UNPAUSED
 } = require("../messages");
 
 const {
@@ -20,6 +22,7 @@ const {
   TSAR_VOTE_TIMEOUT,
   RESULT_TIMEOUT,
   USER_CHOICE_TIMEOUT,
+  BREAK_TIMEOUT,
   drawBlackCard,
   drawUpTo10,
   drawWhiteCardsAll,
@@ -179,11 +182,15 @@ exports.sendCardsToVote = (io, lobby, fn) => {
 
   }
 
+  if (lobby.userList.length < 2) {
+    return;
+  }
+
 
   if (cards.length === 0) {
     //nobody voted
     let scores = getAllScores(lobby);
-    log("Nobody voted.");
+    log("Nobody chose a card.");
     io.to(lobby.name).emit(NOBODY_VOTED, scores);
 
     //to solve for circular dependency
@@ -200,7 +207,7 @@ exports.sendCardsToVote = (io, lobby, fn) => {
     setGameState(lobby, "voting");
     io.to(tsar.id).emit(TSAR_VOTING, cards);
 
-    tsar.tsarTimeout = setTimeout(() => {
+    lobby.gameState.tsar.tsarTimeout = setTimeout(() => {
       log("Tsar hasn't voted.");
 
       //kicks tsar if necessary
@@ -268,7 +275,7 @@ exports.playTurn = (io, lobby) => {
 
   //case users don't vote
   lobby.gameState.turnTimeout = setTimeout(() => {
-    log("Not all users voted...");
+    log("Not all users made a choice...");
     exports.sendCardsToVote(io, lobby, exports.setTimeoutAndPlayTurn);
   }, USER_CHOICE_TIMEOUT);
 
@@ -345,3 +352,47 @@ function roundWon(io, lobby, username, winningCard, multipleWinners, fn) {
     log("roundwon User not found.");
   }
 }
+
+exports.gameBreak = (io, socket, lobbyName) => {
+  let lobby = getLobby(lobbyName);
+
+  if (lobby) {
+
+    if (!lobby.gameState.paused) {
+      log("Game paused for 10min.");
+      clearTimeout(lobby.gameState.tsar.tsarTimeout);
+      clearTimeout(lobby.gameState.turnTimeout);
+      lobby.gameState.paused = true;
+
+      socket.emit(GAME_PAUSED);
+      lobby.gameState.turnTimeout = setTimeout(() => {
+        lobby.gameState.paused = false;
+        exports.playTurn(io, lobby);
+      }, BREAK_TIMEOUT);
+
+    } else {
+      log("Game already paused.");
+    }
+  } else {
+    log("Gamebreak Lobby not found.");
+  }
+};
+
+exports.unpauseGame = (io, socket, lobbyName) => {
+  let lobby = getLobby(lobbyName);
+
+  if (lobby) {
+
+    if (lobby.gameState.paused) {
+      log("Game unpaused.");
+
+      // clearTimeout(lobby.gameState.tsar.tsarTimeout);
+      clearTimeout(lobby.gameState.turnTimeout);
+      lobby.gameState.paused = false;
+      socket.emit(GAME_UNPAUSED);
+
+      exports.playTurn(io, lobby);
+
+    }
+  }
+};

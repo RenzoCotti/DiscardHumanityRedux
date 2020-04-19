@@ -25,12 +25,12 @@ class LobbyPage extends Component {
 
     this.props.socket.emit(LOBBY_GET_LIST);
     //checks if a user already joined a lobby
-    if (this.props.username && this.props.lobbyName) {
-      this.props.socket.emit(LOBBY_HAS_USER, {
-        username: this.props.username,
-        lobbyName: this.props.lobbyName,
-      });
-    }
+    // if (this.props.username && this.props.lobbyName) {
+    //   this.props.socket.emit(LOBBY_HAS_USER, {
+    //     username: this.props.username,
+    //     lobbyName: this.props.lobbyName,
+    //   });
+    // }
   }
 
   static get propTypes() {
@@ -93,8 +93,6 @@ class LobbyPage extends Component {
 
 
         <Button value="Create Lobby" fn={this.createLobby} />
-
-        {/* <CreateLobby socket={this.props.socket} /> */}
 
         {/* <div className="errormsg"></div> */}
 

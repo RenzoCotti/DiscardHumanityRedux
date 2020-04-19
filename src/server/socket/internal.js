@@ -4,7 +4,8 @@ const {
   RESULT_TIMEOUT,
   USER_CHOICE_TIMEOUT,
   USER_INACTIVITY_MAX_TURNS,
-  TSAR_VOTE_TIMEOUT
+  TSAR_VOTE_TIMEOUT,
+  BREAK_TIMEOUT
 } = require("./utils");
 exports.log = log;
 exports.shuffle = shuffle;
@@ -12,6 +13,7 @@ exports.RESULT_TIMEOUT = RESULT_TIMEOUT;
 exports.USER_CHOICE_TIMEOUT = USER_CHOICE_TIMEOUT;
 exports.USER_INACTIVITY_MAX_TURNS = USER_INACTIVITY_MAX_TURNS;
 exports.TSAR_VOTE_TIMEOUT = TSAR_VOTE_TIMEOUT;
+exports.BREAK_TIMEOUT = BREAK_TIMEOUT;
 
 let {
   lobbies
@@ -82,14 +84,17 @@ const {
   userDemocracyVote,
   sendCardsToVote,
   playTurn,
-  setTimeoutAndPlayTurn
+  setTimeoutAndPlayTurn,
+  gameBreak,
+  unpauseGame
 } = require("./voting/voteCards");
 exports.tsarVoted = tsarVoted;
 exports.userDemocracyVote = userDemocracyVote;
 exports.sendCardsToVote = sendCardsToVote;
 exports.playTurn = playTurn;
 exports.setTimeoutAndPlayTurn = setTimeoutAndPlayTurn;
-
+exports.gameBreak = gameBreak;
+exports.unpauseGame = unpauseGame;
 
 const {
   checkStart,
