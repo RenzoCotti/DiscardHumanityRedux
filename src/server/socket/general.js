@@ -346,7 +346,7 @@ function roundWon(io, lobby, username, winningCard, multipleWinners) {
       }
 
     } else if (lobby.gameSettings.ending.type === "turns") {
-      if (lobby.gameState.numberOfTurns === lobby.gameSettings.ending.max) {
+      if (lobby.gameState.numberOfTurns === lobby.gameSettings.ending.max + 1) {
         end = true;
       }
     } else if (lobby.gameSettings.ending.type === "haiku" && lobby.gameState.isGameEnding) {

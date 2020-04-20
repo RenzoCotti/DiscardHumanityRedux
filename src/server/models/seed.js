@@ -65,26 +65,23 @@ function formatText(text, arr) {
       text: text,
       tag: "text"
     });
-    // return ;
   }
 }
 
 let arr = [];
-
+let toPrint = false;
 for (let deck of decks) {
   let whitecards = [];
   for (let text of deck.whiteCards) {
     let temp = [];
 
-    let s = text.split("<br>");
+    let splitForBr = text.split("<br>");
     //can contain <br> or <i>
 
-    if (s.length > 1) {
+    if (splitForBr.length > 1) {
       //there's a <br>
-      for (let a of s) {
-
-        formatText(a, temp);
-        // temp.push(formatted);
+      for (let string of splitForBr) {
+        formatText(string, temp);
         temp.push({
           text: "",
           tag: "br"
@@ -93,10 +90,8 @@ for (let deck of decks) {
     } else {
       //there might be an i
       if (text) {
-        // let arr = [];
+        //text is not null
         formatText(text, temp);
-
-        // temp.push(formatted);
       }
     }
 
@@ -107,70 +102,70 @@ for (let deck of decks) {
   }
 
   for (let card of deck.blackCards) {
-    let temp = [];
-    let arr = card.text.split("_");
+
+    let textContent = [];
+
+    let splitForUnderscore = card.text.split("_");
 
     //case there's no _, meaning implied at the end.
-    if (arr.length === 1) {
-      arr.push("");
+    if (splitForUnderscore.length === 1) {
+      toPrint = true;
+      splitForUnderscore.push("");
     }
 
     //we iterate over the resulting strings, looking for <br> or <i>
-    for (let i = 0; i < arr.length; i++) {
-      let s = arr[i];
+    for (let i = 0; i < splitForUnderscore.length; i++) {
+      let string = splitForUnderscore[i];
 
       //string is non empty
-      if (s) {
-        s = s.split("<br>");
+      if (string) {
+        let splitBr = string.split("<br>");
         //can contain <br> or <i>
 
-        if (s.length > 1) {
+        if (splitBr.length > 1) {
           //there's a <br>
           //we add all pieces of the string with the <br>
-          for (let a of s) {
-            if (!a) {
-              temp.push({
+          for (let j = 0; j < splitBr.length; j++) {
+            let brString = splitBr[j];
+
+            formatText(brString, textContent);
+
+            //we add a br except at the last element
+            if (j + 1 !== splitBr.length) {
+              textContent.push({
                 text: "",
                 tag: "br"
               });
-            } else {
-              formatText(a, temp);
-              // temp.push();
             }
           }
-          temp.push({
+        } else {
+          //no br, a single string
+
+          //there might be an i
+          if (string) {
+            formatText(string, textContent);
+          }
+
+          //if the next is not the last elem, add this
+
+        }
+
+        if (i + 1 !== splitForUnderscore.length && splitForUnderscore[i + 1]) {
+          textContent.push({
             text: "",
             tag: "_"
           });
-        } else {
-          s = arr[i];
-          //there might be an i
-          if (s) {
-            formatText(s, temp);
-            // temp.push();
-          }
-          if (i + 1 !== arr.length) {
-            temp.push({
-              text: "",
-              tag: "_"
-            });
-          }
         }
       } else {
         //string is empty, indicates that there was a _
-        temp.push({
+        textContent.push({
           text: "",
           tag: "_"
         });
       }
     }
-    card.content = temp;
-
-    // if (card.pick === 3) {
-    //   console.log(card);
-    // }
-
-    // console.log(temp);
+    card.content = textContent;
+    // if (card.pick === 2) console.log(card);
   }
 
   arr.push({
@@ -179,9 +174,6 @@ for (let deck of decks) {
     name: deck.name
   });
 }
-
-// console.log(arr[0].whiteCards[0].content)
-
 
 mongoose.connect(config.dbURL, {
   auth: {

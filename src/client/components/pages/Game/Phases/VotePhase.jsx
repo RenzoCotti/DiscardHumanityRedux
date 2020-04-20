@@ -110,7 +110,7 @@ class VotePhase extends Component {
           fillGaps={temp}
           key={i}
           hover={true}
-          selected={i === this.state.selected ? true : ""}
+          selected={i === this.state.selected ? true : false}
           onClick={() => this.selectCard(i)}
         />
       );

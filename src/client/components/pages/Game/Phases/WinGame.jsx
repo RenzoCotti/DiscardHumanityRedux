@@ -1,20 +1,13 @@
 import React, { Component } from "react";
-// import { TSAR_VOTING, TSAR_VOTE } from "../../../../../server/socket/messages";
-// import Card from "../../../modules/Card";
-// import Chat from "../../modules/Chat";
-// import Hand from "./Views/Hand";
-// import { Redirect } from "react-router";
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 import {
   getLobbyName,
   getUsername,
   getBlackCard,
 } from "../../../../redux/actions";
-// import Button from "../../../modules/input/Button";
-// import CardSelected from "./Views/CardSelected";
-// import Button from "../../../modules/input/Button";
+import Leaderboard from "../../../modules/Leaderboard";
+
 
 class WinRound extends Component {
   constructor(props) {
@@ -27,10 +20,7 @@ class WinRound extends Component {
     return {
       // socket: PropTypes.object,
       scores: PropTypes.array,
-      // username: PropTypes.string,
-      // selectedCards: PropTypes.array,
-      // hand: PropTypes.array,
-      // blackCard: PropTypes.object,
+      winner: PropTypes.string
     };
   }
 
@@ -46,17 +36,28 @@ class WinRound extends Component {
 
   render() {
     if (!this.state.scores) return <div>Waiting for scores...</div>;
-    // console.log(this.state.choices);
-    //map over all the black cards
+
+    let winner;
+    if (this.props.winner) {
+      winner = this.props.winner + " won!";
+    } else {
+      if (this.state.scores.length > 1) {
+        if (this.state.scores[0].score === this.state.scores[1].score) {
+          //tie
+          winner = "It's a tie!";
+        } else {
+          winner = this.state.scores[0].username + " won!";
+        }
+      }
+    }
+
     return (
       <React.Fragment>
         <div className="flex-column">
-          <div>{this.state.scores[0].username} won!</div>
-          {this.state.scores.map((el, index) => (
-            <div key={index}>
-              {el.username}: {el.score}
-            </div>
-          ))}
+          <div className="title">{winner}</div>
+          {!this.state.winner ?
+            <Leaderboard scores={this.state.scores} />
+            : ""}
         </div>
       </React.Fragment>
     );

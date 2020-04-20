@@ -314,7 +314,7 @@ module.exports = {
       pick: 3
     },
     {
-      text: "What's the next superhero/sidekick duo? _ and _",
+      text: "What's the next superhero/sidekick duo? _ & _",
       pick: 2
     },
     {
@@ -344,7 +344,7 @@ module.exports = {
       pick: 1
     },
     {
-      text: "Step 1: _. Step 2: _. Step 3: Profit.",
+      text: "Step 1: _.<br>Step 2: _.<br>Step 3: Profit.",
       pick: 2
     },
     {

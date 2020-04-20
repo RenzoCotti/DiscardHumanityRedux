@@ -63,6 +63,7 @@ class LoungePage extends Component {
     });
 
     this.props.socket.on(GAME_LOUNGE, () => {
+      console.log("start false");
       this.setState({ start: false });
     });
 

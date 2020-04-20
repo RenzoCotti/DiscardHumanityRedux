@@ -80,6 +80,7 @@ class GamePage extends Component {
       this.resetState();
       this.setState({
         winRound: true,
+        nobodyVoted: true,
         scores: msg,
       });
     });
@@ -88,6 +89,7 @@ class GamePage extends Component {
       this.resetState();
       this.setState({
         winRound: true,
+        noVote: true,
         scores: msg,
       });
     });

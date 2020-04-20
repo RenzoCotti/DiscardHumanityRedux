@@ -13,6 +13,7 @@ import {
   getUsername,
   getBlackCard,
 } from "../../../../redux/actions";
+import Leaderboard from "../../../modules/Leaderboard";
 // import Button from "../../../modules/input/Button";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
@@ -35,7 +36,6 @@ class WinRound extends Component {
   }
 
   render() {
-    // console.log(this.props.winningCard);
     let arr = [];
     if (this.props.winningCard) {
       for (let a of this.props.winningCard) {
@@ -52,7 +52,6 @@ class WinRound extends Component {
       message = "Nobody chose a card.";
     }
 
-    // console.log(this.state.choices);
     //map over all the black cards
     return (
       <React.Fragment>
@@ -66,12 +65,9 @@ class WinRound extends Component {
                 size="card-big"
                 fillGaps={arr}
               />
-            </React.Fragment>}
-          {this.props.scores.map((el, index) => (
-            <div key={index}>
-              {el.username}: {el.score}
-            </div>
-          ))}
+            </React.Fragment>
+          }
+          <Leaderboard scores={this.props.scores} />
         </div>
       </React.Fragment>
     );
