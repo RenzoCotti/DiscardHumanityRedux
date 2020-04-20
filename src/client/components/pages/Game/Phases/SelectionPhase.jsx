@@ -16,7 +16,7 @@ import {
 } from "../../../../redux/actions";
 import CardSelected from "../Views/CardSelected";
 import Button from "../../../modules/input/Button";
-import AdminDashboard from "../../../modules/AdminDashboard";
+import AdminDashboard from "../Views/AdminDashboard";
 
 import {
   CHOICE_RECEIVED,

@@ -30,7 +30,7 @@ import Navbar from "./general/Navbar";
 import Footbar from "./general/Footbar";
 
 import Home from "./pages/HomePage";
-import Lobby from "./pages/LobbyPage";
+import Lobby from "./pages/Lobby/LobbyPage";
 import Lounge from "./pages/Lounge/LoungePage";
 import Game from "./pages/Game/GamePage";
 
@@ -39,7 +39,7 @@ import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
 import DeckSelection from "./pages/Lounge/DeckSelectionPage";
-import LobbyCreationPage from "./pages/LobbyCreationPage";
+import LobbyCreationPage from "./pages/Lobby/LobbyCreationPage";
 
 // function requireAll(r) {
 //   r.keys().forEach(r);

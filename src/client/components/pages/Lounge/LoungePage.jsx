@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import Chat from "../../modules/Chat";
+import Chat from "../Game/Views/Chat";
 import { connect } from "react-redux";
 import { getLobbyName, getUsername } from "../../../redux/actions";
 import PropTypes from "prop-types";

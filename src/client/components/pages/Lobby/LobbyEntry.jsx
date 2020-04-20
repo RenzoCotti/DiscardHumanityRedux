@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import Button from "../modules/input/Button";
-import Input from "../modules/input/Input";
+import Button from "../../modules/input/Button";
+import Input from "../../modules/input/Input";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getLobbyName, updateUserInfo, getUsername } from "../../redux/actions";
+import { getLobbyName, updateUserInfo, getUsername } from "../../../redux/actions";
 import {
   LOBBY_JOINED,
   LOBBY_LOGIN,
   LOBBY_INCORRECT_CREDENTIALS,
-} from "../../../server/socket/messages";
+} from "../../../../server/socket/messages";
 
 class LobbyEntry extends Component {
 

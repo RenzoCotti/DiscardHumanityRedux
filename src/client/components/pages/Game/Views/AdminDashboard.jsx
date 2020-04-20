@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Button from "../modules/input/Button";
+import Button from "../../../modules/input/Button";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import {
   getLobbyName,
   getUsername,
-} from "../../redux/actions";
+} from "../../../../redux/actions";
 
 import {
   GAME_BREAK,
@@ -14,7 +14,7 @@ import {
   GAME_RESUME,
   GAME_END,
   GAME_UNPAUSED
-} from "../../../server/socket/messages";
+} from "../../../../../server/socket/messages";
 
 class AdminDashboard extends Component {
 

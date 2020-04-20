@@ -20,7 +20,9 @@
   min-width: 200px;
 }
 
-/* .create-lobby {
-  position: fixed;
-  right: 200px;
-} */
+.lobbyContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

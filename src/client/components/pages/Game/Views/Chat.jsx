@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Button from "../modules/input/Button";
-import Input from "../modules/input/Input";
+import Button from "../../../modules/input/Button";
+import Input from "../../../modules/input/Input";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -9,14 +9,14 @@ import {
   getUsername,
   getChatHistory,
   addChatMessage,
-} from "../../redux/actions";
+} from "../../../../redux/actions";
 
 import {
   USER_CONNECT,
   USER_DISCONNECT,
   CHAT_MESSAGE,
   SEND_CHAT_MESSAGE,
-} from "../../../server/socket/messages";
+} from "../../../../../server/socket/messages";
 
 class Chat extends Component {
 

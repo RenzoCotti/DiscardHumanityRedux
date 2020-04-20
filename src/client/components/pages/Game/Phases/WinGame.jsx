@@ -6,7 +6,7 @@ import {
   getUsername,
   getBlackCard,
 } from "../../../../redux/actions";
-import Leaderboard from "../../../modules/Leaderboard";
+import Leaderboard from "../Views/Leaderboard";
 
 
 class WinRound extends Component {

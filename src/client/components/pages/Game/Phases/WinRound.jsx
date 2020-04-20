@@ -1,22 +1,14 @@
 import React, { Component } from "react";
-// import { TSAR_VOTING, TSAR_VOTE } from "../../../../../server/socket/messages";
 import Card from "../../../modules/Card";
 import PropTypes from "prop-types";
-
-// import Chat from "../../modules/Chat";
-// import Hand from "./Views/Hand";
-// import { Redirect } from "react-router";
-
 import { connect } from "react-redux";
 import {
   getLobbyName,
   getUsername,
   getBlackCard,
 } from "../../../../redux/actions";
-import Leaderboard from "../../../modules/Leaderboard";
-// import Button from "../../../modules/input/Button";
-// import CardSelected from "./Views/CardSelected";
-// import Button from "../../../modules/input/Button";
+import Leaderboard from "../Views/Leaderboard";
+
 
 class WinRound extends Component {
   constructor(props) {

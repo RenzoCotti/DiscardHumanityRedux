@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import Button from "../modules/input/Button";
-import Input from "../modules/input/Input";
-import Select from "../modules/input/Select";
+import Button from "../../modules/input/Button";
+import Input from "../../modules/input/Input";
+import Select from "../../modules/input/Select";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getUsername, getLobbyName, updateUserInfo } from "../../redux/actions";
+import { getUsername, getLobbyName, updateUserInfo } from "../../../redux/actions";
 import {
   LOBBY_EXISTS_ALREADY,
   LOBBY_CREATED,
   LOBBY_NEW,
-} from "../../../server/socket/messages";
+} from "../../../../server/socket/messages";
 
 class LobbyCreationPage extends Component {
 
@@ -26,7 +26,7 @@ class LobbyCreationPage extends Component {
       confirmPassword: "",
       private: "no",
       ending: "turns",
-      points: "5",
+      points: 5,
       meritocracy: "no",
       voting: "tsar"
     };
@@ -37,15 +37,14 @@ class LobbyCreationPage extends Component {
 
 
     this.props.socket.on(LOBBY_EXISTS_ALREADY, () => {
-      this.setState({ errors: [{ lobbyName: "Lobby name exists already." }] });
+      console.log("here");
+      this.setState({ errors: [{ name: "lobbyName", errorMessage: "Lobby name exists already." }] });
     });
 
     this.props.socket.on(LOBBY_CREATED, (info) => {
       console.log("lobby created!");
       this.setState({ redirect: true });
 
-      // console.log(this.state);
-      // this.updatePersistence(this.state.username, info, this.state.password);
       this.props.updateUserInfo({
         username: this.state.username,
         lobbyName: info,
@@ -59,30 +58,6 @@ class LobbyCreationPage extends Component {
       updateUserInfo: PropTypes.func
     };
   }
-
-  // async updatePersistence(username, lobbyName, password) {
-  //   let req = await fetch("/api/persist/login", {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({
-  //       username: username,
-  //       lobbyName: lobbyName,
-  //       password: password
-  //     })
-  //   });
-
-  //   let code = req.status;
-  //   if (code === 200) {
-  //     console.log("persistence set!");
-  //     // let res = await req.json();
-  //     // this.setState({ decks: res });
-  //   } else {
-  //     // this.setState({ error: true });
-  //   }
-  // }
 
   onSubmit(e) {
     if (e) e.preventDefault();
@@ -107,7 +82,9 @@ class LobbyCreationPage extends Component {
       });
     }
 
-    if (this.state.private === "yes") {
+    if (!this.state.private) {
+      arr.push({ name: "private" });
+    } else if (this.state.private === "yes") {
       if (!this.state.password || this.state.password.length === 0) {
         arr.push({ name: "password" });
       } else if (this.state.password.length > 64) {
@@ -120,29 +97,57 @@ class LobbyCreationPage extends Component {
       if (this.state.password !== this.state.confirmPassword) {
         arr.push({
           name: "confirmPassword",
-          errorMessage: "The two passwords don't match",
+          errorMessage: "The two passwords don't match.",
         });
       }
     }
 
 
-
     if (!this.state.maxUsers) {
       arr.push({ name: "maxUsers" });
+    } else if (isNaN(this.state.maxUsers)) {
+      arr.push({
+        name: "maxUsers",
+        errorMessage: "Please input a number.",
+      });
     } else if (this.state.maxUsers > 20 || this.state.maxUsers < 2) {
       arr.push({
         name: "maxUsers",
-        errorMessage: "The number of players has to be 2-20",
+        errorMessage: "The number of players has to be 2-20.",
       });
     }
 
     if (!this.state.voting) {
-      arr.push({ name: "maxUsers" });
+      arr.push({ name: "voting" });
     }
 
     if (!this.state.ending) {
-      arr.push({ name: "maxUsers" });
+      arr.push({ name: "ending" });
     }
+
+    if (this.state.ending !== "haiku") {
+      if (!this.state.points) {
+        arr.push({ name: "points" });
+      } else if (isNaN(this.state.points)) {
+        arr.push({
+          name: "points",
+          errorMessage: "Please input a number.",
+        });
+      } else if (this.state.points < 0) {
+        arr.push({
+          name: "points",
+          errorMessage: "Please input a value bigger than 0.",
+        });
+      }
+    }
+
+
+    if (this.state.voting === "tsar") {
+      if (!this.state.meritocracy) {
+        arr.push({ name: "meritocracy" });
+      }
+    }
+
 
     if (arr.length === 0) {
       delete this.state.errors;
@@ -190,7 +195,7 @@ class LobbyCreationPage extends Component {
                     errors={this.state.errors}
                   />
                   <Input
-                    label="Max Players"
+                    label="Players (3-20)"
                     name="maxUsers"
                     obj={this.state}
                     fn={this.handleChange}
@@ -216,7 +221,7 @@ class LobbyCreationPage extends Component {
 
                   <Button value="Create Lobby" fn={this.onSubmit} />
                 </div>
-                <div className="flex-column">
+                <div className="flex-column padded-right">
                   <Select
                     label="Private"
                     name="private"
@@ -250,7 +255,7 @@ class LobbyCreationPage extends Component {
               </div>
             </div>
 
-            <div className="flex-column">
+            <div className="flex-column padded-right">
               <Select
                 label="Voting system"
                 name="voting"
@@ -259,6 +264,19 @@ class LobbyCreationPage extends Component {
                 obj={this.state}
                 errors={this.state.errors}
               />
+
+              {this.state.voting === "tsar" ?
+                <Select
+                  label="Meritocracy"
+                  name="meritocracy"
+                  arr={["yes", "no"]}
+                  fn={this.handleSelect}
+                  obj={this.state}
+                  errors={this.state.errors}
+                /> : ""}
+            </div>
+
+            <div className="flex-column padded-right">
 
               {/* "Russian Roulette" */}
               <Select
@@ -277,21 +295,10 @@ class LobbyCreationPage extends Component {
                   fn={this.handleChange}
                   errors={this.state.errors}
                 /> : ""}
-              {this.state.voting === "tsar" ?
-                <Select
-                  label="Meritocracy"
-                  name="meritocracy"
-                  arr={["yes", "no"]}
-                  fn={this.handleSelect}
-                  obj={this.state}
-                  errors={this.state.errors}
-                /> : ""}
-
               {/* russianRoulette for points */}
               {/* refreshHand: false,
               randoCardissian: false,
               jollyCards */}
-
             </div>
           </div>
         </form>

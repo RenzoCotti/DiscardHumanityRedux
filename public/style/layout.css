@@ -68,3 +68,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.flex-space {
+  display: flex;
+  justify-content: space-between;
+}

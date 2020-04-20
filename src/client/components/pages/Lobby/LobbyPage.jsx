@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import LobbyEntry from "../modules/LobbyEntry";
+import LobbyEntry from "./LobbyEntry";
 // import CreateLobby from "../modules/CreateLobby";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import Button from "../modules/input/Button";
+import Button from "../../modules/input/Button";
 
 import PropTypes from "prop-types";
-import { getUsername, getLobbyName } from "../../redux/actions";
+import { getUsername, getLobbyName } from "../../../redux/actions";
 import {
   LOBBY_GET_LIST,
   LOBBY_LIST_UPDATE,
   USER_EXISTS,
   LOBBY_LIST,
-} from "../../../server/socket/messages";
+} from "../../../../server/socket/messages";
 
 class LobbyPage extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class LobbyPage extends Component {
     }
 
     return (
-      <React.Fragment>
+      <div className="lobbyContainer">
         <div className="flex-column">
           <div className="title padded-bottom">List of lobbies</div>
           <div className="lobby-list">
@@ -90,13 +90,9 @@ class LobbyPage extends Component {
           </div>
         </div>
 
-
         <Button value="Create Lobby" fn={this.createLobby} />
 
-        {/* <div className="errormsg"></div> */}
-
-        {/* </div> */}
-      </React.Fragment>
+      </div>
     );
   }
 }
