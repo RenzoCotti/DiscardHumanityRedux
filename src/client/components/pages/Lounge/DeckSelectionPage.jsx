@@ -18,6 +18,7 @@ class DeckSelectionPage extends Component {
     super(props);
     this.state = {
       addedDecks: [],
+      error: ""
     };
 
     this.setupSocket();
@@ -36,11 +37,17 @@ class DeckSelectionPage extends Component {
 
   setupSocket() {
     this.props.socket.on(NOT_ENOUGH_CARDS, () => {
-      console.log("not enough cards");
+      this.setState({ error: "Not enough cards." });
+      // console.log("not enough cards");
     });
     this.props.socket.on(GAME_LOUNGE, () => {
       this.setState({ waiting: true });
     });
+  }
+
+  componentWillUnmount() {
+    this.props.socket.off(NOT_ENOUGH_CARDS);
+    this.props.socket.off(GAME_LOUNGE);
   }
 
   componentDidMount() {
@@ -162,7 +169,9 @@ class DeckSelectionPage extends Component {
           <div className="flex-column deck-list margin-bottom">
             {list.length == 0 ? "Loading decks..." : list}
           </div>
+          <div className="errormsg">{this.state.error}</div>
           <Button value="Start game" fn={this.goToLobby} />
+
         </div>
 
         <div className="deck-preview">{deckList}</div>

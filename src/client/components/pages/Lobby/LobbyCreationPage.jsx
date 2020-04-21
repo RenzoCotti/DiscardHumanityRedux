@@ -60,6 +60,11 @@ class LobbyCreationPage extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(LOBBY_EXISTS_ALREADY);
+    this.props.socket.off(LOBBY_CREATED);
+  }
+
   onSubmit(e) {
     if (e) e.preventDefault();
 

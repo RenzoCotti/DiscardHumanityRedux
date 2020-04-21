@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Chat from "../Game/Views/Chat";
 import { connect } from "react-redux";
-import { getLobbyName, getUsername } from "../../../redux/actions";
+import { getLobbyName, getUsername, updateUserInfo } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -31,13 +31,22 @@ class LoungePage extends Component {
     return {
       socket: PropTypes.object,
       lobbyName: PropTypes.string,
-      username: PropTypes.string
+      username: PropTypes.string,
+      updateUserInfo: PropTypes.func
     };
   }
 
   //on page leave, leave lobby
   componentWillUnmount() {
     this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
+    console.log("LEAVE");
+    this.props.updateUserInfo({ lobbyName: null, username: null });
+    this.props.socket.off(GAME_START);
+    this.props.socket.off(USER_CONNECT);
+    this.props.socket.off(DECKS_SELECTED);
+    this.props.socket.off(LOBBY_NOT_FOUND);
+    this.props.socket.off(USER_NOT_FOUND);
+    this.props.socket.off(GAME_LOUNGE);
   }
 
   setupSocket() {
@@ -78,6 +87,7 @@ class LoungePage extends Component {
     // this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
   }
 
+
   render() {
 
     let div = <div>Waiting for players to join...</div>;
@@ -102,4 +112,8 @@ const mapStateToProps = (state) => ({
   username: getUsername(state)
 });
 
-export default connect(mapStateToProps, null)(LoungePage);
+const mapDispatchToProps = (dispatch) => ({
+  updateUserInfo: (value) => dispatch(updateUserInfo(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoungePage);

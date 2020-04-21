@@ -110,7 +110,7 @@ exports.setDecks = (io, socket, info) => {
     if (lobby.maxUsers * 12 <= info.whiteCards.length) {
       lobby.blackCards = info.blackCards;
       lobby.whiteCards = info.whiteCards;
-      log("Decks set.");
+      log(info.name + ": decks set.");
 
       socket.emit(GAME_LOUNGE, lobby.name);
       io.in(lobby.name).emit(DECKS_SELECTED);

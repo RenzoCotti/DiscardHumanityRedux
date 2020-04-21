@@ -35,6 +35,11 @@ class AdminDashboard extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(GAME_PAUSED);
+    this.props.socket.off(GAME_UNPAUSED);
+  }
+
   static get propTypes() {
     return {
       socket: PropTypes.object,

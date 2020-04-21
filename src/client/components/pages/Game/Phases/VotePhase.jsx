@@ -29,6 +29,10 @@ class VotePhase extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(TSAR_VOTING);
+  }
+
   static get propTypes() {
     return {
       socket: PropTypes.object,

@@ -136,6 +136,20 @@ class GamePage extends Component {
 
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(NEW_BLACK_CARD);
+    this.props.socket.off(NEW_HAND);
+    this.props.socket.off(IS_TSAR);
+    this.props.socket.off(IS_ADMIN);
+    this.props.socket.off(DEMOCRACY_CHOICES);
+    this.props.socket.off(NOBODY_VOTED);
+    this.props.socket.off(TSAR_NO_VOTE);
+    this.props.socket.off(ROUND_WIN);
+    this.props.socket.off(GAME_WIN);
+    this.props.socket.off(GAME_READY);
+    this.props.socket.off(USER_KICKED);
+  }
+
   static get propTypes() {
     return {
       socket: PropTypes.object,

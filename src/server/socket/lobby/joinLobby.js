@@ -21,7 +21,7 @@ const {
 
 //logins to a new lobby
 exports.loginLobby = (io, socket, info) => {
-  log("Trying to login in lobby " + info.lobbyName);
+  log(info.username + " trying to login in lobby " + info.lobbyName);
 
   let lobby = getLobby(info.lobbyName);
 
@@ -79,8 +79,7 @@ function socketJoinLobby(socket, lobbyName, username) {
 
 //this function creates a lobby from the given info
 exports.createLobby = (io, socket, info) => {
-  if (
-    lobbyExists(info.lobbyName)) {
+  if (lobbyExists(info.lobbyName)) {
     log("Lobby esists.");
     socket.emit(LOBBY_EXISTS_ALREADY);
   } else {

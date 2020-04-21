@@ -54,6 +54,12 @@ class LobbyPage extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(LOBBY_LIST_UPDATE);
+    this.props.socket.off(LOBBY_LIST);
+    this.props.socket.off(USER_EXISTS);
+  }
+
   createLobby() {
     this.setState({ create: true });
   }
@@ -64,6 +70,8 @@ class LobbyPage extends Component {
     } else if (this.state.create) {
       return <Redirect push to={"/create-lobby"} />;
     }
+
+    console.log({ lobbyName: this.props.lobbyName, username: this.props.username });
 
     let list;
     if (this.state.lobbies && this.state.lobbies.length > 0) {

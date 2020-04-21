@@ -48,6 +48,11 @@ class SelectionPhase extends Component {
 
   }
 
+  componentWillUnmount() {
+    this.props.socket.off(CHOICE_RECEIVED);
+    this.props.socket.off(USER_NO_VOTE);
+  }
+
   static get propTypes() {
     return {
       socket: PropTypes.object,
