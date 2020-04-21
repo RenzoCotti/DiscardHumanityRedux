@@ -120,7 +120,7 @@ class VotePhase extends Component {
     return (
       <React.Fragment>
         <div className="flex-column">
-          <div>{this.props.democracy ? "Tsar: despotically pick the best card." : "Democracy: vote the best card, the majority wins."}</div>
+          <div>{!this.props.democracy ? "Tsar: despotically pick the best card." : "Democracy: vote the best card, the majority wins."}</div>
           <div className="flex-row">{arr}</div>
           <Button value="Confirm" fn={this.voteCard} />
         </div>

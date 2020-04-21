@@ -43,6 +43,7 @@ class LobbyCreationPage extends Component {
 
     this.props.socket.on(LOBBY_CREATED, (info) => {
       console.log("lobby created!");
+      console.log(info);
       this.setState({ redirect: true });
 
       this.props.updateUserInfo({

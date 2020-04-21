@@ -23,6 +23,9 @@ class LoungePage extends Component {
     super(props);
     this.state = {};
     this.setupSocket();
+
+    console.log("props user");
+    console.log(props);
   }
   static get propTypes() {
     return {
@@ -44,12 +47,16 @@ class LoungePage extends Component {
 
     this.props.socket.on(USER_CONNECT, () => {
       console.log("user joined");
-      this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
+      let info = { lobbyName: this.props.lobbyName, username: this.props.username };
+      console.log(info);
+      this.props.socket.emit(CHECK_START, info);
     });
 
     this.props.socket.on(DECKS_SELECTED, () => {
       console.log("deck set by admin");
-      this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
+      let info = { lobbyName: this.props.lobbyName, username: this.props.username };
+      console.log(info);
+      this.props.socket.emit(CHECK_START, info);
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, (msg) => {

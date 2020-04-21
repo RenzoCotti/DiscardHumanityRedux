@@ -127,5 +127,6 @@ exports.createLobby = (io, socket, info) => {
     log("Lobby " + info.lobbyName + " created.");
     io.to(lobby.gameSettings.admin).emit(LOBBY_CREATED, lobby.name);
     io.in("general").emit(LOBBY_LIST_UPDATE);
+    log(lobbies);
   }
 };

@@ -14,6 +14,7 @@ class WinRound extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    console.log(this.props.multipleWinners);
   }
 
   static get propTypes() {
@@ -23,7 +24,8 @@ class WinRound extends Component {
       scores: PropTypes.array,
       noVote: PropTypes.bool,
       winUsername: PropTypes.string,
-      nobodyVoted: PropTypes.bool
+      nobodyVoted: PropTypes.bool,
+      multipleWinners: PropTypes.array
     };
   }
 
@@ -42,15 +44,17 @@ class WinRound extends Component {
       message = "The Tsar didn't vote last round...";
     } else if (this.props.nobodyVoted) {
       message = "Nobody chose a card.";
+    } else if (this.props.multipleWinners) {
+      message = "There was a tie, a coin flip decided " + this.props.winUsername + " won";
     }
 
     //map over all the black cards
     return (
       <React.Fragment>
         <div className="flex-column">
-          {message ? <div>{message}</div> :
+          {message ? <div className="title">{message}</div> :
             <React.Fragment>
-              <div>{this.props.winUsername} won last round.</div>
+              <div className="title padded-bottom">{this.props.winUsername} won last round.</div>
               <Card
                 content={this.props.blackCard.content}
                 colour="card-black"

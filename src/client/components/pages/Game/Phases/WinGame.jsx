@@ -9,7 +9,7 @@ import {
 import Leaderboard from "../Views/Leaderboard";
 
 
-class WinRound extends Component {
+class WinGame extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -54,7 +54,7 @@ class WinRound extends Component {
     return (
       <React.Fragment>
         <div className="flex-column">
-          <div className="title">{winner}</div>
+          <div className="title padded-bottom">{winner}</div>
           {!this.state.winner ?
             <Leaderboard scores={this.state.scores} />
             : ""}
@@ -70,4 +70,4 @@ const mapStateToProps = (state) => ({
   blackCard: getBlackCard(state),
 });
 
-export default connect(mapStateToProps, null)(WinRound);
+export default connect(mapStateToProps, null)(WinGame);

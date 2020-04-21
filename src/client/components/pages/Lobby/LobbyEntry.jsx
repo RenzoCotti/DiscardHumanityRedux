@@ -32,6 +32,8 @@ class LobbyEntry extends Component {
       updateUserInfo: PropTypes.func,
       currentUsers: PropTypes.number,
       maxUsers: PropTypes.number,
+      lobbyName: PropTypes.string,
+      username: PropTypes.string
     };
   }
 
@@ -47,11 +49,13 @@ class LobbyEntry extends Component {
     this.props.socket.on(LOBBY_JOINED, () => {
       console.log("lobby joined!");
 
-      this.props.updateUserInfo({
+      let info = {
         username: this.state.username,
         lobbyName: this.props.name,
-      });
-      this.setState({ redirect: true });
+      };
+
+      this.props.updateUserInfo(info);
+      // this.setState({ redirect: true });
     });
 
     this.props.socket.on(LOBBY_INCORRECT_CREDENTIALS, () => {
@@ -104,7 +108,7 @@ class LobbyEntry extends Component {
   render() {
     // console.log(this.props);
     // console.log(this.state);
-    if (this.state.redirect) {
+    if (this.props.username === this.state.username && this.props.lobbyName === this.props.name) {
       return <Redirect push to="/lounge" />;
     }
 
@@ -123,14 +127,14 @@ class LobbyEntry extends Component {
               <div className="flex-column">
                 <Button
                   value="Join"
-                  short="true"
+                  short={true}
                   fn={() => {
                     this.validate(this.props.name);
                   }}
                 />
                 <Button
                   value="Close"
-                  short="true"
+                  short={true}
                   fn={() => {
                     this.setState({ selected: "" });
                   }}
@@ -139,7 +143,7 @@ class LobbyEntry extends Component {
             ) : (
               <Button
                 value="Details"
-                short="true"
+                short={true}
                 fn={() => {
                   this.setState({ selected: this.props.name });
                 }}

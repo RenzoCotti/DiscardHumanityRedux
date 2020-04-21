@@ -104,6 +104,7 @@ class GamePage extends Component {
         winningCard: msg.winningCard,
         winUsername: msg.username,
         scores: msg.scores,
+        multipleWinners: msg.multipleWinners
       });
     });
 
@@ -180,6 +181,7 @@ class GamePage extends Component {
           winningCard={this.state.winningCard}
           winUsername={this.state.winUsername}
           scores={this.state.scores}
+          multipleWinners={this.state.multipleWinners}
         />
       );
     } else if (this.state.winGame) {
