@@ -30,12 +30,12 @@ const Input = props => {
   }
 
   return (
-    <div className="row-table">
-      <div className="label-table sub-title">{props.label}</div>
-      <div className="content-table">
-        <div className="content-inner">
+    <div>
+      <div className="sub-title">{props.label}</div>
+      <div>
+        <div>
           <input
-            className={props.text ? "input shortForm" : "input"}
+            className={props.customClass ? props.customClass + " input" : "input"}
             type={props.password ? "password" : "text"}
             name={props.name}
             onChange={props.fn}
@@ -43,7 +43,6 @@ const Input = props => {
             autoComplete="off"
             required={props.required}
           />
-          {props.text ? props.text : ""}
         </div>
         <div className="errormsg">
           {error}
@@ -56,7 +55,7 @@ const Input = props => {
 Input.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
-  text: PropTypes.string,
+  customClass: PropTypes.string,
   password: PropTypes.string,
   fn: PropTypes.func,
   required: PropTypes.bool,

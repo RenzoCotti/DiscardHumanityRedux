@@ -30,8 +30,10 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         io.to(lobbyName).emit(USER_DISCONNECT, username);
         io.to(lobbyName).emit(USER_KICKED, username);
         //force user to leave lobby
-        io.sockets.sockets[user.id].leave(lobbyName);
-
+        let socket = io.sockets.sockets[user.id];
+        if (socket) {
+          socket.leave(lobbyName);
+        }
 
         let index = -1;
 

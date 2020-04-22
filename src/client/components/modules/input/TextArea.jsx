@@ -20,10 +20,10 @@ const TextArea = props => {
   }
 
   return (
-    <div className="row-table">
-      <div className="label-table sub-title">{props.label}</div>
-      <div className="content-table">
-        <div className="content-inner">
+    <div>
+      <div className="sub-title">{props.label}</div>
+      <div>
+        <div>
           <textarea
             className="textArea"
             type="text"

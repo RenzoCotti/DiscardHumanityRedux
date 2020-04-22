@@ -99,7 +99,7 @@ class LoungePage extends Component {
     }
 
     return (
-      <div className="flex-row">
+      <div className="loungeContainer">
         {div}
         <Chat socket={this.props.socket} />
       </div>

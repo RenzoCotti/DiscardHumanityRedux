@@ -60,6 +60,7 @@ exports.loginLobby = (io, socket, info) => {
       });
 
       socket.emit(LOBBY_JOINED, info.lobbyName);
+      io.in("general").emit(LOBBY_LIST_UPDATE);
       io.in(info.lobbyName).emit(USER_CONNECT, info.username);
       log("Lobby " + info.lobbyName + " joined.");
     }
@@ -126,6 +127,6 @@ exports.createLobby = (io, socket, info) => {
     log("Lobby " + info.lobbyName + " created.");
     io.to(lobby.gameSettings.admin).emit(LOBBY_CREATED, lobby.name);
     io.in("general").emit(LOBBY_LIST_UPDATE);
-    log(lobbies);
+    // log(lobbies);
   }
 };

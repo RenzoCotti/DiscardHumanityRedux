@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Button from "../../../modules/input/Button";
-import Input from "../../../modules/input/Input";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -110,7 +109,12 @@ class Chat extends Component {
       <div className="flex-column chat">
         <div className="chat-history">{messages}</div>
         <div className="flex-row" onKeyDown={this.handleKeyDown}>
-          <Input name="message" obj={this.state} fn={this.handleChange} />
+          <input
+            className="chatTextBox"
+            type="text"
+            onChange={this.handleChange}
+            autoComplete="off"
+          />
           <Button value="Send" short={true} fn={this.sendMessage} />
         </div>
       </div>

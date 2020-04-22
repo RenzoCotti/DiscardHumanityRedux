@@ -22,10 +22,10 @@ const Select = props => {
   }
 
   return (
-    <div className="row-table">
+    <div>
       <div className="label-table sub-title">{props.label}</div>
-      <div className="content-table">
-        <div className="content-inner">
+      <div>
+        <div>
           <MaterializeSelect onChange={v => props.fn(v, props.name)} value={val}>
             <option value="" />
             {props.customArr

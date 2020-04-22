@@ -7,12 +7,16 @@
   flex-direction: column;
 
   height: 600px;
+  width: 500px;
 }
 
 .chat-username {
   font-weight: bold;
   padding-right: 10px;
+  width: 100px;
 }
 
 .chat-message {
+  width: 400px;
+  overflow-wrap: anywhere;
 }
