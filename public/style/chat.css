@@ -1,13 +1,17 @@
-.chat {
-  padding-left: 100px;
+.chat-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-history {
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
 
-  height: 600px;
+  height: 800px;
+  overflow-y: scroll;
   width: 500px;
+  scrollbar-width: none;
 }
 
 .chat-username {
@@ -20,3 +24,27 @@
   width: 400px;
   overflow-wrap: anywhere;
 }
+
+.chat-controls{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chat-textbox {
+  color: var(--text);
+  min-width: 395px;
+  
+  /* border-bottom: 1px solid white; */
+  /* font-size: 16pt !important; */
+  line-height: 1.5em !important;
+  overflow-wrap: break-word;
+  padding: 7px 0 !important;
+  height: auto !important;
+  margin: 0px !important;
+}
+
+.chat-textbox:focus{
+  outline: none;
+}
+

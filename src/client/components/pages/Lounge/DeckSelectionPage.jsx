@@ -164,8 +164,8 @@ class DeckSelectionPage extends Component {
     return (
       <React.Fragment>
         <div className="flex-column deck-container">
-          <div className="title">{this.props.lobbyName}</div>
-          <div className="sub-title padded-bottom">Select decks</div>
+          <div className="sub-title">Lobby {this.props.lobbyName}</div>
+          <div className="title padded-bottom">Select decks</div>
           <div className="flex-column deck-list margin-bottom">
             {list.length == 0 ? "Loading decks..." : list}
           </div>

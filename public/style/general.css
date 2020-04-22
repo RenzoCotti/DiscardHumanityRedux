@@ -32,11 +32,13 @@
 .foot {
   z-index: 0;
   position: fixed;
-  bottom: 0;
-  right: 0;
-  margin: 10px 150px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  bottom: 30px;
+
   opacity: 0.3;
-  width: 800px;
 }
 
 .nav-element:hover {
@@ -69,4 +71,10 @@
 
 .about {
   max-width: 800px;
+}
+
+.info-message{
+  height: 50px;
+  width: 100%;
+  text-align: center;
 }

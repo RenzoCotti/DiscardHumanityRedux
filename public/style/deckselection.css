@@ -15,17 +15,19 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-left: 300px;
+  /* margin-left: 300px; */
   width: 1000px;
 }
 
 .deck-list {
   overflow: scroll;
+  overflow-x: hidden;
   height: 495px;
 }
 
 .deck-container {
   position: fixed;
+  left: 100px;
   top: 100px;
 }
 

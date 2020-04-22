@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 class Navbar extends Component {
   constructor(props) {
     super(props);
+    //"Deck Creation", "Login", 
     this.state = {
-      options: ["Home", "Lobbies", "Deck Creation", "Login", "About"]
+      options: ["Home", "Lobbies", "Rules", "About"]
     };
     this.getOptions = this.getOptions.bind(this);
   }

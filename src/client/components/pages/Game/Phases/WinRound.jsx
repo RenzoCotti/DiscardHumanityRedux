@@ -14,7 +14,7 @@ class WinRound extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    console.log(this.props.multipleWinners);
+    // console.log(this.props.multipleWinners);
   }
 
   static get propTypes() {

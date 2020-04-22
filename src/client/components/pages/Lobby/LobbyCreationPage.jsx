@@ -187,7 +187,7 @@ class LobbyCreationPage extends Component {
 
     return (
       <div className="create-lobby">
-        <div className="title padded-bottom">Create Lobby</div>
+        <div className="title padded-bottom padded-right">Create Lobby</div>
         <form onSubmit={this.onSubmit}>
           <div className="flex-row">
             <div className="flex-column">

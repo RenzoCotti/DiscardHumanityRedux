@@ -90,7 +90,7 @@ class LoungePage extends Component {
 
   render() {
 
-    let div = <div>Waiting for players to join...</div>;
+    let div = <div className="info-message">Waiting for players to join...</div>;
     if (this.state.home) {
       return <Redirect push to={"/"} />;
     }

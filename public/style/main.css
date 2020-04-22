@@ -20,6 +20,10 @@ html {
   background: var(--selected);
 }
 
+::-webkit-scrollbar {
+  display: none !important; 
+}
+
 body {
   /*remove basic padding from document*/
   padding: 0;

@@ -33,6 +33,7 @@ class Chat extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.addChatMessage = this.addChatMessage.bind(this);
     this.addSystemMessage = this.addSystemMessage.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   static get propTypes() {
@@ -67,6 +68,7 @@ class Chat extends Component {
 
   addChatMessage(message) {
     this.props.addChatMessage(message);
+    this.scrollToBottom();
   }
 
   addSystemMessage(message) {
@@ -98,6 +100,10 @@ class Chat extends Component {
     this.setState({ message: "" });
   }
 
+  scrollToBottom() {
+    this.endOfMessages.scrollIntoView({ behavior: "smooth" });
+  }
+
   render() {
     let messages = this.props.chatHistory.map((el, index) => (
       <div className="flex-row" key={index}>
@@ -106,12 +112,16 @@ class Chat extends Component {
       </div>
     ));
     return (
-      <div className="flex-column chat">
-        <div className="chat-history">{messages}</div>
-        <div className="flex-row" onKeyDown={this.handleKeyDown}>
+      <div className="chat-container">
+        <div className="chat-history">{messages}
+          <div ref={(el) => { this.endOfMessages = el; }} />
+        </div>
+        <div className="chat-controls" onKeyDown={this.handleKeyDown}>
           <input
-            className="chatTextBox"
+            className="chat-textbox input"
             type="text"
+            name="message"
+            value={this.state.message}
             onChange={this.handleChange}
             autoComplete="off"
           />

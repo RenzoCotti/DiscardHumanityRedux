@@ -92,15 +92,7 @@
   fill: var(--text) !important;
 }
 
-.chatTextBox {
-  color: var(--text);
-  font-size: 16pt !important;
-  line-height: 2.2em;
-  min-height: 2.2em !important;
-  overflow-wrap: break-word;
-  /* height: auto; */
-  /* max-height: auto; */
-}
+
 
 .dropdown-trigger {
   width: 94% !important;
