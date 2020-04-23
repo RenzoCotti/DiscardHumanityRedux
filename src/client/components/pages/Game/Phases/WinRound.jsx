@@ -63,6 +63,9 @@ class WinRound extends Component {
               />
             </React.Fragment>
           }
+          <br />
+          <br />
+          <br />
           <Leaderboard scores={this.props.scores} />
         </div>
       </React.Fragment>

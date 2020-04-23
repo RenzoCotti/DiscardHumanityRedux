@@ -32,7 +32,8 @@ class SelectionPhase extends Component {
     this.state = {
       waiting: false,
       notVoted: false,
-      voted: false
+      voted: false,
+      setJolly: false
     };
 
     this.props.socket.on(CHOICE_RECEIVED, () => {
@@ -45,7 +46,6 @@ class SelectionPhase extends Component {
         this.setState({ notVoted: true });
       }
     });
-
   }
 
   componentWillUnmount() {
@@ -73,6 +73,14 @@ class SelectionPhase extends Component {
     let first = hand[selectedCards[0]];
     let second = hand[selectedCards[1]] ? hand[selectedCards[1]] : null;
     let third = hand[selectedCards[2]] ? hand[selectedCards[2]] : null;
+
+    if (first.jolly || second && second.jolly || third && third.jolly) {
+      //todo, force user for input
+      this.setState({ setJolly: true });
+      return;
+    } else {
+      this.setState({ setJolly: false });
+    }
 
     this.props.socket.emit(CHOICE, {
       lobbyName: this.props.lobbyName,
@@ -113,7 +121,7 @@ class SelectionPhase extends Component {
           <div className="title padded-bottom">Pick the best combination.</div>
           <div className="flex-row">
             {blackCard}
-            <CardSelected />
+            <CardSelected setJolly={this.state.setJolly} />
             <Button value="Confirm" fn={this.sendCards} />
           </div>
           <Hand />

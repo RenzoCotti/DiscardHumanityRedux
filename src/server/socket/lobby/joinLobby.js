@@ -115,14 +115,14 @@ exports.createLobby = (io, socket, info) => {
         score: 0,
         voted: 0,
         cardsChosen: []
-      }
+      },
       //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
       // russianRoulette: false,
       //jolly cards, allows a user to write in sth
-      // jollyCards: {
-      //   active: false,
-      //   number: 0
-      // }
+      jollyCards: {
+        active: (info.jolly === "no" ? false : true),
+        number: (info.jolly === "no" ? 0 : Number(info.jollyNumber))
+      }
     };
 
     lobby.gameSettings = gameSettings;

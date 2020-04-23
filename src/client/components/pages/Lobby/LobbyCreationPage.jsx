@@ -33,7 +33,9 @@ class LobbyCreationPage extends Component {
       meritocracy: "no",
       redraw: "no",
       voting: "tsar",
-      rando: "no"
+      rando: "no",
+      jolly: "no",
+      jollyNumber: 0
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -138,6 +140,19 @@ class LobbyCreationPage extends Component {
 
     if (!this.state.rando) {
       arr.push({ name: "rando" });
+    }
+
+    if (!this.state.jolly) {
+      arr.push({ name: "jolly" });
+    } else if (this.state.jolly === "yes") {
+      if (!this.state.jollyNumber) {
+        arr.push({ name: "jollyNumber" });
+      } else if (this.state.jollyNumber < 0) {
+        arr.push({
+          name: "jollyNumber",
+          errorMessage: "The number jolly cards has to be above 0.",
+        });
+      }
     }
 
 
@@ -339,6 +354,22 @@ class LobbyCreationPage extends Component {
                 errors={this.state.errors}
               />
 
+              <Select
+                label="Jolly cards"
+                name="jolly"
+                arr={["yes", "no"]}
+                fn={this.handleSelect}
+                obj={this.state}
+                errors={this.state.errors}
+              />
+              {this.state.jolly === "yes" ?
+                <Input
+                  label="Number of jolly cards"
+                  name="jollyNumber"
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                /> : ""}
             </div>
           </div>
         </form>

@@ -55,6 +55,8 @@ class WinGame extends Component {
       <React.Fragment>
         <div className="flex-column">
           <div className="title padded-bottom">{winner}</div>
+          <br />
+          <br />
           {!this.state.winner ?
             <Leaderboard scores={this.state.scores} />
             : ""}

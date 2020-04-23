@@ -146,6 +146,8 @@ class VotePhase extends Component {
             <div className="flex-row">
               {arr}
             </div>
+            <br />
+            <br />
             <Button value="Confirm" fn={this.voteCard} />
           </div>
         </div>);

@@ -115,6 +115,20 @@ exports.setDecks = (io, socket, info) => {
     if (lobby.maxUsers * 12 <= info.whiteCards.length) {
       lobby.blackCards = info.blackCards;
       lobby.whiteCards = info.whiteCards;
+
+
+      if (lobby.gameSettings.jollyCards.active) {
+        let number = lobby.gameSettings.jollyCards.number;
+        for (let i = 0; i < number; i++) {
+          let id = "jolly-card-" + i;
+          lobby.whiteCards.push({
+            content: [{ tag: "_", text: "", _id: "jolly-card-" + i + "-content" }],
+            _id: id,
+            jolly: true
+          });
+        }
+      }
+
       log(info.name + ": decks set.");
 
       socket.emit(GAME_LOUNGE, lobby.name);

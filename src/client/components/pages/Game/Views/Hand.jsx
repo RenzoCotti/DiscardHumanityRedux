@@ -62,6 +62,7 @@ class Hand extends Component {
   render() {
     if (!this.props.hand) return <div className="hand"></div>;
 
+    console.log(this.props.hand);
     let selectedCards = this.props.selectedCards;
 
     let hand = this.props.hand.map((card, index) => (
