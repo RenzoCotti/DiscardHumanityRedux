@@ -30,7 +30,8 @@ const {
   drawWhiteCardsAll,
   pickNewTsar,
   POINTS_FOR_REDRAW,
-  draw10ForUser
+  draw10ForUser,
+  RANDO_USERNAME
 } = require("./internal");
 
 
@@ -77,12 +78,19 @@ exports.userDemocracyVote = (io, msg) => {
     let userInfo = getUser(lobby, msg.username).info;
 
 
-    //if the user exists and it hasn't voted and the user voted is valid
-    if (userInfo && !userInfo.voted && votedUserInfo) {
-      votedUserInfo.votes++;
+    //if the user exists and it hasn't voted
+    if (userInfo && !userInfo.voted) {
       lobby.gameState.userVoted++;
       userInfo.voted = true;
       userInfo.inactivityCounter = 0;
+
+      //the user voted is valid
+      if (votedUserInfo) {
+        votedUserInfo.votes++;
+      } else if (checkIfRando(msg.votedUsername)) {
+        lobby.gameSettings.rando.votes++;
+      }
+
 
       log(lobby.gameState.userVoted + "/" + lobby.userList.length + " users voted.");
       //if over threshold, roundwon + check for ending
@@ -113,36 +121,45 @@ function democracyCalculateWinner(io, lobby) {
   let max = 0;
   for (let user of lobby.userList) {
     if (user.info) {
+      //user hasn't voted
       if (!user.info.voted) {
         user.info.inactivityCounter++;
         checkIfKick(io, lobby, user);
-      } else {
-        if (user.info.votes > max) {
-          winners = [user.username];
-          max = user.info.votes;
-        } else if (user.info.votes === max && user.info.votes > 0) {
-          //tie
-          winners.push(user.username);
-        }
-
-        user.info.voted = false;
       }
+
+      if (user.info.votes > max) {
+        winners = [user.username];
+        max = user.info.votes;
+      } else if (user.info.votes === max && user.info.votes > 0) {
+        //tie
+        winners.push(user.username);
+      }
+
+      user.info.votes = 0;
+      user.info.voted = false;
+
+    }
+  }
+
+  if (lobby.gameSettings.rando) {
+    if (lobby.gameSettings.rando.votes > max) {
+      winners = [RANDO_USERNAME];
+      max = lobby.gameSettings.rando.votes;
+    } else if (lobby.gameSettings.rando.votes === max && lobby.gameSettings.rando.votes > 0) {
+      winners.push(RANDO_USERNAME);
     }
   }
 
   let username;
-  let winningCard;
-  let multipleWinners = winners.length > 1;
 
-  let user = null;
   if (winners.length === 1) {
-    user = getUser(lobby, winners[0]);
-    log(user.username + " was democratically voted and won.");
+    username = winners[0];
+    log(username + " was democratically voted and won.");
   } else if (winners.length > 1) {
     //more than one winner, pick one at random
     let random = Math.floor(Math.random() * winners.length);
-    user = getUser(lobby, winners[random]);
-    log("Tied. RNJesus decided " + user.username + " won.");
+    username = winners[random];
+    log("Tied. RNJesus decided " + username + " won.");
   } else {
     //nobody voted
     let scores = getAllScores(lobby);
@@ -156,11 +173,18 @@ function democracyCalculateWinner(io, lobby) {
 
   }
 
-  if (user) {
+  let winningCard;
+  let multipleWinners = winners.length > 1;
+
+  if (username) {
     // log(user.info);
     //an individual winner
-    username = user.username;
-    winningCard = user.info.cardsChosen;
+    if (username === RANDO_USERNAME) {
+      winningCard = lobby.gameSettings.rando.cardsChosen;
+    } else {
+      let user = getUser(lobby, username);
+      winningCard = user.info.cardsChosen;
+    }
     roundWon(io, lobby, username, winningCard, multipleWinners);
   }
 
@@ -195,6 +219,47 @@ exports.sendCardsToVote = (io, lobby) => {
   if (lobby.userList.length < 2) {
     //lobby doesn't have enough users anymore
     return;
+  }
+
+  if (lobby.gameSettings.rando.active) {
+    let pick = lobby.gameState.currentBlackCard.pick;
+    let whiteCards = lobby.gameState.whiteCards;
+    if (whiteCards.used.length < pick) {
+      log("Not enough used cards for Rando...");
+    } else {
+      let choice = [];
+      let numbers = [];
+      for (let i = 0; i < pick; i++) {
+        let random = Math.floor(Math.random() * whiteCards.used.length);
+
+        let ok = false;
+        while (!ok) {
+          let found = false;
+          for (let number of numbers) {
+            if (random === number) {
+              found = true;
+            }
+          }
+
+          if (!found) {
+            ok = true;
+          } else {
+            random = Math.floor(Math.random() * whiteCards.used.length);
+          }
+
+        }
+
+        choice.push(whiteCards.used[random]);
+        numbers.push(random);
+      }
+
+      lobby.gameSettings.rando.cardsChosen = choice;
+
+      cards.push({
+        choice: choice,
+        username: RANDO_USERNAME
+      });
+    }
   }
 
 
@@ -314,11 +379,19 @@ function reinitialiseLobby(lobby) {
 }
 
 function modifyScore(lobby, username, amount) {
-  for (let user of lobby.userList) {
-    if (user.username === username) {
-      user.info.score += amount;
+  if (lobby.gameSettings.rando.active && username === RANDO_USERNAME) {
+    lobby.gameSettings.rando.score += amount;
+  } else {
+    for (let user of lobby.userList) {
+      if (user.username === username) {
+        user.info.score += amount;
+      }
     }
   }
+}
+
+function checkIfRando(lobby, username) {
+  return lobby.gameSettings.rando.active && username === RANDO_USERNAME;
 }
 
 
@@ -326,7 +399,7 @@ function modifyScore(lobby, username, amount) {
 function roundWon(io, lobby, username, winningCard, multipleWinners) {
   let user = getUser(lobby, username);
 
-  if (user) {
+  if (user || checkIfRando(lobby, username)) {
     log(username + " won the round.");
 
     lobby.gameState.lastRoundWinner = username;
@@ -341,9 +414,10 @@ function roundWon(io, lobby, username, winningCard, multipleWinners) {
     // log(lobby.gameSettings.ending);
 
     if (lobby.gameSettings.ending.type === "score") {
+      if (lobby.gameSettings.rando.active && lobby.gameSettings.rando.score === lobby.gameSettings.ending.max) {
+        end = true;
+      }
       for (let user of lobby.gameState.userState.info) {
-        // log(user.score);
-
         if (user.score === lobby.gameSettings.ending.max) {
           end = true;
         }

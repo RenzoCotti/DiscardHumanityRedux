@@ -2,7 +2,8 @@
 
 let {
   lobbies,
-  log
+  log,
+  RANDO_USERNAME
 } = require("../internal");
 
 const {
@@ -54,6 +55,10 @@ exports.getAllScores = (lobby) => {
       username: user.username,
       score: user.info.score
     });
+  }
+
+  if (lobby.gameSettings.rando.active) {
+    scores.push({ username: RANDO_USERNAME, score: lobby.gameSettings.rando.score });
   }
 
   return scores;

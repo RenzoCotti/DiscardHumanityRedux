@@ -102,14 +102,12 @@ class VotePhase extends Component {
   render() {
 
     let div;
-    if (!this.state.choices) {
+    if (this.state.choices.length === 0) {
       if (this.props.democracy) {
         div = <div className="info-message">Waiting for all users to pick a card combination.</div>;
       } else {
         div = <div className="info-message">You&apos;re the Tsar.</div>;
       }
-    } else if (this.state.choices.length === 0) {
-      div = <div className="info-message">No user voted.</div>;
     } else {
       //we have a list of black cards
 

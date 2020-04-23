@@ -12,6 +12,9 @@ import {
   LOBBY_CREATED,
   LOBBY_NEW,
 } from "../../../../server/socket/messages";
+import {
+  RANDO_USERNAME
+} from "../../../../server/socket/internal";
 import DeckSelectionPage from "../Lounge/DeckSelectionPage";
 class LobbyCreationPage extends Component {
 
@@ -29,7 +32,8 @@ class LobbyCreationPage extends Component {
       points: 5,
       meritocracy: "no",
       redraw: "no",
-      voting: "tsar"
+      voting: "tsar",
+      rando: "no"
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -131,6 +135,11 @@ class LobbyCreationPage extends Component {
     if (!this.state.ending) {
       arr.push({ name: "ending" });
     }
+
+    if (!this.state.rando) {
+      arr.push({ name: "rando" });
+    }
+
 
     if (this.state.ending !== "haiku") {
       if (!this.state.points) {
@@ -316,9 +325,20 @@ class LobbyCreationPage extends Component {
                   errors={this.state.errors}
                 /> : ""}
               {/* russianRoulette for points */}
-              {/* refreshHand: false,
-              randoCardissian: false,
-              jollyCards */}
+              {/*jollyCards */}
+            </div>
+
+            <div className="flex-column padded-right">
+
+              <Select
+                label={RANDO_USERNAME}
+                name="rando"
+                arr={["yes", "no"]}
+                fn={this.handleSelect}
+                obj={this.state}
+                errors={this.state.errors}
+              />
+
             </div>
           </div>
         </form>
