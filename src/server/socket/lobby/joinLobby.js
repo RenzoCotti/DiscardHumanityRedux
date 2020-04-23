@@ -108,10 +108,10 @@ exports.createLobby = (io, socket, info) => {
       },
       //he who gets voted becomes tsar
       meritocracy: (info.meritocracy === "no" ? false : true),
+      //redraw hand for x points
+      refreshHand: (info.redraw === "no" ? false : true),
       //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
       // russianRoulette: false,
-      //discard cards for points
-      // refreshHand: false,
       //rando c;
       // randoCardissian: false,
       //jolly cards, allows a user to write in sth

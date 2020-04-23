@@ -16,6 +16,7 @@ import {
   USER_NOT_FOUND
 } from "../../../../server/socket/messages";
 import GamePage from "../Game/GamePage";
+// import DeckSelection from "./DeckSelectionPage";
 
 class LoungePage extends Component {
 
@@ -39,7 +40,7 @@ class LoungePage extends Component {
   //on page leave, leave lobby
   componentWillUnmount() {
     this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
-    console.log("LEAVE");
+    // console.log("LEAVE");
     this.props.updateUserInfo({ lobbyName: null, username: null });
     this.props.socket.off(GAME_START);
     this.props.socket.off(USER_CONNECT);
@@ -92,11 +93,13 @@ class LoungePage extends Component {
 
     let div = <div className="info-message">Waiting for players to join...</div>;
     if (this.state.home) {
-      return <Redirect push to={"/"} />;
-    }
-    if (this.state.start) {
+      return <Redirect push to={"/kicked"} />;
+    } else if (this.state.start) {
       div = <GamePage socket={this.props.socket} />;
     }
+    // else {
+    //   div = <DeckSelection socket={this.socket} />;
+    // }
 
     return (
       <div className="loungeContainer">

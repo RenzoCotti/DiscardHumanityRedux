@@ -3,7 +3,7 @@ import Button from "../../modules/input/Button";
 import Card from "../../modules/Card";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { getLobbyName } from "../../../redux/actions";
+import { getLobbyName, getUsername } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -32,6 +32,7 @@ class DeckSelectionPage extends Component {
     return {
       socket: PropTypes.object,
       lobbyName: PropTypes.string,
+      username: PropTypes.string
     };
   }
 
@@ -182,6 +183,7 @@ class DeckSelectionPage extends Component {
 
 const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
+  username: getUsername(state)
 });
 
 // const mapDispatchToProps = dispatch => ({

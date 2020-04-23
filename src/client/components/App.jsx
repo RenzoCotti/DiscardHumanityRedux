@@ -38,8 +38,8 @@ import Login from "./pages/LoginPage";
 import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
-import DeckSelection from "./pages/Lounge/DeckSelectionPage";
 import LobbyCreationPage from "./pages/Lobby/LobbyCreationPage";
+import KickedPage from "./pages/KickedPage";
 
 // function requireAll(r) {
 //   r.keys().forEach(r);
@@ -88,10 +88,7 @@ class App extends Component {
 
           <div className="main-container">
             <Route exact path="/" component={Home} />
-            <Route
-              path="/deck-selection"
-              component={() => <DeckSelection socket={this.socket} />}
-            />
+            <Route path="/kicked" component={KickedPage} />
             <Route
               path="/lobby"
               component={() => <Lobby socket={this.socket} />}

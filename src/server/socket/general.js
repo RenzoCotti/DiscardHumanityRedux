@@ -8,7 +8,9 @@ const {
   GAME_WIN,
   ROUND_WIN,
   GAME_PAUSED,
-  GAME_UNPAUSED
+  NOT_ENOUGH_POINTS,
+  GAME_UNPAUSED,
+  HAND_REDRAWN
 } = require("./messages");
 
 const {
@@ -27,6 +29,8 @@ const {
   drawUpTo10,
   drawWhiteCardsAll,
   pickNewTsar,
+  POINTS_FOR_REDRAW,
+  draw10ForUser
 } = require("./internal");
 
 
@@ -483,4 +487,28 @@ exports.endGame = (io, socket, lobbyName) => {
     }
   }
 
+};
+
+exports.redrawHand = (io, socket, msg) => {
+  let lobby = getLobby(msg.lobbyName);
+
+  if (lobby) {
+    if (lobby.gameSettings.refreshHand) {
+      let user = getUser(lobby, msg.username);
+      if (user) {
+        if (user.info.score >= POINTS_FOR_REDRAW) {
+          log("User " + msg.username + " redrawing his hand.");
+          modifyScore(lobby, msg.username, -POINTS_FOR_REDRAW);
+          user.info.hand = [];
+          draw10ForUser(lobby, user);
+          socket.emit(HAND_REDRAWN);
+        } else {
+          socket.emit(NOT_ENOUGH_POINTS);
+        }
+      }
+    } else {
+      log("Tried refreshing hand, it's disabled.");
+    }
+
+  }
 };

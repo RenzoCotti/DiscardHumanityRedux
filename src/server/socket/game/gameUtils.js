@@ -43,7 +43,7 @@ exports.getGameState = (socket, msg) => {
         socket.emit(IS_ADMIN, lobby.gameSettings.admin === socket.id);
       }
       socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
-      socket.emit(IS_TSAR, lobby.gameState.tsar.id === socket.id);
+      socket.emit(IS_TSAR, { tsar: (lobby.gameState.tsar.id === socket.id), redraw: lobby.gameSettings.refreshHand });
     } else {
       log("User " + msg.username + " not found.");
       // log(lobby.userList)

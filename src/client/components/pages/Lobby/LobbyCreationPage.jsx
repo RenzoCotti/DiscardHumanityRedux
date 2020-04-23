@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router";
+// import { Redirect } from "react-router";
 import Button from "../../modules/input/Button";
 import Input from "../../modules/input/Input";
 import Select from "../../modules/input/Select";
@@ -12,7 +12,7 @@ import {
   LOBBY_CREATED,
   LOBBY_NEW,
 } from "../../../../server/socket/messages";
-
+import DeckSelectionPage from "../Lounge/DeckSelectionPage";
 class LobbyCreationPage extends Component {
 
 
@@ -28,6 +28,7 @@ class LobbyCreationPage extends Component {
       ending: "turns",
       points: 5,
       meritocracy: "no",
+      redraw: "no",
       voting: "tsar"
     };
 
@@ -151,6 +152,8 @@ class LobbyCreationPage extends Component {
     if (this.state.voting === "tsar") {
       if (!this.state.meritocracy) {
         arr.push({ name: "meritocracy" });
+      } else if (!this.state.redraw) {
+        arr.push({ name: "redraw" });
       }
     }
 
@@ -180,7 +183,7 @@ class LobbyCreationPage extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect push to="/deck-selection" />;
+      return <DeckSelectionPage socket={this.props.socket} />;
     }
 
     // console.log(this.state);
@@ -272,14 +275,25 @@ class LobbyCreationPage extends Component {
               />
 
               {this.state.voting === "tsar" ?
-                <Select
-                  label="Meritocracy"
-                  name="meritocracy"
-                  arr={["yes", "no"]}
-                  fn={this.handleSelect}
-                  obj={this.state}
-                  errors={this.state.errors}
-                /> : ""}
+                <React.Fragment>
+                  <Select
+                    label="Meritocracy"
+                    name="meritocracy"
+                    arr={["yes", "no"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+                  <Select
+                    label="Hand redrawing"
+                    name="redraw"
+                    arr={["yes", "no"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+                </React.Fragment>
+                : ""}
             </div>
 
             <div className="flex-column padded-right">

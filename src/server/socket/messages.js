@@ -22,8 +22,9 @@ exports.TSAR_NO_VOTE = "game-tsar-no-vote";
 exports.NOBODY_VOTED = "game-nobody-voted";
 exports.DEMOCRACY_VOTE = "game-democracy-vote";
 exports.DEMOCRACY_CHOICES = "game-democracy-choices";
-
-
+exports.TSAR_REDRAW = "game-tsar-redraw-hand";
+exports.NOT_ENOUGH_POINTS = "game-not-enough-points";
+exports.HAND_REDRAWN = "game-hand-redrawn";
 
 
 exports.CHOICE_RECEIVED = "game-choice-received";

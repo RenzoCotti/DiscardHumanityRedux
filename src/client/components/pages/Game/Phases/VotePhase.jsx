@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { TSAR_VOTING, TSAR_VOTE, DEMOCRACY_VOTE } from "../../../../../server/socket/messages";
+import { TSAR_VOTING, TSAR_VOTE, DEMOCRACY_VOTE, TSAR_REDRAW, NOT_ENOUGH_POINTS, HAND_REDRAWN } from "../../../../../server/socket/messages";
+import { POINTS_FOR_REDRAW } from "../../../../../server/socket/utils";
 import Card from "../../../modules/Card";
 // import Chat from "../../modules/Chat";
 // import Hand from "./Views/Hand";
@@ -22,15 +23,25 @@ class VotePhase extends Component {
 
     this.selectCard = this.selectCard.bind(this);
     this.voteCard = this.voteCard.bind(this);
-    this.state = { selected: null, choices: (this.props.democracy ? this.props.democracy : null) };
+    this.redrawHand = this.redrawHand.bind(this);
+    this.state = { selected: null, choices: (this.props.democracy ? this.props.democracy : []), error: "" };
 
     this.props.socket.on(TSAR_VOTING, (arr) => {
       this.setState({ choices: arr });
+    });
+
+    this.props.socket.on(NOT_ENOUGH_POINTS, () => {
+      this.setState({ error: "Not enough points. You need at least " + POINTS_FOR_REDRAW + "." });
+    });
+
+    this.props.socket.on(HAND_REDRAWN, () => {
+      this.setState({ error: "", message: "Hand redrawn." });
     });
   }
 
   componentWillUnmount() {
     this.props.socket.off(TSAR_VOTING);
+    this.props.socket.off(NOT_ENOUGH_POINTS);
   }
 
   static get propTypes() {
@@ -42,7 +53,8 @@ class VotePhase extends Component {
       hand: PropTypes.array,
       blackCard: PropTypes.object,
       democracyCards: PropTypes.array,
-      democracy: PropTypes.bool
+      democracy: PropTypes.bool,
+      redraw: PropTypes.bool
     };
   }
 
@@ -73,60 +85,85 @@ class VotePhase extends Component {
     }
 
 
-    console.log("voted for " + voted.username);
+    // console.log("voted for " + voted.username);
 
     // this.setState({ voted: true });
   }
 
+  redrawHand() {
+    if (this.props.redraw) {
+      this.props.socket.emit(TSAR_REDRAW, {
+        lobbyName: this.props.lobbyName,
+        username: this.props.username
+      });
+    }
+  }
+
   render() {
-    console.log("state: ");
-    console.log(this.state);
+
+    let div;
     if (!this.state.choices) {
       if (this.props.democracy) {
-        return <div>Democracy: Waiting for users to pick a card.</div>;
+        div = <div className="info-message">Waiting for all users to pick a card combination.</div>;
       } else {
-        return <div>You&apos;re the Tsar</div>;
+        div = <div className="info-message">You&apos;re the Tsar.</div>;
       }
     } else if (this.state.choices.length === 0) {
-      return <div>No user voted.</div>;
-    }
+      div = <div className="info-message">No user voted.</div>;
+    } else {
+      //we have a list of black cards
+
+      let arr = [];
 
 
-    let arr = [];
+      for (let i = 0; i < this.state.choices.length; i++) {
+        let entry = this.state.choices[i];
 
-
-    for (let i = 0; i < this.state.choices.length; i++) {
-      let entry = this.state.choices[i];
-
-      //adding fillings for card
-      let temp = [];
-      for (let card of entry.choice) {
-        if (card !== null) {
-          temp.push(card.content);
+        //adding fillings for card
+        let temp = [];
+        for (let card of entry.choice) {
+          if (card !== null) {
+            temp.push(card.content);
+          }
         }
+
+        arr.push(
+          <Card
+            content={this.props.blackCard.content}
+            colour="card-black"
+            size="card-big"
+            fillGaps={temp}
+            key={i}
+            hover={true}
+            selected={i === this.state.selected ? true : false}
+            onClick={() => this.selectCard(i)}
+          />
+        );
       }
 
-      arr.push(
-        <Card
-          content={this.props.blackCard.content}
-          colour="card-black"
-          size="card-big"
-          fillGaps={temp}
-          key={i}
-          hover={true}
-          selected={i === this.state.selected ? true : false}
-          onClick={() => this.selectCard(i)}
-        />
-      );
+      div =
+        (<div className="flex-column">
+          <div className="title padded-bottom">{!this.props.democracy ? "Despotically pick the best card." : "Vote the best card, the majority will win."}</div>
+          <div className="flex-column padded-bottom">
+            <div className="flex-row">
+              {arr}
+            </div>
+            <Button value="Confirm" fn={this.voteCard} />
+          </div>
+        </div>);
     }
+
+
+
 
 
     return (
       <React.Fragment>
         <div className="flex-column">
-          <div>{!this.props.democracy ? "Tsar: despotically pick the best card." : "Democracy: vote the best card, the majority wins."}</div>
-          <div className="flex-row">{arr}</div>
-          <Button value="Confirm" fn={this.voteCard} />
+          {div}
+          {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
+          <div className="errormsg">{this.state.error}</div>
+          <div>{this.state.message}</div>
         </div>
       </React.Fragment>
     );

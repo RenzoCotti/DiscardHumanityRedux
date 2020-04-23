@@ -5,7 +5,7 @@ exports.USER_CHOICE_TIMEOUT = 20 * 1000;
 exports.RESULT_TIMEOUT = 5 * 1000;
 exports.USER_INACTIVITY_MAX_TURNS = 3;
 exports.BREAK_TIMEOUT = 10 * 60 * 1000;
-
+exports.POINTS_FOR_REDRAW = 3;
 exports.lobbies = [];
 
 

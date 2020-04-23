@@ -19,7 +19,8 @@ module.exports = function (server) {
     unpauseGame,
     gameBreak,
     log,
-    endGame
+    endGame,
+    redrawHand
   } = require("./internal");
 
 
@@ -39,7 +40,8 @@ module.exports = function (server) {
     DEMOCRACY_VOTE,
     GAME_BREAK,
     GAME_RESUME,
-    GAME_END
+    GAME_END,
+    TSAR_REDRAW
   } = require("./messages");
 
   io.on("connect", function (socket) {
@@ -91,6 +93,8 @@ module.exports = function (server) {
     socket.on(GAME_RESUME, (lobbyName) => unpauseGame(io, socket, lobbyName));
 
     socket.on(GAME_END, (lobbyName) => endGame(io, socket, lobbyName));
+
+    socket.on(TSAR_REDRAW, msg => redrawHand(io, socket, msg));
 
     socket.on("disconnect", () => {
       log("user disconnected " + socket.id);

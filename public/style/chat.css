@@ -8,7 +8,7 @@
   flex-direction: column;
   flex-grow: 2;
 
-  height: 800px;
+  height: 700px;
   overflow-y: scroll;
   width: 500px;
   scrollbar-width: none;

@@ -59,8 +59,9 @@ class GamePage extends Component {
       this.props.updateHand(hand);
     });
 
-    this.props.socket.on(IS_TSAR, (value) => {
-      this.setState({ tsar: value });
+    this.props.socket.on(IS_TSAR, (msg) => {
+      console.log(msg);
+      this.setState({ tsar: msg.tsar, redraw: msg.redraw });
     });
 
     this.props.socket.on(IS_ADMIN, () => {
@@ -184,7 +185,7 @@ class GamePage extends Component {
   render() {
     let toReturn;
     if (this.state.kicked) {
-      return <Redirect push to={"/lobby"} />;
+      return <Redirect push to={"/kicked"} />;
     } else if (this.state.toLounge) {
       return <Redirect push to={"/lounge"} />;
     } else if (this.state.winRound) {
@@ -201,7 +202,7 @@ class GamePage extends Component {
     } else if (this.state.winGame) {
       toReturn = <WinGame scores={this.state.scores} />;
     } else if (this.state.tsar) {
-      toReturn = <VotePhase socket={this.props.socket} />;
+      toReturn = <VotePhase socket={this.props.socket} redraw={this.state.redraw} />;
     } else if (this.state.democracy) {
       toReturn = <VotePhase socket={this.props.socket} democracy={this.state.democracy} />;
     }

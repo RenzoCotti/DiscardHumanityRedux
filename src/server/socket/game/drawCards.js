@@ -48,16 +48,20 @@ exports.drawWhiteCardsAll = (lobby, x) => {
 //checks how many cards are missing from 10 and draws them
 exports.drawUpTo10 = (lobby) => {
   for (let user of lobby.userList) {
-    if (user.info) {
-      // log("Drawing 10 for: " + user.username);
-      let oldHand = user.info.hand;
-      let cardsToDraw = 10 - oldHand.length;
-      let hand = drawXCards(lobby.gameState.whiteCards, cardsToDraw);
-      let newHand = oldHand ? oldHand.concat(hand) : hand;
-      user.info.hand = newHand;
-    } else {
-      log("Draw 10 for non-init user: " + user.username);
-    }
+    exports.draw10ForUser(lobby, user);
+  }
+};
+
+exports.draw10ForUser = (lobby, user) => {
+  if (user.info) {
+    // log("Drawing 10 for: " + user.username);
+    let oldHand = user.info.hand;
+    let cardsToDraw = 10 - oldHand.length;
+    let hand = drawXCards(lobby.gameState.whiteCards, cardsToDraw);
+    let newHand = oldHand ? oldHand.concat(hand) : hand;
+    user.info.hand = newHand;
+  } else {
+    log("Draw 10 for non-init user: " + user.username);
   }
 };
 

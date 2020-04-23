@@ -110,6 +110,7 @@ class SelectionPhase extends Component {
     return (
       <React.Fragment>
         <div className="flex-column">
+          <div className="title padded-bottom">Pick the best combination.</div>
           <div className="flex-row">
             {blackCard}
             <CardSelected />
