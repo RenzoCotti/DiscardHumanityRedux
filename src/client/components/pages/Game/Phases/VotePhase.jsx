@@ -72,7 +72,6 @@ class VotePhase extends Component {
 
   lowerTimer() {
     let newTimer = this.state.timer > 0 ? (this.state.timer - 1) : 0;
-    console.log(newTimer)
     this.setState({ timer: newTimer });
   }
 
@@ -82,7 +81,10 @@ class VotePhase extends Component {
   }
 
   voteCard() {
-    if (this.state.selected === null) return;
+    if (this.state.selected === null) {
+      this.setState({ error: "Please vote a card." });
+      return;
+    }
     // console.log(this.state);
 
     // console.log("voted ");

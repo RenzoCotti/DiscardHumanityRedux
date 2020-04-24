@@ -39,6 +39,7 @@ class SelectionPhase extends Component {
       notVoted: false,
       voted: false,
       setJolly: false,
+      error: "",
       timer: USER_CHOICE_TIMEOUT
     };
 
@@ -58,7 +59,6 @@ class SelectionPhase extends Component {
 
   lowerTimer() {
     let newTimer = this.state.timer > 0 ? (this.state.timer - 1) : 0;
-    console.log(newTimer)
     this.setState({ timer: newTimer });
   }
 
@@ -82,6 +82,19 @@ class SelectionPhase extends Component {
 
 
   sendCards() {
+
+    let count = 0;
+    for (let i = 0; i < this.props.blackCard.pick; i++) {
+      if (selectedCards[i]) {
+        count++;
+      }
+    }
+
+    if (count !== this.props.blackCard.pick) {
+      this.setState({ error: "Please choose all cards (" + this.props.blackCard.pick + " needed)." });
+      return;
+    }
+
     let hand = this.props.hand;
     let selectedCards = this.props.selectedCards;
 
@@ -140,10 +153,14 @@ class SelectionPhase extends Component {
           {blackCard}
           <br />
 
-          <div className="flex-row flex-vertical-center">
-            <CardSelected setJolly={this.state.setJolly} />
+          <div className="flex-column">
+            <div className="flex-row flex-vertical-center">
+              <CardSelected setJolly={this.state.setJolly} />
+            </div>
             <Button value="Confirm" short={true} fn={this.sendCards} />
+            <div className="errormsg">{this.state.error}</div>
           </div>
+
           <br />
           <br />
 

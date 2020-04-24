@@ -72,7 +72,7 @@ class Chat extends Component {
   }
 
   addSystemMessage(message) {
-    this.addChatMessage({ username: "Discard Humanity", message: message });
+    this.addChatMessage({ username: "System", message: message, system: true });
   }
 
   handleChange(e) {
@@ -107,8 +107,14 @@ class Chat extends Component {
   render() {
     let messages = this.props.chatHistory.map((el, index) => (
       <div className="flex-row" key={index}>
-        <div className="chat-username">{el.username}</div>
-        <div className="chat-message">{el.message}</div>
+        {el.system ?
+          <div className="system-message">{el.message}</div>
+          :
+          <React.Fragment>
+            <div className="chat-username">{el.username}</div>
+            <div className="chat-message">{el.message}</div>
+          </React.Fragment>
+        }
       </div>
     ));
     return (

@@ -93,6 +93,11 @@ class LobbyCreationPage extends Component {
         name: "username",
         errorMessage: "Please input a shorter username.",
       });
+    } else if (this.state.username === RANDO_USERNAME) {
+      arr.push({
+        name: "username",
+        errorMessage: "Please choose a different username.",
+      });
     }
 
     if (!this.state.private) {

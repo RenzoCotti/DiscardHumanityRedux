@@ -55,7 +55,6 @@ class LobbyEntry extends Component {
       };
 
       this.props.updateUserInfo(info);
-      // this.setState({ redirect: true });
     });
 
     this.props.socket.on(LOBBY_INCORRECT_CREDENTIALS, () => {

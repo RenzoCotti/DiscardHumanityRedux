@@ -48,3 +48,6 @@
   outline: none;
 }
 
+.system-message{
+  font-style: italic;
+}
