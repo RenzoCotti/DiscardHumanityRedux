@@ -130,10 +130,12 @@ class GamePage extends Component {
       });
     });
 
-    this.props.socket.on(USER_KICKED, () => {
-      console.log("KICKED");
-      this.resetState();
-      this.setState({ kicked: true });
+    this.props.socket.on(USER_KICKED, (username) => {
+      if (username === this.props.username) {
+        console.log("KICKED");
+        this.resetState();
+        this.setState({ kicked: true });
+      }
     });
 
   }
