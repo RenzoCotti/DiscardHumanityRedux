@@ -191,14 +191,13 @@ class Card extends Component {
       textClass += "text-longester";
     }
 
-    let res = "card-default " + size + colour + selected + hover;
+    let position = this.props.position ? this.props.position + " " : " ";
 
-    let style = {};
-    if (this.props.position) {
-      style = { position: "relative", left: this.props.position };
-    }
+    let res = "card-default " + size + colour + selected + hover + position;
+
+
     return (
-      <div className={res} onClick={this.props.onClick} style={style}>
+      <div className={res} onClick={this.props.onClick}>
         {this.props.remove && textArray.length > 0 ? (
           <div className="giant-x card-normal">
             <div className="giant-x-content">X</div>

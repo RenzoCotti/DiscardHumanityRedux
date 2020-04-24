@@ -1,9 +1,6 @@
+
 .hand {
   display: flex;
-  flex-direction: column;
-}
-.hand-bottom {
-  position: relative;
-  top: -150px;
-  left: 80px;
+  flex-direction: row;
+  overflow: hidden;
 }

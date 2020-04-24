@@ -90,7 +90,7 @@ class LobbyPage extends Component {
     }
 
     return (
-      <div className="lobbyContainer">
+      <div className="lobby-container">
         <div className="flex-column">
           <div className="title padded-bottom">List of lobbies</div>
           <div className="lobby-list">

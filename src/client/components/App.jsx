@@ -21,6 +21,7 @@ import "../../../public/style/cards.css";
 import "../../../public/style/deckselection.css";
 import "../../../public/style/chat.css";
 import "../../../public/style/game.css";
+import "../../../public/style/rules.css";
 import "../../../public/style/responsive.css";
 
 import "../../../public/images/icon192.png";
@@ -34,8 +35,8 @@ import Lobby from "./pages/Lobby/LobbyPage";
 import Lounge from "./pages/Lounge/LoungePage";
 import Game from "./pages/Game/GamePage";
 
-import Login from "./pages/LoginPage";
-import Deck from "./pages/DeckCreationPage";
+// import Login from "./pages/LoginPage";
+// import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
 import LobbyCreationPage from "./pages/Lobby/LobbyCreationPage";
@@ -107,11 +108,11 @@ class App extends Component {
             />
 
             <Route path="/rules" component={Rules} />
-            <Route
+            {/* <Route
               path="/deck-creation"
               component={() => <Deck socket={this.socket} />}
-            />
-            <Route path="/login" component={Login} />
+            /> */}
+            {/* <Route path="/login" component={Login} /> */}
             <Route path="/about" component={About} />
           </div>
 

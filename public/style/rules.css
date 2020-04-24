@@ -1,0 +1,9 @@
+.game-options {
+  width: 400px;
+  overflow-wrap: break-word;
+}
+
+.rules-title{
+  padding-top: 20px;
+  font-style: italic;
+}

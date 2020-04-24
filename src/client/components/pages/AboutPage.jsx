@@ -2,8 +2,9 @@ import React from "react";
 
 const AboutPage = () => (
   <div className="about">
-    Discard Humanity Redux is a remake of an old university group project. <br />
-      I was tired of not having it up an running, so I remade it.<br />
+    <div className="title">Author&apos;s note</div>
+    Discard Humanity Redux is a remake from scratch of an old university group project. <br />
+      I was tired of not having it up and running, so I remade it.<br />
       Have fun! c:
     <br />
       - Renzo<br />
@@ -12,23 +13,14 @@ const AboutPage = () => (
     <br />
     <div className="title">Original Credits</div>
       Developers of the platform:
-    <ul>
-      <li>
-        <a href="https://n.ethz.ch/~larabr/index.html">Lara Bruseghini</a>
-      </li>
-      <li>
-        <a href="http://atelier.inf.unisi.ch/~burgev">Valerie Burgener</a>
-      </li>
-      <li>
-        <a href="http://www.renzocotti.com">Renzo Cotti</a>
-      </li>
-      <li>
-        <a href="http://aron.fiechter.gitlab.io/">Aron Fiechter</a>
-      </li>
-      <li>
-        <a href="http://atelier.inf.unisi.ch/~zuccha">Amedeo Zucchetti</a>
-      </li>
-    </ul>
+    <br />
+    <a href="https://n.ethz.ch/~larabr/index.html">Lara Bruseghini</a>, {" "}
+    <a href="http://atelier.inf.unisi.ch/~burgev">Valerie Burgener</a>, {" "}
+    <a href="http://www.renzocotti.com">Renzo Cotti</a>, {" "}
+    <a href="http://aron.fiechter.gitlab.io/">Aron Fiechter</a>, {" "}
+    <a href="http://atelier.inf.unisi.ch/~zuccha">Amedeo Zucchetti</a>, {" "}
+
+
     <p style={{ color: "red" }}>
       {" "}
         By using this platform, you agree not to consider us, the authors,
@@ -51,9 +43,6 @@ const AboutPage = () => (
     <p>
       JSON Files used for the database can be found here:
       <a href="http://www.crhallberg.com/cah/json"> JSON Against Humanity</a>.
-      <br />
-        The decks have been modified to make them compatible with our platform
-        (removed pick 3 cards and added underscores where necessary).
       <br />
         The &quot;Internet Pack&quot; is composed by the Official World Wide Web Pack and
         &quot;Hackers Against Humanity&quot;.

@@ -19,13 +19,13 @@ class WinRound extends Component {
 
   static get propTypes() {
     return {
-      winningCard: PropTypes.object,
+      winningCard: PropTypes.array,
       blackCard: PropTypes.object,
       scores: PropTypes.array,
       noVote: PropTypes.bool,
       winUsername: PropTypes.string,
       nobodyVoted: PropTypes.bool,
-      multipleWinners: PropTypes.array
+      multipleWinners: PropTypes.bool
     };
   }
 

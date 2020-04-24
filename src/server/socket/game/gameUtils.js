@@ -42,6 +42,7 @@ exports.getGameState = (socket, msg) => {
       if (lobby.gameSettings.admin === socket.id) {
         socket.emit(IS_ADMIN, lobby.gameSettings.admin === socket.id);
       }
+
       socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
       socket.emit(IS_TSAR, { tsar: (lobby.gameState.tsar.id === socket.id), redraw: lobby.gameSettings.refreshHand });
     } else {

@@ -7,6 +7,7 @@ import {
   getBlackCard,
 } from "../../../../redux/actions";
 import Leaderboard from "../Views/Leaderboard";
+import { RANDO_USERNAME } from "../../../../../server/socket/utils";
 
 
 class WinGame extends Component {
@@ -25,10 +26,10 @@ class WinGame extends Component {
   }
 
   compare(a, b) {
-    if (a.score < b.score) {
+    if (a.score > b.score) {
       return 1;
     }
-    if (a.score > b.score) {
+    if (a.score < b.score) {
       return -1;
     }
     return 0;
@@ -38,7 +39,9 @@ class WinGame extends Component {
     if (!this.state.scores) return <div>Waiting for scores...</div>;
 
     let winner;
-    if (this.props.winner) {
+    if (this.props.winner && this.props.winner === RANDO_USERNAME) {
+      winner = "Wow guys, really? You got beaten by a bot randomly picking cards. Wow.";
+    } else if (this.props.winner) {
       winner = this.props.winner + " won!";
     } else {
       if (this.state.scores.length > 1) {

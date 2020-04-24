@@ -21,20 +21,26 @@
 
 /*card sizes*/
 .card-small {
-  width: 140px;
-  height: 200px;
+  min-width: 140px;
+  min-height: 200px;
+  max-width: 140px;
+  max-height: 200px;
   margin-bottom: 20px;
   margin-left: 20px;
 }
 
 .card-normal {
-  width: 170px;
-  height: 260px;
+  min-width: 170px;
+  min-height: 260px;
+  max-width: 170px;
+  max-height: 260px;
 }
 
 .card-big {
-  width: 200px;
-  height: 300px;
+  min-width: 200px;
+  min-height: 300px;
+  max-width: 200px;
+  max-height: 300px;
 }
 
 .white-card-selected {
@@ -118,4 +124,64 @@ em {
 
 .giant-x:hover>.giant-x-content {
   display: block;
+}
+
+.card0{
+  position: relative;
+  left: calc(-0 * 70px);
+}
+
+.card1{
+  position: relative;
+  left: calc(-1 * 70px);
+}
+
+.card2{
+  position: relative;
+  left: calc(-2 * 70px);
+}
+
+.card3{
+  position: relative;
+  left: calc(-3 * 70px);
+}
+
+.card4{
+  position: relative;
+  left: calc(-4 * 70px);
+}
+
+.card5{
+  position: relative;
+  left: calc(-5 * 70px);
+}
+
+.card6{
+  position: relative;
+  left: calc(-6 * 70px);
+}
+
+.card7{
+  position: relative;
+  left: calc(-7 * 70px);
+}
+
+.card8{
+  position: relative;
+  left: calc(-8 * 70px);
+}
+
+.card9{
+  position: relative;
+  left: calc(-9 * 70px);
+}
+
+.card10{
+  position: relative;
+  left: calc(-10 * 70px);
+}
+
+.card11{
+  position: relative;
+  left: calc(-11 * 70px);
 }

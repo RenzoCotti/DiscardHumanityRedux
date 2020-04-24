@@ -60,7 +60,7 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(IS_TSAR, (msg) => {
-      console.log(msg);
+      // console.log(msg);
       this.setState({ tsar: msg.tsar, redraw: msg.redraw });
     });
 
@@ -70,13 +70,13 @@ class GamePage extends Component {
 
     this.props.socket.on(DEMOCRACY_CHOICES, (msg) => {
       // console.log("new tsar");
-      console.log("democracy");
+      // console.log("democracy");
       // console.log(msg);
       this.setState({ democracy: msg });
     });
 
     this.props.socket.on(NOBODY_VOTED, (msg) => {
-      console.log("nobody voted");
+      // console.log("nobody voted");
       // console.log(msg);
       this.resetState();
       this.setState({
@@ -97,7 +97,7 @@ class GamePage extends Component {
 
 
     this.props.socket.on(ROUND_WIN, (msg) => {
-      console.log("round won");
+      // console.log("round won");
       // console.log(msg);
       this.resetState();
       this.setState({
@@ -110,7 +110,7 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(GAME_WIN, (msg) => {
-      console.log("game won");
+      // console.log("game won");
       // console.log(msg);
       this.resetState();
       this.setState({
@@ -123,7 +123,7 @@ class GamePage extends Component {
 
     this.props.socket.on(GAME_READY, () => {
       this.resetState();
-
+      console.log("ready");
       this.props.socket.emit(GAME_STATE, {
         lobbyName: this.props.lobbyName,
         username: this.props.username,
@@ -131,6 +131,7 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(USER_KICKED, () => {
+      console.log("KICKED");
       this.resetState();
       this.setState({ kicked: true });
     });
@@ -214,7 +215,7 @@ class GamePage extends Component {
     }
 
     return (
-      <div className="flex-column">
+      <div className="flex-column full-width">
         {toReturn}
       </div>
     );

@@ -15,6 +15,7 @@ const {
   LOBBY_NOT_FOUND,
   GAME_START,
   USER_NOT_FOUND,
+  GAME_READY
 } = require("../messages");
 
 
@@ -30,18 +31,17 @@ const {
 
 
 //this funciton initialises a new user if needed
-function initNewUser(lobby, username) {
+function initNewUser(socket, lobby, username) {
   let user = getUser(lobby, username);
   if (user && user.info) {
     //user already in
   } else {
     log("Init new user: " + username);
+    resetDataUser(user);
+
     let hand = drawXCards(lobby.gameState.whiteCards, 10);
-    user.info = {
-      hand: hand,
-      cardsChosen: [],
-      score: 0
-    };
+    user.info.hand = hand;
+    socket.emit(GAME_READY);
   }
 }
 
@@ -87,54 +87,29 @@ function initGame(io, lobby) {
 
   //setting all scores to 0
   for (let user of lobby.userList) {
-    user.info = {
-      //cards in the hand of the user
-      hand: [],
-      //card combo that the user chose
-      cardsChosen: [],
-      //score of the user
-      score: 0,
-      //how many turns the user idled
-      inactivityCounter: 0,
-      //votes the user got DEMO ONLY
-      votes: 0,
-      voted: false
-    };
+    resetDataUser(user);
   }
-
-  // console.log(lobby.gameSettings);
-
-
-  // lobby.gameSettings = {
-  //   //tsar or demo
-  //   tsar: false,
-  //   //extra card TODO decide to keep or not
-  //   gambling: false,
-  //   //happy, score, turns, russianroulette
-  //   ending: {
-  //     type: "score",
-  //     max: 20
-  //   },
-  //   //he who gets voted becomes tsar
-  //   meritocracy: false,
-  //   //tsar can try gaining points by playing russian roulette. on survive, +1 pt. on dead, loses all points (or banned?), 1/6, 2/6 etc.
-  //   russianRoulette: false,
-  //   //discard cards for points
-  //   refreshHand: false,
-  //   //rando c;
-  //   randoCardissian: false,
-  //   //jolly cards, allows a user to write in sth
-  //   jollyCards: {
-  //     active: false,
-  //     number: 0
-  //   }
-  // };
 
   drawWhiteCardsAll(lobby, 10);
   log("Game initialised.");
   playTurn(io, lobby);
 }
 
+function resetDataUser(user) {
+  user.info = {
+    //cards in the hand of the user
+    hand: [],
+    //card combo that the user chose
+    cardsChosen: [],
+    //score of the user
+    score: 0,
+    //how many turns the user idled
+    inactivityCounter: 0,
+    //votes the user got DEMO ONLY
+    votes: 0,
+    voted: false
+  };
+}
 
 
 
@@ -145,9 +120,9 @@ function checkState(state) {
   // result
   // finished (end screen)
   // init
-  if (state === "selecting" || state === "voting" || state === "result" || state === "end" || state === "init") { return true; }
+  if (state === "deck-selection") { return false; }
   //deck-selection 
-  return false;
+  return true;
 }
 
 exports.checkStart = (io, socket, msg) => {
@@ -161,12 +136,14 @@ exports.checkStart = (io, socket, msg) => {
       if (checkState(lobby.state)) {
         //game already started
         log("Game already started.");
+        socket.emit(GAME_START);
+
 
         if (lobby.gameState) {
           let info = user.info;
           if (!info) {
-            initNewUser(lobby, msg.username);
-            socket.emit(GAME_START);
+            initNewUser(socket, lobby, msg.username);
+            // socket.emit(GAME_START);
             // socket.emit(GAME_READY);
           }
         }

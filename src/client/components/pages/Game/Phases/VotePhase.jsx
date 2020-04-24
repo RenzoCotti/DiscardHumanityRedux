@@ -143,12 +143,12 @@ class VotePhase extends Component {
         (<div className="flex-column">
           <div className="title padded-bottom">{!this.props.democracy ? "Despotically pick the best card." : "Vote the best card, the majority will win."}</div>
           <div className="flex-column padded-bottom">
-            <div className="flex-row">
+            <div className="flex-row flex-wrap">
               {arr}
             </div>
             <br />
             <br />
-            <Button value="Confirm" fn={this.voteCard} />
+            <Button value="Confirm" short={true} fn={this.voteCard} />
           </div>
         </div>);
     }
@@ -159,12 +159,10 @@ class VotePhase extends Component {
 
     return (
       <React.Fragment>
-        <div className="flex-column">
-          {div}
-          {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
-          <div className="errormsg">{this.state.error}</div>
-          <div>{this.state.message}</div>
-        </div>
+        {div}
+        {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
+        <div className="errormsg">{this.state.error}</div>
+        <div>{this.state.message}</div>
       </React.Fragment>
     );
   }

@@ -62,7 +62,6 @@ class Hand extends Component {
   render() {
     if (!this.props.hand) return <div className="hand"></div>;
 
-    console.log(this.props.hand);
     let selectedCards = this.props.selectedCards;
 
     let hand = this.props.hand.map((card, index) => (
@@ -76,16 +75,14 @@ class Hand extends Component {
         colour="card-white"
         size="card-normal"
         key={index}
-        position={-index++ * 70 + "px"}
-        onClick={() => this.selectCard(index - 1)}
+        position={"card" + index}
+        onClick={() => this.selectCard(index)}
         hover={true}
       />
     ));
 
     return (
-      <div className="hand">
-        <div className="flex-row">{hand}</div>
-      </div>
+      <div className="hand">{hand}</div>
     );
   }
 }

@@ -25,8 +25,8 @@ class LoungePage extends Component {
     this.state = {};
     this.setupSocket();
 
-    console.log("props user");
-    console.log(props);
+    // console.log("props user");
+    // console.log(props);
   }
   static get propTypes() {
     return {
@@ -39,6 +39,7 @@ class LoungePage extends Component {
 
   //on page leave, leave lobby
   componentWillUnmount() {
+    console.log("Lounge is unmounting");
     this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
     // console.log("LEAVE");
     this.props.updateUserInfo({ lobbyName: null, username: null });
@@ -56,31 +57,31 @@ class LoungePage extends Component {
     });
 
     this.props.socket.on(USER_CONNECT, () => {
-      console.log("user joined");
+      // console.log("user joined");
       let info = { lobbyName: this.props.lobbyName, username: this.props.username };
-      console.log(info);
+      // console.log(info);
       this.props.socket.emit(CHECK_START, info);
     });
 
     this.props.socket.on(DECKS_SELECTED, () => {
-      console.log("deck set by admin");
+      // console.log("deck set by admin");
       let info = { lobbyName: this.props.lobbyName, username: this.props.username };
-      console.log(info);
+      // console.log(info);
       this.props.socket.emit(CHECK_START, info);
     });
 
-    this.props.socket.on(LOBBY_NOT_FOUND, (msg) => {
-      console.log("lobby not found: " + msg);
+    this.props.socket.on(LOBBY_NOT_FOUND, () => {
+      // console.log("lobby not found: " + msg);
       this.setState({ home: true });
     });
 
-    this.props.socket.on(USER_NOT_FOUND, (msg) => {
-      console.log("user not found: " + msg);
+    this.props.socket.on(USER_NOT_FOUND, () => {
+      // console.log("user not found: " + msg);
       this.setState({ home: true });
     });
 
     this.props.socket.on(GAME_LOUNGE, () => {
-      console.log("start false");
+      // console.log("start false");
       this.setState({ start: false });
     });
 
@@ -102,7 +103,7 @@ class LoungePage extends Component {
     // }
 
     return (
-      <div className="loungeContainer">
+      <div className="lounge-container">
         {div}
         <Chat socket={this.props.socket} />
       </div>

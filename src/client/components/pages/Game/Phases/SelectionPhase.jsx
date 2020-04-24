@@ -11,7 +11,6 @@ import {
   getUsername,
   getSelectedCards,
   updateHand,
-  updateBlackCard,
   getBlackCard,
 } from "../../../../redux/actions";
 import CardSelected from "../Views/CardSelected";
@@ -117,17 +116,26 @@ class SelectionPhase extends Component {
 
     return (
       <React.Fragment>
-        <div className="flex-column">
-          <div className="title padded-bottom">Pick the best combination.</div>
-          <div className="flex-row">
-            {blackCard}
+        <div className="title padded-bottom">Pick the best combination.</div>
+        <div className="flex-row flex-around flex-vertical-center flex-wrap padded-bottom">
+          {blackCard}
+          <br />
+
+          <div className="flex-row flex-vertical-center">
             <CardSelected setJolly={this.state.setJolly} />
-            <Button value="Confirm" fn={this.sendCards} />
+            <Button value="Confirm" short={true} fn={this.sendCards} />
           </div>
-          <Hand />
-          {this.props.admin ?
-            <AdminDashboard socket={this.props.socket} /> : ""}
+          <br />
+          <br />
+
         </div>
+        <Hand />
+        <br />
+        <br />
+        {this.props.admin ?
+          <AdminDashboard socket={this.props.socket} /> :
+          ""
+        }
       </React.Fragment>
     );
   }
@@ -142,8 +150,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateHand: (value) => dispatch(updateHand(value)),
-  updateBlackCard: (value) => dispatch(updateBlackCard(value)),
+  updateHand: (value) => dispatch(updateHand(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectionPhase);

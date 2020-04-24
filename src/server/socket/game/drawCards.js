@@ -6,7 +6,7 @@ const {
 } = require("../internal");
 
 //this function returns an array of x cards taken from array. cycles if necessary
-function drawXCards(array, x) {
+exports.drawXCards = (array, x) => {
   //if there are not enough cards, return empty
   if (array.fresh.length + array.used.length < x) {
     log("Tried drawing too many cards");
@@ -28,7 +28,7 @@ function drawXCards(array, x) {
     temp.push(card);
   }
   return temp;
-}
+};
 
 //draws x white cards for everybody, merges to old hand
 exports.drawWhiteCardsAll = (lobby, x) => {
@@ -36,7 +36,7 @@ exports.drawWhiteCardsAll = (lobby, x) => {
     if (user.info) {
       log("Drawing " + x + " for user: " + user.username);
       let oldHand = user.info.hand;
-      let hand = drawXCards(lobby.gameState.whiteCards, x);
+      let hand = exports.drawXCards(lobby.gameState.whiteCards, x);
       let newHand = oldHand ? oldHand.concat(hand) : hand;
       user.info.hand = newHand;
     } else {
@@ -57,7 +57,7 @@ exports.draw10ForUser = (lobby, user) => {
     // log("Drawing 10 for: " + user.username);
     let oldHand = user.info.hand;
     let cardsToDraw = 10 - oldHand.length;
-    let hand = drawXCards(lobby.gameState.whiteCards, cardsToDraw);
+    let hand = exports.drawXCards(lobby.gameState.whiteCards, cardsToDraw);
     let newHand = oldHand ? oldHand.concat(hand) : hand;
     user.info.hand = newHand;
   } else {
@@ -68,7 +68,7 @@ exports.draw10ForUser = (lobby, user) => {
 //draws a new black card for the lobby
 exports.drawBlackCard = (lobby) => {
   log("Drawing new black card...");
-  lobby.gameState.currentBlackCard = drawXCards(
+  lobby.gameState.currentBlackCard = exports.drawXCards(
     lobby.gameState.blackCards,
     1
   )[0];

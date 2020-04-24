@@ -73,3 +73,25 @@
   display: flex;
   justify-content: space-between;
 }
+
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
+}
+.full-width{
+  width: 70%;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -216,9 +216,9 @@ class LobbyCreationPage extends Component {
       <div className="create-lobby">
         <div className="title padded-bottom padded-right">Create Lobby</div>
         <form onSubmit={this.onSubmit}>
-          <div className="flex-row">
+          <div className="flex-row flex-wrap">
             <div className="flex-column">
-              <div className="flex-row">
+              <div className="flex-row flex-wrap">
                 <div className="flex-column padded-right">
                   <Input
                     label="Lobby name"
@@ -234,25 +234,6 @@ class LobbyCreationPage extends Component {
                     fn={this.handleChange}
                     errors={this.state.errors}
                   />
-
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-
-
-                  <Input
-                    label="Username"
-                    name="username"
-                    obj={this.state}
-                    fn={this.handleChange}
-                    errors={this.state.errors}
-                  />
-                  <div className="errormsg" style={{ height: "30px" }}>
-                    {this.state.error}
-                  </div>
-
-                  <Button value="Create Lobby" fn={this.onSubmit} />
                 </div>
                 <div className="flex-column padded-right">
                   <Select
@@ -371,8 +352,27 @@ class LobbyCreationPage extends Component {
                   errors={this.state.errors}
                 /> : ""}
             </div>
+
           </div>
         </form>
+        <br />
+        <br />
+        <br />
+        <br />
+
+
+        <Input
+          label="Username"
+          name="username"
+          obj={this.state}
+          fn={this.handleChange}
+          errors={this.state.errors}
+        />
+        <div className="errormsg" style={{ height: "30px" }}>
+          {this.state.error}
+        </div>
+
+        <Button value="Create Lobby" fn={this.onSubmit} />
       </div>
     );
   }

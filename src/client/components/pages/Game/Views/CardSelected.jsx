@@ -61,38 +61,39 @@ class CardSelected extends Component {
 
     for (let i = 0; i < this.props.blackCard.pick; i++) {
       let currentSelectedCard = this.props.selectedCards[i];
-      let currentCard = this.props.hand[currentSelectedCard];
-      let cardContent = currentSelectedCard !== null ? this.props.hand[currentSelectedCard].content : [];
-      divCards.push(
-        <div className="flex-column">
-          <Card
-            content={cardContent}
-            colour="card-white"
-            size="card-normal"
-            key={i}
-            onClick={() => this.deselectCard(i)}
-            remove={true}
-          />
-          {currentCard && currentCard.jolly ?
-            <React.Fragment>
-              <Input
-                label="Complete the card"
-                name={"jollyCard" + i}
-                obj={this.state}
-                fn={this.handleChange}
-                errors={this.state.errors}
-              />
-              <Button value="Set card" fn={() => this.completeJolly(currentCard, this.state["jollyCard" + i])} />
 
-            </React.Fragment> : ""}
+      if (currentSelectedCard !== null) {
+        let currentCard = this.props.hand[currentSelectedCard];
+        let cardContent = currentCard ? currentCard.content : [];
 
+        divCards.push(
+          <div className="flex-column" key={i}>
+            <Card
+              content={cardContent}
+              colour="card-white"
+              size="card-normal"
+              onClick={() => this.deselectCard(i)}
+              remove={true}
+            />
+            {currentCard && currentCard.jolly ?
+              <React.Fragment>
+                <Input
+                  label="Complete the card"
+                  name={"jollyCard" + i}
+                  obj={this.state}
+                  fn={this.handleChange}
+                  errors={this.state.errors}
+                />
+                <Button value="Set card" fn={() => this.completeJolly(currentCard, this.state["jollyCard" + i])} />
 
-        </div>
+              </React.Fragment> : ""}
+          </div>
+        );
+      }
 
-      );
     }
 
-    return <div className="flex-row">{divCards}</div>;
+    return <div className="flex-row flex-wrap">{divCards}</div>;
   }
 }
 
