@@ -59,9 +59,9 @@ app.use(bodyParser.json());
 // );
 
 const deckRouter = require("./router/deckRouter");
-const adminRouter = require("./router/adminRouter");
+// const adminRouter = require("./router/adminRouter");
 app.use("/api/deck", deckRouter);
-app.use("/api/admin", adminRouter);
+// app.use("/api/admin", adminRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve("dist")));
