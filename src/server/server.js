@@ -13,11 +13,11 @@ const MongoStore = require("connect-mongo")(session);
 const app = express();
 //try to import the config, on dev there is none
 let config = {};
-try {
-  config = require("./config/config");
-} catch (e) {
-  console.log(e);
-}
+// try {
+//   config = require("./config/config");
+// } catch (e) {
+//   console.log(e);
+// }
 
 // var privateKey = fs.readFileSync(
 //   __dirname + "/config/certs/server.key",
