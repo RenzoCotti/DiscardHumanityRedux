@@ -15,6 +15,7 @@
 
   .home {
     font-size: 48pt;
+    padding-top: 0;
   }
 
   .deck-preview {
@@ -158,5 +159,9 @@
   
   .full-width{
     width: 100%;
+  }
+
+  .nav-element {
+    padding: 10px 10px;
   }
 }

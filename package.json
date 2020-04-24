@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "export NODE_ENV=production && npm run build && npm run server",
-    "start-win": "set NODE_ENV=production&npm run build&npm run server",
+    "start-win": "set NODE_ENV=production&set WIN=true&npm run build&npm run server",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "node src/server/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",

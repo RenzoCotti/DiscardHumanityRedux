@@ -123,7 +123,7 @@ class GamePage extends Component {
 
     this.props.socket.on(GAME_READY, () => {
       this.resetState();
-      console.log("ready");
+      // console.log("ready");
       this.props.socket.emit(GAME_STATE, {
         lobbyName: this.props.lobbyName,
         username: this.props.username,
@@ -132,7 +132,7 @@ class GamePage extends Component {
 
     this.props.socket.on(USER_KICKED, (username) => {
       if (username === this.props.username) {
-        console.log("KICKED");
+        // console.log("KICKED");
         this.resetState();
         this.setState({ kicked: true });
       }
@@ -218,6 +218,7 @@ class GamePage extends Component {
 
     return (
       <div className="flex-column full-width">
+        <div className="sub-title">Lobby {this.props.lobbyName}</div>
         {toReturn}
       </div>
     );

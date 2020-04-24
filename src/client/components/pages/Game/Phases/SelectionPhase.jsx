@@ -23,20 +23,27 @@ import {
   USER_NO_VOTE
 } from "../../../../../server/socket/messages";
 
+import {
+  USER_CHOICE_TIMEOUT
+} from "../../../../../server/socket/utils";
+
 class SelectionPhase extends Component {
   constructor(props) {
     super(props);
 
     this.sendCards = this.sendCards.bind(this);
+    this.lowerTimer = this.lowerTimer.bind(this);
+
     this.state = {
       waiting: false,
       notVoted: false,
       voted: false,
-      setJolly: false
+      setJolly: false,
+      timer: USER_CHOICE_TIMEOUT
     };
 
     this.props.socket.on(CHOICE_RECEIVED, () => {
-      console.log("received");
+      // console.log("received");
       this.setState({ waiting: true });
     });
 
@@ -45,9 +52,18 @@ class SelectionPhase extends Component {
         this.setState({ notVoted: true });
       }
     });
+
+    this.timeout = setInterval(this.lowerTimer, 1000);
+  }
+
+  lowerTimer() {
+    let newTimer = this.state.timer > 0 ? (this.state.timer - 1) : 0;
+    console.log(newTimer)
+    this.setState({ timer: newTimer });
   }
 
   componentWillUnmount() {
+    clearInterval(this.timeout);
     this.props.socket.off(CHOICE_RECEIVED);
     this.props.socket.off(USER_NO_VOTE);
   }
@@ -116,7 +132,10 @@ class SelectionPhase extends Component {
 
     return (
       <React.Fragment>
-        <div className="title padded-bottom">Pick the best combination.</div>
+        <div className="flex-row flex-space">
+          <div className="title padded-bottom">Pick the best combination.</div>
+          <div>Time left: {this.state.timer}</div>
+        </div>
         <div className="flex-row flex-around flex-vertical-center flex-wrap padded-bottom">
           {blackCard}
           <br />

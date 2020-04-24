@@ -49,7 +49,7 @@ class AdminDashboard extends Component {
   }
 
   sendBreak() {
-    console.log("break");
+    // console.log("break");
     if (this.state.paused === "Pause game") {
       this.props.socket.emit(GAME_BREAK, this.props.lobbyName);
     } else if (this.state.paused === "Unpause game") {

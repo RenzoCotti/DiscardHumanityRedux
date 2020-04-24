@@ -71,7 +71,7 @@ class LobbyPage extends Component {
       return <Redirect push to={"/create-lobby"} />;
     }
 
-    console.log({ lobbyName: this.props.lobbyName, username: this.props.username });
+    // console.log({ lobbyName: this.props.lobbyName, username: this.props.username });
 
     let list;
     if (this.state.lobbies && this.state.lobbies.length > 0) {

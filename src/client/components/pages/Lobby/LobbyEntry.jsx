@@ -59,7 +59,7 @@ class LobbyEntry extends Component {
     });
 
     this.props.socket.on(LOBBY_INCORRECT_CREDENTIALS, () => {
-      console.log("incorrect creds");
+      this.setState({ errors: [{ name: "password", errorMessage: "Incorrect credentials." }] });
     });
   }
 

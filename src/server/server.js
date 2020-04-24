@@ -5,19 +5,22 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+// const session = require("express-session");
+// const MongoStore = require("connect-mongo")(session);
 // const fs = require("fs");
 
 //constants for server
 const app = express();
 //try to import the config, on dev there is none
 let config = {};
-// try {
-//   config = require("./config/config");
-// } catch (e) {
-//   console.log(e);
-// }
+if (process.env.WIN === "true") {
+  try {
+    config = require("./config/config");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 // var privateKey = fs.readFileSync(
 //   __dirname + "/config/certs/server.key",

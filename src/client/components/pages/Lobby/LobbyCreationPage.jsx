@@ -44,13 +44,13 @@ class LobbyCreationPage extends Component {
 
 
     this.props.socket.on(LOBBY_EXISTS_ALREADY, () => {
-      console.log("here");
+      // console.log("here");
       this.setState({ errors: [{ name: "lobbyName", errorMessage: "Lobby name exists already." }] });
     });
 
     this.props.socket.on(LOBBY_CREATED, (info) => {
-      console.log("lobby created!");
-      console.log(info);
+      // console.log("lobby created!");
+      // console.log(info);
       this.setState({ redirect: true });
 
       this.props.updateUserInfo({
@@ -219,7 +219,7 @@ class LobbyCreationPage extends Component {
           <div className="flex-row flex-wrap">
             <div className="flex-column">
               <div className="flex-row flex-wrap">
-                <div className="flex-column padded-right">
+                <div className="flex-column padded-right padded-bottom">
                   <Input
                     label="Lobby name"
                     name="lobbyName"
@@ -235,7 +235,7 @@ class LobbyCreationPage extends Component {
                     errors={this.state.errors}
                   />
                 </div>
-                <div className="flex-column padded-right">
+                <div className="flex-column padded-right padded-bottom">
                   <Select
                     label="Private"
                     name="private"
@@ -269,7 +269,7 @@ class LobbyCreationPage extends Component {
               </div>
             </div>
 
-            <div className="flex-column padded-right">
+            <div className="flex-column padded-right padded-bottom">
               <Select
                 label="Voting system"
                 name="voting"
@@ -301,7 +301,7 @@ class LobbyCreationPage extends Component {
                 : ""}
             </div>
 
-            <div className="flex-column padded-right">
+            <div className="flex-column padded-right padded-bottom">
 
               {/* "Russian Roulette" */}
               <Select
@@ -324,7 +324,7 @@ class LobbyCreationPage extends Component {
               {/*jollyCards */}
             </div>
 
-            <div className="flex-column padded-right">
+            <div className="flex-column padded-right padded-bottom">
 
               <Select
                 label={RANDO_USERNAME}
@@ -357,22 +357,24 @@ class LobbyCreationPage extends Component {
         </form>
         <br />
         <br />
-        <br />
-        <br />
 
 
-        <Input
-          label="Username"
-          name="username"
-          obj={this.state}
-          fn={this.handleChange}
-          errors={this.state.errors}
-        />
-        <div className="errormsg" style={{ height: "30px" }}>
-          {this.state.error}
+        <div className="padded-right">
+          <Input
+            label="Username"
+            name="username"
+            obj={this.state}
+            fn={this.handleChange}
+            errors={this.state.errors}
+          />
+          <div className="errormsg" style={{ height: "30px" }}>
+            {this.state.error}
+          </div>
+
+          <Button value="Create Lobby" fn={this.onSubmit} />
         </div>
 
-        <Button value="Create Lobby" fn={this.onSubmit} />
+
       </div>
     );
   }

@@ -17,6 +17,10 @@ import Button from "../../../modules/input/Button";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
+import {
+  TSAR_VOTE_TIMEOUT
+} from "../../../../../server/socket/utils";
+
 class VotePhase extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +28,16 @@ class VotePhase extends Component {
     this.selectCard = this.selectCard.bind(this);
     this.voteCard = this.voteCard.bind(this);
     this.redrawHand = this.redrawHand.bind(this);
-    this.state = { selected: null, choices: (this.props.democracy ? this.props.democracy : []), error: "" };
+    this.lowerTimer = this.lowerTimer.bind(this);
+    this.state = {
+      selected: null,
+      choices: (this.props.democracy ? this.props.democracy : []),
+      error: "",
+      timer: TSAR_VOTE_TIMEOUT
+    };
 
     this.props.socket.on(TSAR_VOTING, (arr) => {
+      this.timeout = setInterval(this.lowerTimer, 1000);
       this.setState({ choices: arr });
     });
 
@@ -40,6 +51,7 @@ class VotePhase extends Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.timeout);
     this.props.socket.off(TSAR_VOTING);
     this.props.socket.off(NOT_ENOUGH_POINTS);
   }
@@ -56,6 +68,12 @@ class VotePhase extends Component {
       democracy: PropTypes.bool,
       redraw: PropTypes.bool
     };
+  }
+
+  lowerTimer() {
+    let newTimer = this.state.timer > 0 ? (this.state.timer - 1) : 0;
+    console.log(newTimer)
+    this.setState({ timer: newTimer });
   }
 
   selectCard(index) {
@@ -141,7 +159,10 @@ class VotePhase extends Component {
 
       div =
         (<div className="flex-column">
-          <div className="title padded-bottom">{!this.props.democracy ? "Despotically pick the best card." : "Vote the best card, the majority will win."}</div>
+          <div className="flex-row flex-space">
+            <div className="title padded-bottom">{!this.props.democracy ? "Despotically pick the best card." : "Vote the best card, the majority will win."}</div>
+            <div>Time left: {this.state.timer}</div>
+          </div>
           <div className="flex-column padded-bottom">
             <div className="flex-row flex-wrap">
               {arr}

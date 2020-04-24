@@ -48,6 +48,8 @@ class WinRound extends Component {
       message = "There was a tie, a coin flip decided " + this.props.winUsername + " won";
     }
 
+    // console.log(this.props.blackCard);
+
     //map over all the black cards
     return (
       <React.Fragment>

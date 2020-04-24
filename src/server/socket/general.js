@@ -309,7 +309,7 @@ exports.sendCardsToVote = (io, lobby) => {
       }
 
 
-    }, TSAR_VOTE_TIMEOUT);
+    }, TSAR_VOTE_TIMEOUT * 1000);
 
   } else {
     //democracy
@@ -325,7 +325,7 @@ exports.sendCardsToVote = (io, lobby) => {
 
       democracyCalculateWinner(io, lobby);
 
-    }, TSAR_VOTE_TIMEOUT);
+    }, TSAR_VOTE_TIMEOUT * 1000);
   }
 };
 
@@ -335,7 +335,7 @@ exports.setTimeoutAndPlayTurn = (io, lobby) => {
   if (!lobby.gameState.isGameEnding) {
     lobby.gameState.turnTimeout = setTimeout(() => {
       exports.playTurn(io, lobby);
-    }, RESULT_TIMEOUT);
+    }, RESULT_TIMEOUT * 1000);
   }
 };
 
@@ -364,7 +364,7 @@ exports.playTurn = (io, lobby) => {
   lobby.gameState.turnTimeout = setTimeout(() => {
     log("Not all users made a choice...");
     exports.sendCardsToVote(io, lobby);
-  }, USER_CHOICE_TIMEOUT);
+  }, USER_CHOICE_TIMEOUT * 1000);
 
   io.to(lobby.name).emit(GAME_READY);
 };
@@ -547,7 +547,7 @@ exports.endGame = (io, socket, lobbyName) => {
       lobby.gameState.turnTimeout = setTimeout(() => {
         log("Not all users made a choice...");
         exports.sendCardsToVote(io, lobby);
-      }, USER_CHOICE_TIMEOUT);
+      }, USER_CHOICE_TIMEOUT * 1000);
 
       io.to(lobby.name).emit(GAME_READY);
 
