@@ -1,8 +1,8 @@
 "use strict";
 
-exports.TSAR_VOTE_TIMEOUT = 30;
-exports.USER_CHOICE_TIMEOUT = 30;
-exports.RESULT_TIMEOUT = 5;
+exports.TSAR_VOTE_TIMEOUT = 60;
+exports.USER_CHOICE_TIMEOUT = 45;
+exports.RESULT_TIMEOUT = 7;
 exports.USER_INACTIVITY_MAX_TURNS = 3;
 exports.BREAK_TIMEOUT = 10 * 60 * 1000;
 exports.POINTS_FOR_REDRAW = 3;

@@ -1,608 +1,608 @@
 module.exports = {
   blackCards: [{
-      text: "Real men watch _.",
-      pick: 1
-    },
-    {
-      text: "So wait, _ was actually _? Wow, I didn't see that one coming!",
-      pick: 2
-    },
-    {
-      text: "Whenever I'm splashed with cold water, I turn into _.",
-      pick: 1
-    },
-    {
-      text: "No matter how you look at it, ultimately _ is responsible for _.",
-      pick: 2
-    },
-    {
-      text: "Vegeta, what does the scouter say?",
-      pick: 1
-    },
-    {
-      text: "Who the hell do you think I am?!",
-      pick: 1
-    },
-    {
-      text: "On the next episode of Dragon Ball Z, Goku has a fierce battle with _.",
-      pick: 1
-    },
-    {
-      text: "Truly and without question, _ is the manliest of all men.",
-      pick: 1
-    },
-    {
-      text: "WANTED: $50,000,000,000 reward for the apprehension of_.",
-      pick: 1
-    },
-    {
-      text: "People die when they are _.",
-      pick: 1
-    },
-    {
-      text: "Okay, I'll admit it. I would totally go gay for _.",
-      pick: 1
-    },
-    {
-      text: "_. Goddammit, Japan.",
-      pick: 1
-    },
-    {
-      text: "Digimon! Digivolve to: _-mon!",
-      pick: 1
-    },
-    {
-      text: "I have never in my life laughed harder than the first time I watched _.",
-      pick: 1
-    },
-    {
-      text: "There are guilty pleasures. And then there's _.",
-      pick: 1
-    },
-    {
-      text: "When it comes to Japanese cuisine, there's simply nothing better than _.",
-      pick: 1
-    },
-    {
-      text: "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
-      pick: 3
-    },
-    {
-      text: "I'M-A FIRIN' MAH _!",
-      pick: 1
-    },
-    {
-      text: "Of my entire collection, my most prized possession is _.",
-      pick: 1
-    },
-    {
-      text: "Mom, I swear! Despite its name, _ is NOT a porno!",
-      pick: 1
-    },
-    {
-      text: "The government of Japan recently passed a law that effectively forbids all forms of _.",
-      pick: 1
-    },
-    {
-      text: "When it comes to hentai, nothing gets me hotter than _.",
-      pick: 1
-    },
-    {
-      text: "Lupin the III's latest caper involves him trying to steal _.",
-      pick: 1
-    },
-    {
-      text: "_. YOU SHOULD BE WATCHING.",
-      pick: 1
-    },
-    {
-      text: "_ vs. _. BEST. FIGHT. EVER.",
-      pick: 2
-    },
-    {
-      text: "Fresh from Japan: The new smash hit single by _ titled _.",
-      pick: 2
-    },
-    {
-      text: "Congratulations, _.",
-      pick: 1
-    },
-    {
-      text: "Hayao Miyazaki's latest family film is about a young boy befriending _.",
-      pick: 1
-    },
-    {
-      text: "One thing you almost never see in anime is _.",
-      pick: 1
-    },
-    {
-      text: "By far the best panel at any anime convention is the one for _.",
-      pick: 1
-    },
-    {
-      text: "S-Shut up!! I-It's not like I'm _ or anything.",
-      pick: 1
-    },
-    {
-      text: "What is moé?",
-      pick: 1
-    },
-    {
-      text: "The English dub of _ sucks worse than _.",
-      pick: 2
-    },
-    {
-      text: "_. BELIEVE IT!",
-      pick: 1
-    },
-    {
-      text: "Make a contract with me, and become _!",
-      pick: 1
-    },
-    {
-      text: "You guys are so wrong. Obviously, _ is best waifu.",
-      pick: 1
-    },
-    {
-      text: "In the latest chapter of Toriko, our hero hunts down, kills, and eats a creature made entirely of _.",
-      pick: 1
-    },
-    {
-      text: "On the next episode of Dragon Ball Z, _ is forced to do the fusion dance with _.",
-      pick: 2
-    },
-    {
-      text: "You are already _.",
-      pick: 1
-    },
-    {
-      text: "THIS _ HAS BEEN PASSED DOWN THE ARMSTRONG FAMILY LINE FOR GENERATIONS!!!",
-      pick: 1
-    },
-    {
-      text: "My favorite episode of _ is the one with _.",
-      pick: 2
-    },
-    {
-      text: "Make a yaoi shipping. _ together with _.",
-      pick: 2
-    },
-    {
-      text: "This doujinshi I just bought has _ and _ getting it on, hardcore.",
-      pick: 2
-    },
-    {
-      text: "Make a love triangle.<br>_,<br>_ and<br>_.",
-      pick: 3
-    },
-    {
-      text: "Dr. Black Jack, please hurry! The patient is suffering from a terminal case of _!",
-      pick: 1
-    },
-    {
-      text: "So just who is this Henry Goto fellow, anyway?",
-      pick: 1
-    },
-    {
-      text: "When Henry Goto is alone and thinks that no one's looking, he secretly enjoys _.",
-      pick: 1
-    },
-    {
-      text: "He might just save the universe, if he only had some _!",
-      pick: 1
-    },
-    {
-      text: "This _ of mine glows with an awesome power! Its _ tells me to defeat you!",
-      pick: 2
-    },
-    {
-      text: "Cards Against Anime: It's more fun than _!",
-      pick: 1
-    },
-    {
-      text: "On the mean streets of Tokyo, everyone knows that _ is the leader of the _ Gang.",
-      pick: 2
-    },
-    {
-      text: "When I found all 7 Dragon Balls, Shenron granted me my wish for _.",
-      pick: 1
-    },
-    {
-      text: "The best part of my _ costume is _.",
-      pick: 2
-    },
-    {
-      text: "My _ is the _ that will pierce the heavens!! <i>*same white card used for both blanks*</i>",
-      pick: 1
-    },
-    {
-      text: "After years of searching, the crew of the Thousand Sunny finally found out that the One Piece is actually _.",
-      pick: 1
-    },
-    {
-      text: "The World Line was changed when I sent a D-mail to myself about _.",
-      pick: 1
-    },
-    {
-      text: "In this episode of Master Keaton, Keaton builds _ out of _ and _.",
-      pick: 3
-    },
-    {
-      text: "So, what have you learned from all of this?",
-      pick: 1
-    },
-    {
-      text: "Someday when I have kids, I want to share with them the joys of _.",
-      pick: 1
-    },
-    {
-      text: "Who placed first in the most recent Shonen Jump popularity poll?",
-      pick: 1
-    },
-    {
-      text: "No matter how many times I see it, _ always brings a tear to my eye.",
-      pick: 1
-    },
-    {
-      text: "Coming to Neon Alley: _, completely UNCUT & UNCENSORED.",
-      pick: 1
-    },
-    {
-      text: "This year, I'm totally gonna cosplay as _.",
-      pick: 1
-    },
-    {
-      text: "My favorite hentai is the one where _ is held down and violated by _.",
-      pick: 2
-    },
-    {
-      text: "Cooking is so fun! Cooking is so fun! Now it's time to take a break and see what we have done! _. YAY! IT'S READY!!",
-      pick: 1
-    },
-    {
-      text: "The most annoying kind of anime fans are _.",
-      pick: 1
-    },
-    {
-      text: "_. So kawaii!! <3 <3",
-      pick: 1
-    },
-    {
-      text: "Animation studio _ is perhaps best known for _.",
-      pick: 2
-    },
-    {
-      text: "This is our final battle. Mark my words, I will defeat you, _!",
-      pick: 1
-    },
-    {
-      text: "After a long, arduous battle, _ finally met their end by _.",
-      pick: 2
-    },
-    {
-      text: "The best English dub I've ever heard is the one for _.",
-      pick: 1
-    },
-    {
-      text: "You used _. It's super effective!",
-      pick: 1
-    },
-    {
-      text: "_. HE DEDD.",
-      pick: 1
-    },
-    {
-      text: "I know of opinions and all that, but I just don't understand how anyone could actually enjoy _.",
-      pick: 1
-    },
-    {
-      text: "You see, I'm simply _.",
-      pick: 1
-    },
-    {
-      text: "She'll thaw out if you try _.",
-      pick: 1
-    },
-    {
-      text: "Yoko Kanno's latest musical score features a song sung entirely by _.",
-      pick: 1
-    },
-    {
-      text: "This year, I totally lucked out and found _ in the dealer's room.",
-      pick: 1
-    },
-    {
-      text: "If I was a magical girl, my cute mascot sidekick would be _.",
-      pick: 1
-    },
-    {
-      text: "How did I avoid your attack? Simple. By _.",
-      pick: 1
-    },
-    {
-      text: "In the future of 199X, the barrier between our world and the demon world is broken, and thousands of monsters invade our realm to feed upon _.",
-      pick: 1
-    },
-    {
-      text: "From the creators of Tiger & Bunny: _ & _!!",
-      pick: 2
-    },
-    {
-      text: "In truth, the EVA units are actually powered by the souls of _.",
-      pick: 1
-    },
-    {
-      text: "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
-      pick: 3
-    },
-    {
-      text: "Yo-Ho-Ho! He took a bite of _.",
-      pick: 1
-    },
-    {
-      text: "The new Gurren Lagann blurays from Aniplex will literally cost you _.",
-      pick: 1
-    },
-    {
-      text: "The most overused anime cliche is _.",
-      pick: 1
-    },
-    {
-      text: "The inspiration behind the latest hit show is _.",
-      pick: 1
-    },
-    {
-      text: "While writing Dragon Ball, Akira Toriyama would occasionally take a break from working to enjoy _.",
-      pick: 1
-    },
-    {
-      text: "The show was great, until _ showed up.",
-      pick: 1
-    },
-    {
-      text: "Nothing ruins a good anime faster than _.",
-      pick: 1
-    },
-    {
-      text: "I want to be the very best, like no one ever was! _ is my real test, _ is my cause!",
-      pick: 2
-    },
-    {
-      text: "Who are you callin' _ so short he can't see over his own _?!?!",
-      pick: 2
-    },
-    {
-      text: "If you ask me, there need to be more shows about _.",
-      pick: 1
-    },
-    {
-      text: "_. That is the kind of man I was.",
-      pick: 1
-    },
-    {
-      text: "I'm sorry! I'm sorry! I didn't mean to accidentally walk in on you while you were _!",
-      pick: 1
-    },
-    {
-      text: "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
-      pick: 3
-    },
-    {
-      text: "Welcome home, Master! Is there anything your servant girl can bring you today?",
-      pick: 1
-    },
-    {
-      text: "In the latest chapter of Golgo 13, he kills his target with _.",
-      pick: 1
-    },
-    {
-      text: "Karaoke night! I'm totally gonna sing my favorite song, _.",
-      pick: 1
-    },
-    {
-      text: "Take this! My love, my anger, and all of my _!",
-      pick: 1
-    },
-    {
-      text: "_. Only on Toonami",
-      pick: 1
-    },
-    {
-      text: "From the twisted mind of Nabeshin: An anime about _, _, and _.",
-      pick: 3
-    },
-    {
-      text: "Behold the name of my Zanpakuto, _!",
-      pick: 1
-    },
-    {
-      text: "Now! Face my ultimate attack!",
-      pick: 1
-    },
-    {
-      text: "Sasuke has _ implants.",
-      pick: 1
-    },
-    {
-      text: "To save the world, you must collect all 7 _.",
-      pick: 1
-    },
-    {
-      text: "The new manga from _ is about a highschool girl discovering _.",
-      pick: 2
-    },
-    {
-      text: "I am in despair! _ has left me in despair!",
-      pick: 1
-    },
-    {
-      text: "Mamoru Oshii's latest film is a slow-paced, two hour-long cerebral piece about the horrors of _.",
-      pick: 1
-    },
-    {
-      text: "What do I love most about anime?",
-      pick: 1
-    },
-    {
-      text: "The rarest Pokémon in my collection is _.",
-      pick: 1
-    },
-    {
-      text: "What do I hate most about anime?",
-      pick: 1
-    },
-    {
-      text: "Watch it! Or I'll take your _.",
-      pick: 1
-    },
-    {
-      text: "This morning, hundreds of Japanese otaku lined up outside their favorite store to buy the limited collector's edition of _.",
-      pick: 1
-    },
-    {
-      text: "Every now and then, I like to participate in the time-honored Japanese tradition of _.",
-      pick: 1
-    },
-    {
-      text: "Chicks. Dig. _. <i>Nice.</i>",
-      pick: 1
-    },
-    {
-      text: "New from Studio GAINAX: _ the Animation.",
-      pick: 1
-    },
-    {
-      text: "Using my power of Geass, I command you to do... THIS!",
-      pick: 1
-    },
-    {
-      text: "Don't worry, he's okay! He survived thanks to _.",
-      pick: 1
-    },
-    {
-      text: 'The next big Tokusatsu show: "Super Sentai _ Ranger!"',
-      pick: 1
-    },
-    {
-      text: "In the name of the moon, I will punish _!",
-      pick: 1
-    },
-    {
-      text: "Ladies and gentlemen, I give you _... COVERED IN BEES!!!",
-      pick: 1
-    },
-    {
-      text: "The Chocolate Underground stopped the Good For You Party by capturing their _ and exposing their leader as _.",
-      pick: 2
-    },
-    {
-      text: "Who cares about the printing press, did that medieval peasant girl just invent _?!",
-      pick: 1
-    },
-    {
-      text: "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
-      pick: 3
-    },
-    {
-      text: "What does Alucard have nightmares about?",
-      pick: 1
-    },
-    {
-      text: "I've always wanted to become a voice actor, so I could play the role of _.",
-      pick: 1
-    },
-    {
-      text: "It's no secret. Deep down, everybody wants to fuck _.",
-      pick: 1
-    },
-    {
-      text: "Behold! My trap card, _!",
-      pick: 1
-    },
-    {
-      text: "As part of a recent promotion, Japanese KFCs are now dressing their Colonel Sanders statues up as _.",
-      pick: 1
-    },
-    {
-      text: "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
-      pick: 3
-    },
-    {
-      text: "Don't stand behind him, if you value your _.",
-      pick: 1
-    },
-    {
-      text: 'What the hell is "Juvijuvibro"?!',
-      pick: 1
-    },
-    {
-      text: "If the anime industry is dying, what will be the final nail in it's coffin?",
-      pick: 1
-    },
-    {
-      text: "It has been said... That there are entire forests of _, made from the sweetest _.",
-      pick: 2
-    },
-    {
-      text: "IT'S _ TIME!",
-      pick: 1
-    },
-    {
-      text: "My love for you is like _. BERSERKER!",
-      pick: 1
-    },
-    {
-      text: "They are the prey, and we are the _.",
-      pick: 1
-    },
-    {
-      text: "No matter how I look at it, it's your fault I'm not _!",
-      pick: 1
-    },
-    {
-      text: "My Little Sister Can't Be _!",
-      pick: 1
-    },
-    {
-      text: "By far, the most mind-bogglingly awesome thing I've ever seen in anime is _.",
-      pick: 1
-    },
-    {
-      text: "After eating a Devil Fruit, I now have the power of _.",
-      pick: 1
-    },
-    {
-      text: "That's not a squid! It's _!",
-      pick: 1
-    },
-    {
-      text: "The moé debate was surprisingly civil until someone mentioned _.",
-      pick: 1
-    },
-    {
-      text: "Anime has taught me that classic literature can always be improved by adding _.",
-      pick: 1
-    },
-    {
-      text: "And from Kyoto Animation, a show about cute girls doing _.",
-      pick: 1
-    },
-    {
-      text: '"_."<br>"What the hell, man?!"<br>"_."<br>"Oh, okay."',
-      pick: 2
-    },
-    {
-      text: "Madoka Kyouno's nickname for Muginami's older brother is _.",
-      pick: 1
-    },
-    {
-      text: "What do otaku smell like?",
-      pick: 1
-    },
-    {
-      text: "Attention, duelists: My hair is _.",
-      pick: 1
-    }
+    text: "Real men watch _.",
+    pick: 1
+  },
+  {
+    text: "So wait, _ was actually _? Wow, I didn't see that one coming!",
+    pick: 2
+  },
+  {
+    text: "Whenever I'm splashed with cold water, I turn into _.",
+    pick: 1
+  },
+  {
+    text: "No matter how you look at it, ultimately _ is responsible for _.",
+    pick: 2
+  },
+  {
+    text: "Vegeta, what does the scouter say?",
+    pick: 1
+  },
+  {
+    text: "Who the hell do you think I am?!",
+    pick: 1
+  },
+  {
+    text: "On the next episode of Dragon Ball Z, Goku has a fierce battle with _.",
+    pick: 1
+  },
+  {
+    text: "Truly and without question, _ is the manliest of all men.",
+    pick: 1
+  },
+  {
+    text: "WANTED: $50,000,000,000 reward for the apprehension of_.",
+    pick: 1
+  },
+  {
+    text: "People die when they are _.",
+    pick: 1
+  },
+  {
+    text: "Okay, I'll admit it. I would totally go gay for _.",
+    pick: 1
+  },
+  {
+    text: "_. Goddammit, Japan.",
+    pick: 1
+  },
+  {
+    text: "Digimon! Digivolve to: _-mon!",
+    pick: 1
+  },
+  {
+    text: "I have never in my life laughed harder than the first time I watched _.",
+    pick: 1
+  },
+  {
+    text: "There are guilty pleasures. And then there's _.",
+    pick: 1
+  },
+  {
+    text: "When it comes to Japanese cuisine, there's simply nothing better than _.",
+    pick: 1
+  },
+  {
+    text: "Just announced: The brand new anime adaptation of _, starring _ as the voice of _.",
+    pick: 3
+  },
+  {
+    text: "I'M-A FIRIN' MAH _!",
+    pick: 1
+  },
+  {
+    text: "Of my entire collection, my most prized possession is _.",
+    pick: 1
+  },
+  {
+    text: "Mom, I swear! Despite its name, _ is NOT a porno!",
+    pick: 1
+  },
+  {
+    text: "The government of Japan recently passed a law that effectively forbids all forms of _.",
+    pick: 1
+  },
+  {
+    text: "When it comes to hentai, nothing gets me hotter than _.",
+    pick: 1
+  },
+  {
+    text: "Lupin the III's latest caper involves him trying to steal _.",
+    pick: 1
+  },
+  {
+    text: "_. YOU SHOULD BE WATCHING.",
+    pick: 1
+  },
+  {
+    text: "_ vs. _. BEST. FIGHT. EVER.",
+    pick: 2
+  },
+  {
+    text: "Fresh from Japan: The new smash hit single by _ titled _.",
+    pick: 2
+  },
+  {
+    text: "Congratulations, _.",
+    pick: 1
+  },
+  {
+    text: "Hayao Miyazaki's latest family film is about a young boy befriending _.",
+    pick: 1
+  },
+  {
+    text: "One thing you almost never see in anime is _.",
+    pick: 1
+  },
+  {
+    text: "By far the best panel at any anime convention is the one for _.",
+    pick: 1
+  },
+  {
+    text: "S-Shut up!! I-It's not like I'm _ or anything.",
+    pick: 1
+  },
+  {
+    text: "What is moé?",
+    pick: 1
+  },
+  {
+    text: "The English dub of _ sucks worse than _.",
+    pick: 2
+  },
+  {
+    text: "_. BELIEVE IT!",
+    pick: 1
+  },
+  {
+    text: "Make a contract with me, and become _!",
+    pick: 1
+  },
+  {
+    text: "You guys are so wrong. Obviously, _ is best waifu.",
+    pick: 1
+  },
+  {
+    text: "In the latest chapter of Toriko, our hero hunts down, kills, and eats a creature made entirely of _.",
+    pick: 1
+  },
+  {
+    text: "On the next episode of Dragon Ball Z, _ is forced to do the fusion dance with _.",
+    pick: 2
+  },
+  {
+    text: "You are already _.",
+    pick: 1
+  },
+  {
+    text: "THIS _ HAS BEEN PASSED DOWN THE ARMSTRONG FAMILY LINE FOR GENERATIONS!!!",
+    pick: 1
+  },
+  {
+    text: "My favorite episode of _ is the one with _.",
+    pick: 2
+  },
+  {
+    text: "Make a yaoi shipping. _ together with _.",
+    pick: 2
+  },
+  {
+    text: "This doujinshi I just bought has _ and _ getting it on, hardcore.",
+    pick: 2
+  },
+  {
+    text: "Make a love triangle.<br>_,<br>_ and<br>_.",
+    pick: 3
+  },
+  {
+    text: "Dr. Black Jack, please hurry! The patient is suffering from a terminal case of _!",
+    pick: 1
+  },
+  {
+    text: "So just who is this Henry Goto fellow, anyway?",
+    pick: 1
+  },
+  {
+    text: "When Henry Goto is alone and thinks that no one's looking, he secretly enjoys _.",
+    pick: 1
+  },
+  {
+    text: "He might just save the universe, if he only had some _!",
+    pick: 1
+  },
+  {
+    text: "This _ of mine glows with an awesome power! Its _ tells me to defeat you!",
+    pick: 2
+  },
+  {
+    text: "Cards Against Anime: It's more fun than _!",
+    pick: 1
+  },
+  {
+    text: "On the mean streets of Tokyo, everyone knows that _ is the leader of the _ Gang.",
+    pick: 2
+  },
+  {
+    text: "When I found all 7 Dragon Balls, Shenron granted me my wish for _.",
+    pick: 1
+  },
+  {
+    text: "The best part of my _ costume is _.",
+    pick: 2
+  },
+  {
+    text: "My _ is the _ that will pierce the heavens!! <i>*same white card used for both blanks*</i>",
+    pick: 2
+  },
+  {
+    text: "After years of searching, the crew of the Thousand Sunny finally found out that the One Piece is actually _.",
+    pick: 1
+  },
+  {
+    text: "The World Line was changed when I sent a D-mail to myself about _.",
+    pick: 1
+  },
+  {
+    text: "In this episode of Master Keaton, Keaton builds _ out of _ and _.",
+    pick: 3
+  },
+  {
+    text: "So, what have you learned from all of this?",
+    pick: 1
+  },
+  {
+    text: "Someday when I have kids, I want to share with them the joys of _.",
+    pick: 1
+  },
+  {
+    text: "Who placed first in the most recent Shonen Jump popularity poll?",
+    pick: 1
+  },
+  {
+    text: "No matter how many times I see it, _ always brings a tear to my eye.",
+    pick: 1
+  },
+  {
+    text: "Coming to Neon Alley: _, completely UNCUT & UNCENSORED.",
+    pick: 1
+  },
+  {
+    text: "This year, I'm totally gonna cosplay as _.",
+    pick: 1
+  },
+  {
+    text: "My favorite hentai is the one where _ is held down and violated by _.",
+    pick: 2
+  },
+  {
+    text: "Cooking is so fun! Cooking is so fun! Now it's time to take a break and see what we have done! _. YAY! IT'S READY!!",
+    pick: 1
+  },
+  {
+    text: "The most annoying kind of anime fans are _.",
+    pick: 1
+  },
+  {
+    text: "_. So kawaii!! <3 <3",
+    pick: 1
+  },
+  {
+    text: "Animation studio _ is perhaps best known for _.",
+    pick: 2
+  },
+  {
+    text: "This is our final battle. Mark my words, I will defeat you, _!",
+    pick: 1
+  },
+  {
+    text: "After a long, arduous battle, _ finally met their end by _.",
+    pick: 2
+  },
+  {
+    text: "The best English dub I've ever heard is the one for _.",
+    pick: 1
+  },
+  {
+    text: "You used _. It's super effective!",
+    pick: 1
+  },
+  {
+    text: "_. HE DEDD.",
+    pick: 1
+  },
+  {
+    text: "I know of opinions and all that, but I just don't understand how anyone could actually enjoy _.",
+    pick: 1
+  },
+  {
+    text: "You see, I'm simply _.",
+    pick: 1
+  },
+  {
+    text: "She'll thaw out if you try _.",
+    pick: 1
+  },
+  {
+    text: "Yoko Kanno's latest musical score features a song sung entirely by _.",
+    pick: 1
+  },
+  {
+    text: "This year, I totally lucked out and found _ in the dealer's room.",
+    pick: 1
+  },
+  {
+    text: "If I was a magical girl, my cute mascot sidekick would be _.",
+    pick: 1
+  },
+  {
+    text: "How did I avoid your attack? Simple. By _.",
+    pick: 1
+  },
+  {
+    text: "In the future of 199X, the barrier between our world and the demon world is broken, and thousands of monsters invade our realm to feed upon _.",
+    pick: 1
+  },
+  {
+    text: "From the creators of Tiger & Bunny: _ & _!!",
+    pick: 2
+  },
+  {
+    text: "In truth, the EVA units are actually powered by the souls of _.",
+    pick: 1
+  },
+  {
+    text: "Dreaming! Don't give it up _! Dreaming! Don't give it up _! Dreaming! Don't give it up _!",
+    pick: 3
+  },
+  {
+    text: "Yo-Ho-Ho! He took a bite of _.",
+    pick: 1
+  },
+  {
+    text: "The new Gurren Lagann blurays from Aniplex will literally cost you _.",
+    pick: 1
+  },
+  {
+    text: "The most overused anime cliche is _.",
+    pick: 1
+  },
+  {
+    text: "The inspiration behind the latest hit show is _.",
+    pick: 1
+  },
+  {
+    text: "While writing Dragon Ball, Akira Toriyama would occasionally take a break from working to enjoy _.",
+    pick: 1
+  },
+  {
+    text: "The show was great, until _ showed up.",
+    pick: 1
+  },
+  {
+    text: "Nothing ruins a good anime faster than _.",
+    pick: 1
+  },
+  {
+    text: "I want to be the very best, like no one ever was! _ is my real test, _ is my cause!",
+    pick: 2
+  },
+  {
+    text: "Who are you callin' _ so short he can't see over his own _?!?!",
+    pick: 2
+  },
+  {
+    text: "If you ask me, there need to be more shows about _.",
+    pick: 1
+  },
+  {
+    text: "_. That is the kind of man I was.",
+    pick: 1
+  },
+  {
+    text: "I'm sorry! I'm sorry! I didn't mean to accidentally walk in on you while you were _!",
+    pick: 1
+  },
+  {
+    text: "In the latest episode of Case Closed, Conan deduces that it was _ who killed _ because of _.",
+    pick: 3
+  },
+  {
+    text: "Welcome home, Master! Is there anything your servant girl can bring you today?",
+    pick: 1
+  },
+  {
+    text: "In the latest chapter of Golgo 13, he kills his target with _.",
+    pick: 1
+  },
+  {
+    text: "Karaoke night! I'm totally gonna sing my favorite song, _.",
+    pick: 1
+  },
+  {
+    text: "Take this! My love, my anger, and all of my _!",
+    pick: 1
+  },
+  {
+    text: "_. Only on Toonami",
+    pick: 1
+  },
+  {
+    text: "From the twisted mind of Nabeshin: An anime about _, _, and _.",
+    pick: 3
+  },
+  {
+    text: "Behold the name of my Zanpakuto, _!",
+    pick: 1
+  },
+  {
+    text: "Now! Face my ultimate attack!",
+    pick: 1
+  },
+  {
+    text: "Sasuke has _ implants.",
+    pick: 1
+  },
+  {
+    text: "To save the world, you must collect all 7 _.",
+    pick: 1
+  },
+  {
+    text: "The new manga from _ is about a highschool girl discovering _.",
+    pick: 2
+  },
+  {
+    text: "I am in despair! _ has left me in despair!",
+    pick: 1
+  },
+  {
+    text: "Mamoru Oshii's latest film is a slow-paced, two hour-long cerebral piece about the horrors of _.",
+    pick: 1
+  },
+  {
+    text: "What do I love most about anime?",
+    pick: 1
+  },
+  {
+    text: "The rarest Pokémon in my collection is _.",
+    pick: 1
+  },
+  {
+    text: "What do I hate most about anime?",
+    pick: 1
+  },
+  {
+    text: "Watch it! Or I'll take your _.",
+    pick: 1
+  },
+  {
+    text: "This morning, hundreds of Japanese otaku lined up outside their favorite store to buy the limited collector's edition of _.",
+    pick: 1
+  },
+  {
+    text: "Every now and then, I like to participate in the time-honored Japanese tradition of _.",
+    pick: 1
+  },
+  {
+    text: "Chicks. Dig. _. <i>Nice.</i>",
+    pick: 1
+  },
+  {
+    text: "New from Studio GAINAX: _ the Animation.",
+    pick: 1
+  },
+  {
+    text: "Using my power of Geass, I command you to do... THIS!",
+    pick: 1
+  },
+  {
+    text: "Don't worry, he's okay! He survived thanks to _.",
+    pick: 1
+  },
+  {
+    text: 'The next big Tokusatsu show: "Super Sentai _ Ranger!"',
+    pick: 1
+  },
+  {
+    text: "In the name of the moon, I will punish _!",
+    pick: 1
+  },
+  {
+    text: "Ladies and gentlemen, I give you _... COVERED IN BEES!!!",
+    pick: 1
+  },
+  {
+    text: "The Chocolate Underground stopped the Good For You Party by capturing their _ and exposing their leader as _.",
+    pick: 2
+  },
+  {
+    text: "Who cares about the printing press, did that medieval peasant girl just invent _?!",
+    pick: 1
+  },
+  {
+    text: "The court finds the defendant, _, guilty of _, and sentences them to a lifetime of _.",
+    pick: 3
+  },
+  {
+    text: "What does Alucard have nightmares about?",
+    pick: 1
+  },
+  {
+    text: "I've always wanted to become a voice actor, so I could play the role of _.",
+    pick: 1
+  },
+  {
+    text: "It's no secret. Deep down, everybody wants to fuck _.",
+    pick: 1
+  },
+  {
+    text: "Behold! My trap card, _!",
+    pick: 1
+  },
+  {
+    text: "As part of a recent promotion, Japanese KFCs are now dressing their Colonel Sanders statues up as _.",
+    pick: 1
+  },
+  {
+    text: "Fighting _ by moonlight! Winning _ by daylight! Never running from a real fight! She is the one named _!",
+    pick: 3
+  },
+  {
+    text: "Don't stand behind him, if you value your _.",
+    pick: 1
+  },
+  {
+    text: 'What the hell is "Juvijuvibro"?!',
+    pick: 1
+  },
+  {
+    text: "If the anime industry is dying, what will be the final nail in it's coffin?",
+    pick: 1
+  },
+  {
+    text: "It has been said... That there are entire forests of _, made from the sweetest _.",
+    pick: 2
+  },
+  {
+    text: "IT'S _ TIME!",
+    pick: 1
+  },
+  {
+    text: "My love for you is like _. BERSERKER!",
+    pick: 1
+  },
+  {
+    text: "They are the prey, and we are the _.",
+    pick: 1
+  },
+  {
+    text: "No matter how I look at it, it's your fault I'm not _!",
+    pick: 1
+  },
+  {
+    text: "My Little Sister Can't Be _!",
+    pick: 1
+  },
+  {
+    text: "By far, the most mind-bogglingly awesome thing I've ever seen in anime is _.",
+    pick: 1
+  },
+  {
+    text: "After eating a Devil Fruit, I now have the power of _.",
+    pick: 1
+  },
+  {
+    text: "That's not a squid! It's _!",
+    pick: 1
+  },
+  {
+    text: "The moé debate was surprisingly civil until someone mentioned _.",
+    pick: 1
+  },
+  {
+    text: "Anime has taught me that classic literature can always be improved by adding _.",
+    pick: 1
+  },
+  {
+    text: "And from Kyoto Animation, a show about cute girls doing _.",
+    pick: 1
+  },
+  {
+    text: '"_."<br>"What the hell, man?!"<br>"_."<br>"Oh, okay."',
+    pick: 2
+  },
+  {
+    text: "Madoka Kyouno's nickname for Muginami's older brother is _.",
+    pick: 1
+  },
+  {
+    text: "What do otaku smell like?",
+    pick: 1
+  },
+  {
+    text: "Attention, duelists: My hair is _.",
+    pick: 1
+  }
   ],
   whiteCards: [
     "A fuck-mothering vampire.",

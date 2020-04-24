@@ -85,7 +85,7 @@ class SelectionPhase extends Component {
 
     let count = 0;
     for (let i = 0; i < this.props.blackCard.pick; i++) {
-      if (this.props.selectedCards[i]) {
+      if (this.props.selectedCards[i] !== null) {
         count++;
       }
     }
@@ -162,11 +162,9 @@ class SelectionPhase extends Component {
           </div>
 
           <br />
-          <br />
 
         </div>
         <Hand />
-        <br />
         <br />
         {this.props.admin ?
           <AdminDashboard socket={this.props.socket} /> :

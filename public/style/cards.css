@@ -111,6 +111,8 @@ em {
 .giant-x {
   display: block;
   position: absolute;
+  left: 0px;
+  top: 0px;
   font-size: 200px;
   line-height: 1em;
   z-index: 7;

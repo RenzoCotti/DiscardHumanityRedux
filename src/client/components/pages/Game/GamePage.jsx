@@ -65,6 +65,7 @@ class GamePage extends Component {
     });
 
     this.props.socket.on(IS_ADMIN, () => {
+      // console.log("Admin " + msg);
       this.setState({ isAdmin: true });
     });
 

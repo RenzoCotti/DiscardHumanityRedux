@@ -44,7 +44,6 @@ exports.tsarVoted = (io, msg) => {
   if (lobby) {
 
     if (lobby.gameSettings.tsar) {
-
       clearTimeout(lobby.gameState.tsar.tsarTimeout);
 
       let tsarUser = getUserByID(lobby, lobby.gameState.tsar.id);
@@ -305,7 +304,6 @@ exports.sendCardsToVote = (io, lobby) => {
       } else {
         io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
         exports.setTimeoutAndPlayTurn(io, lobby);
-
       }
 
 
@@ -333,6 +331,7 @@ exports.sendCardsToVote = (io, lobby) => {
 
 exports.setTimeoutAndPlayTurn = (io, lobby) => {
   if (!lobby.gameState.isGameEnding) {
+    clearTimeout(lobby.gameState.tsar.tsarTimeout);
     lobby.gameState.turnTimeout = setTimeout(() => {
       exports.playTurn(io, lobby);
     }, RESULT_TIMEOUT * 1000);
