@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const outputDirectory = "dist";
 
-const config = require("./src/server/config/config");
+// const config = require("./src/server/config/config");
 
 module.exports = {
   entry: ["babel-polyfill", "./src/client/index.js"],
@@ -15,51 +15,51 @@ module.exports = {
   },
   module: {
     rules: [{
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [{
-            loader: "css-loader"
-          }]
-        })
-      },
-      {
-        test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/,
-        loader: "file-loader?name=[name].[ext]" // <-- retain original file name
+      test: /\.jsx$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader"
       }
+    },
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader"
+      }
+    },
+    {
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader"
+        }]
+      })
+    },
+    {
+      test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/,
+      loader: "file-loader?name=[name].[ext]" // <-- retain original file name
+    }
     ]
   },
   devServer: {
-    host: config.ip,
-    port: 3000,
-    open: true,
-    https: false,
-    proxy: {
-      "/api": {
-        target: "http://" + config.ip + ":" + config.port,
-        secure: false,
-        changeOrigin: true
-      },
-      "/socket.io": {
-        target: "ws://" + config.ip + ":" + config.port,
-        secure: false,
-        changeOrigin: true
-      }
-    }
+    // host: config.ip,
+    // port: 3000,
+    // open: true,
+    // https: false,
+    // proxy: {
+    //   "/api": {
+    //     target: "http://" + config.ip + ":" + config.port,
+    //     secure: false,
+    //     changeOrigin: true
+    //   },
+    //   "/socket.io": {
+    //     target: "ws://" + config.ip + ":" + config.port,
+    //     secure: false,
+    //     changeOrigin: true
+    //   }
+    // }
   },
 
   plugins: [
