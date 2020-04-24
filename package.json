@@ -42,7 +42,8 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "stopword": "^0.1.19",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack": "^4.43.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -63,7 +64,6 @@
     "nodemon": "^2.0.3",
     "style-loader": "^0.23.0",
     "url-loader": "^1.0.1",
-    "webpack": "^4.43.0",
     "webpack-dev-server": "^3.10.3"
   }
 }
