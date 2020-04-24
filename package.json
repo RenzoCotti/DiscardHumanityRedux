@@ -64,6 +64,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.3",
     "style-loader": "^0.23.0",
-    "url-loader": "^1.0.1",
+    "url-loader": "^1.0.1"
   }
 }
