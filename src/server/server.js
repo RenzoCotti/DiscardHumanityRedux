@@ -44,19 +44,19 @@ mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
 //cookie of 4h
-app.use(
-  session({
-    secret: process.env.sessionSecret || config.sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection
-    }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 4
-    }
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.sessionSecret || config.sessionSecret,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new MongoStore({
+//       mongooseConnection: mongoose.connection
+//     }),
+//     cookie: {
+//       maxAge: 1000 * 60 * 60 * 4
+//     }
+//   })
+// );
 
 const deckRouter = require("./router/deckRouter");
 const adminRouter = require("./router/adminRouter");
