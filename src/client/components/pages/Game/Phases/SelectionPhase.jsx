@@ -85,7 +85,7 @@ class SelectionPhase extends Component {
 
     let count = 0;
     for (let i = 0; i < this.props.blackCard.pick; i++) {
-      if (selectedCards[i]) {
+      if (this.props.selectedCards[i]) {
         count++;
       }
     }
