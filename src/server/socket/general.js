@@ -286,7 +286,7 @@ exports.sendCardsToVote = (io, lobby) => {
     log("Tsar is now voting...");
 
     setGameState(lobby, "voting");
-    io.to(tsar.id).emit(TSAR_VOTING, cards);
+    io.to(lobby.name).emit(TSAR_VOTING, cards);
 
     lobby.gameState.tsar.tsarTimeout = setTimeout(() => {
       log("Tsar hasn't voted.");

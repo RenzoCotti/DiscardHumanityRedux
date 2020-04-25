@@ -134,7 +134,7 @@ class VotePhase extends Component {
           <div className="flex-column flex-horizontal-center">
             <div className="info-message">You&apos;re the Tsar.</div>
 
-            <div className="flex-row">
+            <div className="flex-row flex-vertical-center">
               <div>Current card: </div>
               <Card
                 content={this.props.blackCard.content}
