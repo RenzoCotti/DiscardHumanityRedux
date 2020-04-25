@@ -4,7 +4,7 @@ import LobbyEntry from "./LobbyEntry";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import Button from "../../modules/input/Button";
-
+import Navbar from "../../general/Navbar";
 import PropTypes from "prop-types";
 import { getUsername, getLobbyName } from "../../../redux/actions";
 import {
@@ -90,17 +90,21 @@ class LobbyPage extends Component {
     }
 
     return (
-      <div className="lobby-container">
-        <div className="flex-column">
-          <div className="title padded-bottom">List of lobbies</div>
-          <div className="lobby-list">
-            {list ? list : "No lobbies available."}
+      <React.Fragment>
+        <Navbar />
+        <div className="main-container">
+          <div className="lobby-container">
+            <div className="flex-column">
+              <div className="title padded-bottom">List of lobbies</div>
+              <div className="lobby-list">
+                {list ? list : "No lobbies available."}
+              </div>
+            </div>
+
+            <Button value="Create Lobby" fn={this.createLobby} />
           </div>
         </div>
-
-        <Button value="Create Lobby" fn={this.createLobby} />
-
-      </div>
+      </React.Fragment>
     );
   }
 }

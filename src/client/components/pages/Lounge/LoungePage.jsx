@@ -16,6 +16,7 @@ import {
   USER_NOT_FOUND
 } from "../../../../server/socket/messages";
 import GamePage from "../Game/GamePage";
+import Topbar from "../Game/Views/Topbar";
 // import DeckSelection from "./DeckSelectionPage";
 
 class LoungePage extends Component {
@@ -103,10 +104,15 @@ class LoungePage extends Component {
     // }
 
     return (
-      <div className="lounge-container">
-        {div}
-        <Chat socket={this.props.socket} />
-      </div>
+      <React.Fragment>
+        <Topbar socket={this.props.socket} />
+        <div className="main-container">
+          <div className="lounge-container">
+            {div}
+            <Chat socket={this.props.socket} />
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -17,6 +17,7 @@ import {
 } from "../../../../server/socket/internal";
 import DeckSelectionPage from "../Lounge/DeckSelectionPage";
 import { MIN_USERS } from "../../../../server/socket/utils";
+import Navbar from "../../general/Navbar";
 class LobbyCreationPage extends Component {
 
 
@@ -219,169 +220,175 @@ class LobbyCreationPage extends Component {
     // console.log(this.state);
 
     return (
-      <div className="create-lobby">
-        <div className="title padded-bottom padded-right">Create Lobby</div>
-        <form onSubmit={this.onSubmit}>
-          <div className="flex-row flex-wrap">
-            <div className="flex-column">
+      <React.Fragment>
+        <Navbar />
+        <div className="main-container">
+          <div className="create-lobby">
+            <div className="title padded-bottom padded-right">Create Lobby</div>
+            <form onSubmit={this.onSubmit}>
               <div className="flex-row flex-wrap">
-                <div className="flex-column padded-right padded-bottom">
-                  <Input
-                    label="Lobby name"
-                    name="lobbyName"
-                    obj={this.state}
-                    fn={this.handleChange}
-                    errors={this.state.errors}
-                  />
-                  <Input
-                    label="Players (3-20)"
-                    name="maxUsers"
-                    obj={this.state}
-                    fn={this.handleChange}
-                    errors={this.state.errors}
-                  />
-                </div>
-                <div className="flex-column padded-right padded-bottom">
-                  <Select
-                    label="Private"
-                    name="private"
-                    arr={["no", "yes"]}
-                    fn={this.handleSelect}
-                    obj={this.state}
-                    errors={this.state.errors}
-                  />
-                  {this.state.private === "yes" ?
-                    <React.Fragment>
+                <div className="flex-column">
+                  <div className="flex-row flex-wrap">
+                    <div className="flex-column padded-right padded-bottom">
                       <Input
-                        label="Lobby password"
-                        name="password"
-                        password={true}
+                        label="Lobby name"
+                        name="lobbyName"
                         obj={this.state}
                         fn={this.handleChange}
                         errors={this.state.errors}
                       />
                       <Input
-                        label="Confirm password"
-                        name="confirmPassword"
-                        password={true}
+                        label="Players (3-20)"
+                        name="maxUsers"
                         obj={this.state}
                         fn={this.handleChange}
+                        errors={this.state.errors}
+                      />
+                    </div>
+                    <div className="flex-column padded-right padded-bottom">
+                      <Select
+                        label="Private"
+                        name="private"
+                        arr={["no", "yes"]}
+                        fn={this.handleSelect}
+                        obj={this.state}
+                        errors={this.state.errors}
+                      />
+                      {this.state.private === "yes" ?
+                        <React.Fragment>
+                          <Input
+                            label="Lobby password"
+                            name="password"
+                            password={true}
+                            obj={this.state}
+                            fn={this.handleChange}
+                            errors={this.state.errors}
+                          />
+                          <Input
+                            label="Confirm password"
+                            name="confirmPassword"
+                            password={true}
+                            obj={this.state}
+                            fn={this.handleChange}
+                            errors={this.state.errors}
+                          />
+                        </React.Fragment>
+                        : ""}
+
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex-column padded-right padded-bottom">
+                  <Select
+                    label="Voting system"
+                    name="voting"
+                    arr={["tsar", "democracy"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+
+                  {this.state.voting === "tsar" ?
+                    <React.Fragment>
+                      <Select
+                        label="Meritocracy"
+                        name="meritocracy"
+                        arr={["yes", "no"]}
+                        fn={this.handleSelect}
+                        obj={this.state}
+                        errors={this.state.errors}
+                      />
+                      <Select
+                        label="Hand redrawing"
+                        name="redraw"
+                        arr={["yes", "no"]}
+                        fn={this.handleSelect}
+                        obj={this.state}
                         errors={this.state.errors}
                       />
                     </React.Fragment>
                     : ""}
-
                 </div>
+
+                <div className="flex-column padded-right padded-bottom">
+
+                  {/* "Russian Roulette" */}
+                  <Select
+                    label="Ending"
+                    name="ending"
+                    arr={["score", "turns", "haiku"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+                  {this.state.ending === "score" || this.state.ending === "turns" ?
+                    <Input
+                      label={"Target " + (this.state.ending)}
+                      name="points"
+                      obj={this.state}
+                      fn={this.handleChange}
+                      errors={this.state.errors}
+                    /> : ""}
+                  {/* russianRoulette for points */}
+                  {/*jollyCards */}
+                </div>
+
+                <div className="flex-column padded-right padded-bottom">
+
+                  <Select
+                    label={RANDO_USERNAME}
+                    name="rando"
+                    arr={["yes", "no"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+
+                  <Select
+                    label="Jolly cards"
+                    name="jolly"
+                    arr={["yes", "no"]}
+                    fn={this.handleSelect}
+                    obj={this.state}
+                    errors={this.state.errors}
+                  />
+                  {this.state.jolly === "yes" ?
+                    <Input
+                      label="Number of jolly cards"
+                      name="jollyNumber"
+                      obj={this.state}
+                      fn={this.handleChange}
+                      errors={this.state.errors}
+                    /> : ""}
+                </div>
+
               </div>
-            </div>
+            </form>
+            <br />
+            <br />
 
-            <div className="flex-column padded-right padded-bottom">
-              <Select
-                label="Voting system"
-                name="voting"
-                arr={["tsar", "democracy"]}
-                fn={this.handleSelect}
+
+            <div className="padded-right">
+              <Input
+                label="Username"
+                name="username"
                 obj={this.state}
+                fn={this.handleChange}
                 errors={this.state.errors}
               />
+              <div className="errormsg" style={{ height: "30px" }}>
+                {this.state.error}
+              </div>
 
-              {this.state.voting === "tsar" ?
-                <React.Fragment>
-                  <Select
-                    label="Meritocracy"
-                    name="meritocracy"
-                    arr={["yes", "no"]}
-                    fn={this.handleSelect}
-                    obj={this.state}
-                    errors={this.state.errors}
-                  />
-                  <Select
-                    label="Hand redrawing"
-                    name="redraw"
-                    arr={["yes", "no"]}
-                    fn={this.handleSelect}
-                    obj={this.state}
-                    errors={this.state.errors}
-                  />
-                </React.Fragment>
-                : ""}
+              <Button value="Create Lobby" fn={this.onSubmit} />
             </div>
 
-            <div className="flex-column padded-right padded-bottom">
-
-              {/* "Russian Roulette" */}
-              <Select
-                label="Ending"
-                name="ending"
-                arr={["score", "turns", "haiku"]}
-                fn={this.handleSelect}
-                obj={this.state}
-                errors={this.state.errors}
-              />
-              {this.state.ending === "score" || this.state.ending === "turns" ?
-                <Input
-                  label={"Target " + (this.state.ending)}
-                  name="points"
-                  obj={this.state}
-                  fn={this.handleChange}
-                  errors={this.state.errors}
-                /> : ""}
-              {/* russianRoulette for points */}
-              {/*jollyCards */}
-            </div>
-
-            <div className="flex-column padded-right padded-bottom">
-
-              <Select
-                label={RANDO_USERNAME}
-                name="rando"
-                arr={["yes", "no"]}
-                fn={this.handleSelect}
-                obj={this.state}
-                errors={this.state.errors}
-              />
-
-              <Select
-                label="Jolly cards"
-                name="jolly"
-                arr={["yes", "no"]}
-                fn={this.handleSelect}
-                obj={this.state}
-                errors={this.state.errors}
-              />
-              {this.state.jolly === "yes" ?
-                <Input
-                  label="Number of jolly cards"
-                  name="jollyNumber"
-                  obj={this.state}
-                  fn={this.handleChange}
-                  errors={this.state.errors}
-                /> : ""}
-            </div>
 
           </div>
-        </form>
-        <br />
-        <br />
-
-
-        <div className="padded-right">
-          <Input
-            label="Username"
-            name="username"
-            obj={this.state}
-            fn={this.handleChange}
-            errors={this.state.errors}
-          />
-          <div className="errormsg" style={{ height: "30px" }}>
-            {this.state.error}
-          </div>
-
-          <Button value="Create Lobby" fn={this.onSubmit} />
         </div>
+      </React.Fragment>
 
-
-      </div>
     );
   }
 }

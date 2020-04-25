@@ -220,7 +220,6 @@ class GamePage extends Component {
 
     return (
       <div className="flex-column full-width">
-        <div className="sub-title text-center">Lobby {this.props.lobbyName}</div>
         {toReturn}
       </div>
     );

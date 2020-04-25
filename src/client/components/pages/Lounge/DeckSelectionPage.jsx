@@ -11,6 +11,7 @@ import {
   GAME_LOUNGE,
   SET_DECKS,
 } from "../../../../server/socket/messages";
+import Topbar from "../Game/Views/Topbar";
 
 class DeckSelectionPage extends Component {
 
@@ -164,18 +165,21 @@ class DeckSelectionPage extends Component {
 
     return (
       <React.Fragment>
-        <div className="flex-column deck-container">
-          <div className="sub-title">Lobby {this.props.lobbyName}</div>
-          <div className="title padded-bottom">Select decks</div>
-          <div className="flex-column deck-list margin-bottom">
-            {list.length == 0 ? "Loading decks..." : list}
+
+        <Topbar socket={this.props.socket} />
+        <div className="main-container">
+          <div className="flex-column deck-container">
+            <div className="title padded-bottom">Select decks</div>
+            <div className="flex-column deck-list margin-bottom">
+              {list.length == 0 ? "Loading decks..." : list}
+            </div>
+            <div className="errormsg">{this.state.error}</div>
+            <Button value="Start game" fn={this.goToLobby} />
+
           </div>
-          <div className="errormsg">{this.state.error}</div>
-          <Button value="Start game" fn={this.goToLobby} />
 
+          <div className="deck-preview">{deckList}</div>
         </div>
-
-        <div className="deck-preview">{deckList}</div>
       </React.Fragment>
     );
   }

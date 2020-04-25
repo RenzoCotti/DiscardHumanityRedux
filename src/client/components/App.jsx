@@ -3,13 +3,6 @@ import { Route, HashRouter } from "react-router-dom";
 
 import io from "socket.io-client";
 
-// import { connect } from "react-redux";
-// import {
-//   getUsername,
-//   getLobbyName,
-//   cleanupStore
-// } from "../redux/actions";
-
 //styles
 import "../../../public/style/lobby.css";
 import "../../../public/style/general.css";
@@ -24,27 +17,19 @@ import "../../../public/style/game.css";
 import "../../../public/style/rules.css";
 import "../../../public/style/responsive.css";
 
+//import image
 import "../../../public/images/icon192.png";
 
 //component pages
-import Navbar from "./general/Navbar";
 import Footbar from "./general/Footbar";
 
 import Home from "./pages/HomePage";
 import Lobby from "./pages/Lobby/LobbyPage";
 import Lounge from "./pages/Lounge/LoungePage";
-import Game from "./pages/Game/GamePage";
-
-// import Login from "./pages/LoginPage";
-// import Deck from "./pages/DeckCreationPage";
 import Rules from "./pages/RulesPage";
 import About from "./pages/AboutPage";
 import LobbyCreationPage from "./pages/Lobby/LobbyCreationPage";
 import KickedPage from "./pages/KickedPage";
-
-// function requireAll(r) {
-//   r.keys().forEach(r);
-// }
 
 class App extends Component {
   constructor(props) {
@@ -67,17 +52,6 @@ class App extends Component {
     });
 
     this.socket = socket;
-
-    // requireAll(require.context("../../../public/images/", true, /\.png$/));
-
-    // sync backend and frontend for login status
-    // fetch("/api/admin/status")
-    //   .then(req => {
-    //     return req.json();
-    //   })
-    //   .then(res => {
-    //     this.props.updateLogin(res.login);
-    //   });
   }
 
   render() {
@@ -85,36 +59,24 @@ class App extends Component {
     return (
       <HashRouter>
         <React.Fragment>
-          <Navbar />
 
-          <div className="main-container">
-            <Route exact path="/" component={Home} />
-            <Route path="/kicked" component={KickedPage} />
-            <Route
-              path="/lobby"
-              component={() => <Lobby socket={this.socket} />}
-            />
-            <Route
-              path="/create-lobby"
-              component={() => <LobbyCreationPage socket={this.socket} />}
-            />
-            <Route
-              path="/lounge"
-              component={() => <Lounge socket={this.socket} />}
-            />
-            <Route
-              path="/game"
-              component={() => <Game socket={this.socket} />}
-            />
+          <Route exact path="/" component={Home} />
+          <Route
+            path="/lobby"
+            component={() => <Lobby socket={this.socket} />}
+          />
+          <Route
+            path="/create-lobby"
+            component={() => <LobbyCreationPage socket={this.socket} />}
+          />
+          <Route path="/rules" component={Rules} />
+          <Route path="/about" component={About} />
+          <Route path="/kicked" component={KickedPage} />
 
-            <Route path="/rules" component={Rules} />
-            {/* <Route
-              path="/deck-creation"
-              component={() => <Deck socket={this.socket} />}
-            /> */}
-            {/* <Route path="/login" component={Login} /> */}
-            <Route path="/about" component={About} />
-          </div>
+          <Route
+            path="/lounge"
+            component={() => <Lounge socket={this.socket} />}
+          />
 
           <Footbar />
         </React.Fragment>
