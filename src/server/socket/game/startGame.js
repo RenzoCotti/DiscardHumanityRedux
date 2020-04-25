@@ -8,7 +8,8 @@ const {
   getLobby,
   getUser,
   shuffle,
-  setGameState
+  setGameState,
+  MIN_USERS
 } = require('../internal');
 
 const {
@@ -149,7 +150,7 @@ exports.checkStart = (io, socket, msg) => {
         }
 
       } else if (
-        lobby.currentUsers > 1 &&
+        lobby.currentUsers >= MIN_USERS &&
         lobby.whiteCards) {
 
         log("Starting game...");

@@ -84,6 +84,11 @@
   align-items: center;
 }
 
+.flex-horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
 .flex-no-shrink {
   flex-shrink: 0;
 }

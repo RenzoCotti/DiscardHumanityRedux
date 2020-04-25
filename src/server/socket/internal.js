@@ -7,7 +7,8 @@ const {
   TSAR_VOTE_TIMEOUT,
   BREAK_TIMEOUT,
   POINTS_FOR_REDRAW,
-  RANDO_USERNAME
+  RANDO_USERNAME,
+  MIN_USERS
 } = require("./utils");
 exports.log = log;
 exports.shuffle = shuffle;
@@ -18,6 +19,7 @@ exports.TSAR_VOTE_TIMEOUT = TSAR_VOTE_TIMEOUT;
 exports.BREAK_TIMEOUT = BREAK_TIMEOUT;
 exports.POINTS_FOR_REDRAW = POINTS_FOR_REDRAW;
 exports.RANDO_USERNAME = RANDO_USERNAME;
+exports.MIN_USERS = MIN_USERS;
 
 let {
   lobbies

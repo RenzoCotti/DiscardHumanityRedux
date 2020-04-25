@@ -61,8 +61,18 @@ exports.getAllScores = (lobby) => {
     scores.push({ username: RANDO_USERNAME, score: lobby.gameSettings.rando.score });
   }
 
-  return scores;
+  return scores.sort(compare);
 };
+
+function compare(a, b) {
+  if (a.score < b.score) {
+    return 1;
+  }
+  if (a.score > b.score) {
+    return -1;
+  }
+  return 0;
+}
 
 //returns true if lobby exists
 exports.lobbyExists = (lobbyName) => {

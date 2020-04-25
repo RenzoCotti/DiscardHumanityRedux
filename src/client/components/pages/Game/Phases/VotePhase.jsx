@@ -14,6 +14,7 @@ import {
   getBlackCard,
 } from "../../../../redux/actions";
 import Button from "../../../modules/input/Button";
+import Timer from "../Views/Timer";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
@@ -126,7 +127,15 @@ class VotePhase extends Component {
       if (this.props.democracy) {
         div = <div className="info-message">Waiting for all users to pick a card combination.</div>;
       } else {
-        div = <div className="info-message">You&apos;re the Tsar.</div>;
+        div = (
+          <React.Fragment>
+            <div className="info-message">You&apos;re the Tsar.</div>
+            <Card
+              content={this.props.blackCard.content}
+              colour="card-black"
+              size="card-big"
+            />
+          </React.Fragment>);
       }
     } else {
       //we have a list of black cards
@@ -163,7 +172,7 @@ class VotePhase extends Component {
         (<div className="flex-column">
           <div className="flex-row flex-space">
             <div className="title padded-bottom">{!this.props.democracy ? "Despotically pick the best card." : "Vote the best card, the majority will win."}</div>
-            <div>Time left: {this.state.timer}</div>
+            <Timer time={this.state.timer} />
           </div>
           <div className="flex-column padded-bottom">
             <div className="flex-row flex-wrap">

@@ -26,6 +26,7 @@ import {
 import {
   USER_CHOICE_TIMEOUT
 } from "../../../../../server/socket/utils";
+import Timer from "../Views/Timer";
 
 class SelectionPhase extends Component {
   constructor(props) {
@@ -147,13 +148,13 @@ class SelectionPhase extends Component {
       <React.Fragment>
         <div className="flex-row flex-space">
           <div className="title padded-bottom">Pick the best combination.</div>
-          <div>Time left: {this.state.timer}</div>
+          <Timer time={this.state.timer} />
         </div>
         <div className="flex-row flex-around flex-vertical-center flex-wrap padded-bottom">
           {blackCard}
           <br />
 
-          <div className="flex-column">
+          <div className="flex-column .flex-horizontal-center">
             <div className="flex-row flex-vertical-center">
               <CardSelected setJolly={this.state.setJolly} />
             </div>

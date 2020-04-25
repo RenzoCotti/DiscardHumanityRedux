@@ -31,7 +31,8 @@ const {
   pickNewTsar,
   POINTS_FOR_REDRAW,
   draw10ForUser,
-  RANDO_USERNAME
+  RANDO_USERNAME,
+  shuffle
 } = require("./internal");
 
 
@@ -86,7 +87,7 @@ exports.userDemocracyVote = (io, msg) => {
       //the user voted is valid
       if (votedUserInfo) {
         votedUserInfo.votes++;
-      } else if (checkIfRando(msg.votedUsername)) {
+      } else if (checkIfRando(lobby, msg.votedUsername)) {
         lobby.gameSettings.rando.votes++;
       }
 
@@ -277,6 +278,8 @@ exports.sendCardsToVote = (io, lobby) => {
     return;
   }
 
+  cards = shuffle(cards);
+
   if (lobby.gameSettings.tsar) {
     let tsar = lobby.gameState.tsar;
 
@@ -436,9 +439,9 @@ function roundWon(io, lobby, username, winningCard, multipleWinners) {
     if (end) {
       log("Game over!");
       if (lobby.gameSettings.ending.type === "haiku" && lobby.gameState.isGameEnding) {
-        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winner: username });
+        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winner: username, winningCard: winningCard });
       } else {
-        io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winningCard: winningCard });
       }
     } else {
       io.to(lobby.name).emit(ROUND_WIN, {

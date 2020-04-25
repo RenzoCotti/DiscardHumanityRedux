@@ -4,3 +4,16 @@
   flex-direction: row;
   overflow: hidden;
 }
+
+.timer-caution {
+  color: gold;
+}
+
+.timer-warning {
+  color: darkorange;
+}
+
+.timer-critical {
+  color: red;
+  font-weight: bold;
+}

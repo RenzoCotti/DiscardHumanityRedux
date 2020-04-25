@@ -79,7 +79,7 @@ class LobbyEntry extends Component {
     let arr = [];
     if (!this.state.username || this.state.username.length === 0) {
       arr.push({ name: "username" });
-    } else if (this.state.username.length > 64) {
+    } else if (this.state.username.length > 24) {
       arr.push({
         name: "username",
         errorMessage: "Please input a shorter username.",
@@ -89,7 +89,7 @@ class LobbyEntry extends Component {
     if (this.props.password) {
       if (!this.state.password || this.state.password.length === 0) {
         arr.push({ name: "password" });
-      } else if (this.state.password.length > 64) {
+      } else if (this.state.password.length > 32) {
         arr.push({
           name: "password",
           errorMessage: "Please input a shorter password.",

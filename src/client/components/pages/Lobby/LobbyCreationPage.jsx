@@ -16,6 +16,7 @@ import {
   RANDO_USERNAME
 } from "../../../../server/socket/internal";
 import DeckSelectionPage from "../Lounge/DeckSelectionPage";
+import { MIN_USERS } from "../../../../server/socket/utils";
 class LobbyCreationPage extends Component {
 
 
@@ -79,7 +80,7 @@ class LobbyCreationPage extends Component {
 
     if (!this.state.lobbyName || this.state.lobbyName.length === 0) {
       arr.push({ name: "lobbyName" });
-    } else if (this.state.lobbyName.length > 64) {
+    } else if (this.state.lobbyName.length > 32) {
       arr.push({
         name: "lobbyName",
         errorMessage: "Please input a shorter lobby name.",
@@ -88,7 +89,7 @@ class LobbyCreationPage extends Component {
 
     if (!this.state.username || this.state.username.length === 0) {
       arr.push({ name: "username" });
-    } else if (this.state.username.length > 64) {
+    } else if (this.state.username.length > 24) {
       arr.push({
         name: "username",
         errorMessage: "Please input a shorter username.",
@@ -105,7 +106,7 @@ class LobbyCreationPage extends Component {
     } else if (this.state.private === "yes") {
       if (!this.state.password || this.state.password.length === 0) {
         arr.push({ name: "password" });
-      } else if (this.state.password.length > 64) {
+      } else if (this.state.password.length > 32) {
         arr.push({
           name: "password",
           errorMessage: "Please input a shorter password.",
@@ -128,10 +129,10 @@ class LobbyCreationPage extends Component {
         name: "maxUsers",
         errorMessage: "Please input a number.",
       });
-    } else if (this.state.maxUsers > 20 || this.state.maxUsers < 2) {
+    } else if (this.state.maxUsers > 20 || this.state.maxUsers < MIN_USERS) {
       arr.push({
         name: "maxUsers",
-        errorMessage: "The number of players has to be 2-20.",
+        errorMessage: "The number of players has to be " + MIN_USERS + "-20.",
       });
     }
 

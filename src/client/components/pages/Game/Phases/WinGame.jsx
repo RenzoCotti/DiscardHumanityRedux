@@ -7,6 +7,8 @@ import {
   getBlackCard,
 } from "../../../../redux/actions";
 import Leaderboard from "../Views/Leaderboard";
+import Card from "../../../modules/Card";
+
 import { RANDO_USERNAME } from "../../../../../server/socket/utils";
 
 
@@ -14,29 +16,20 @@ class WinGame extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state = { scores: this.props.scores.sort(this.compare) };
   }
 
   static get propTypes() {
     return {
       // socket: PropTypes.object,
       scores: PropTypes.array,
-      winner: PropTypes.string
+      winner: PropTypes.string,
+      winningCard: PropTypes.array,
+      blackCard: PropTypes.object
     };
   }
 
-  compare(a, b) {
-    if (a.score > b.score) {
-      return 1;
-    }
-    if (a.score < b.score) {
-      return -1;
-    }
-    return 0;
-  }
-
   render() {
-    if (!this.state.scores) return <div>Waiting for scores...</div>;
+    if (!this.props.scores) return <div>Waiting for scores...</div>;
 
     let winner;
     if (this.props.winner && this.props.winner === RANDO_USERNAME) {
@@ -44,12 +37,21 @@ class WinGame extends Component {
     } else if (this.props.winner) {
       winner = this.props.winner + " won!";
     } else {
-      if (this.state.scores.length > 1) {
-        if (this.state.scores[0].score === this.state.scores[1].score) {
+      if (this.props.scores.length > 1) {
+        if (this.props.scores[0].score === this.props.scores[1].score) {
           //tie
           winner = "It's a tie!";
         } else {
-          winner = this.state.scores[0].username + " won!";
+          winner = this.props.scores[0].username + " won!";
+        }
+      }
+    }
+
+    let arr = [];
+    if (this.props.winningCard) {
+      for (let a of this.props.winningCard) {
+        if (a !== null) {
+          arr.push(a.content);
         }
       }
     }
@@ -58,10 +60,16 @@ class WinGame extends Component {
       <React.Fragment>
         <div className="flex-column">
           <div className="title padded-bottom">{winner}</div>
+          <Card
+            content={this.props.blackCard.content}
+            colour="card-black"
+            size="card-big"
+            fillGaps={arr}
+          />
           <br />
           <br />
-          {!this.state.winner ?
-            <Leaderboard scores={this.state.scores} />
+          {!this.props.winner ?
+            <Leaderboard scores={this.props.scores} />
             : ""}
         </div>
       </React.Fragment>

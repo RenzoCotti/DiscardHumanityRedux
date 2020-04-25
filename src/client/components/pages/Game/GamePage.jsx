@@ -117,7 +117,8 @@ class GamePage extends Component {
       this.setState({
         winGame: true,
         scores: msg.scores,
-        winner: msg.username
+        winner: msg.username,
+        winningCard: msg.winningCard
       });
     });
 
@@ -204,7 +205,7 @@ class GamePage extends Component {
         />
       );
     } else if (this.state.winGame) {
-      toReturn = <WinGame scores={this.state.scores} />;
+      toReturn = <WinGame scores={this.state.scores} winner={this.state.winner} winningCard={this.state.winningCard} />;
     } else if (this.state.tsar) {
       toReturn = <VotePhase socket={this.props.socket} redraw={this.state.redraw} />;
     } else if (this.state.democracy) {
@@ -219,7 +220,7 @@ class GamePage extends Component {
 
     return (
       <div className="flex-column full-width">
-        <div className="sub-title">Lobby {this.props.lobbyName}</div>
+        <div className="sub-title text-center">Lobby {this.props.lobbyName}</div>
         {toReturn}
       </div>
     );
