@@ -21,7 +21,7 @@ import {
   CHOICE_RECEIVED,
   CHOICE,
   USER_NO_VOTE,
-  TSAR_VOTING
+  TSAR_CURRENTLY_VOTING
 } from "../../../../../server/socket/messages";
 
 import {
@@ -57,7 +57,7 @@ class SelectionPhase extends Component {
       }
     });
 
-    this.props.socket.on(TSAR_VOTING, () => {
+    this.props.socket.on(TSAR_CURRENTLY_VOTING, () => {
       this.setState({ tsarVoting: true });
     });
 
@@ -73,7 +73,7 @@ class SelectionPhase extends Component {
     clearInterval(this.timeout);
     this.props.socket.off(CHOICE_RECEIVED);
     this.props.socket.off(USER_NO_VOTE);
-    this.props.socket.off(TSAR_VOTING);
+    this.props.socket.off(TSAR_CURRENTLY_VOTING);
   }
 
   static get propTypes() {

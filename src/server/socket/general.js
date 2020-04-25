@@ -10,7 +10,8 @@ const {
   GAME_PAUSED,
   NOT_ENOUGH_POINTS,
   GAME_UNPAUSED,
-  HAND_REDRAWN
+  HAND_REDRAWN,
+  TSAR_CURRENTLY_VOTING
 } = require("./messages");
 
 const {
@@ -286,7 +287,8 @@ exports.sendCardsToVote = (io, lobby) => {
     log("Tsar is now voting...");
 
     setGameState(lobby, "voting");
-    io.to(lobby.name).emit(TSAR_VOTING, cards);
+    io.to(tsar.id).emit(TSAR_VOTING, cards);
+    io.to(lobby.name).emit(TSAR_CURRENTLY_VOTING);
 
     lobby.gameState.tsar.tsarTimeout = setTimeout(() => {
       log("Tsar hasn't voted.");
