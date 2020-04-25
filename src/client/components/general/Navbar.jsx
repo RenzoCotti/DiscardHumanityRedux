@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import home from "../../../../public/images/home.png";
 
 class Navbar extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Navbar extends Component {
           if (op === "Home") {
             return (
               <NavLink exact className="nav-element link" key={op} to="/">
-                <img className="home-icon" src={home} alt="Home" />
+                {op}
               </NavLink>
             );
           } else if (op === "Lobbies") {
