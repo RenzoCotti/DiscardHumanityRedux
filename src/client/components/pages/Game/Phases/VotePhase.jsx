@@ -35,7 +35,8 @@ class VotePhase extends Component {
       selected: null,
       choices: (this.props.democracy ? this.props.democracy : []),
       error: "",
-      timer: TSAR_VOTE_TIMEOUT
+      timer: TSAR_VOTE_TIMEOUT,
+      voted: false
     };
 
     if (this.state.choices) {
@@ -89,16 +90,12 @@ class VotePhase extends Component {
 
   voteCard() {
     if (this.state.selected === null) {
-      // console.log("PLEASE VOTE");
       this.setState({ error: "Please vote a card." });
       return;
     }
-    // console.log(this.state);
 
-    // console.log("voted ");
     let voted = this.state.choices[this.state.selected];
 
-    // console.log(voted);
 
     if (this.props.democracy) {
       this.props.socket.emit(DEMOCRACY_VOTE, {
@@ -114,10 +111,7 @@ class VotePhase extends Component {
       });
     }
 
-
-    // console.log("voted for " + voted.username);
-
-    // this.setState({ voted: true });
+    this.setState({ voted: true });
   }
 
   redrawHand() {
@@ -193,7 +187,10 @@ class VotePhase extends Component {
             </div>
             <br />
             <br />
-            <Button value="Confirm" short={true} fn={this.voteCard} />
+            {this.state.voted ?
+              <div className="info-message">You voted.</div> :
+              <Button value="Confirm" short={true} fn={this.voteCard} />
+            }
             <div className="error-msg">{this.state.error}</div>
           </div>
         </div>);

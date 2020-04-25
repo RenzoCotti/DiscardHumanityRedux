@@ -7,7 +7,8 @@ export const SET_SELECTED_CARDS = "SET_SELECTED_CARDS";
 export const CLEANUP_STORE = "CLEANUP_STORE";
 export const SET_TAB_SELECTED = "SET_TAB_SELECTED";
 export const SET_SCORES = "SET_SCORES";
-
+export const WIPE_CHAT_HISTORY = "WIPE_CHAT_HISTORY";
+export const SET_LOBBY_TYPE = "SET_LOBBY_TYPE";
 
 export const updateHand = hand => ({
   type: SET_HAND,
@@ -81,6 +82,10 @@ export function getChatHistory(state) {
   return state.chatHistory;
 }
 
+export const wipeChatHistory = () => ({
+  type: WIPE_CHAT_HISTORY,
+});
+
 export const addChatMessage = message => ({
   type: ADD_CHAT_MESSAGE,
   message: message
@@ -90,3 +95,12 @@ export const cleanupStore = message => ({
   type: CLEANUP_STORE,
   cleanupStore: message
 });
+
+export const updateLobbyType = type => ({
+  type: SET_LOBBY_TYPE,
+  lobbyType: type
+});
+
+export function getLobbyType(state) {
+  return state.lobbyType;
+}

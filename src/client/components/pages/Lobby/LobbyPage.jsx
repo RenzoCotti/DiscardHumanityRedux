@@ -83,6 +83,7 @@ class LobbyPage extends Component {
             currentUsers={el.currentUsers}
             key={el.name}
             password={el.password}
+            mode={el.mode}
             socket={this.props.socket}
           />
         );

@@ -96,6 +96,12 @@
   width: 100%;
 }
 
+.lobby-type{
+  text-align: center;
+  flex-grow: 2;
+  width: 100%;
+}
+
 .tab-selected {
   color: var(--text);
   background-color: var(--background);

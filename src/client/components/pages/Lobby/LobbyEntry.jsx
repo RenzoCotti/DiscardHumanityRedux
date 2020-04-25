@@ -33,7 +33,8 @@ class LobbyEntry extends Component {
       currentUsers: PropTypes.number,
       maxUsers: PropTypes.number,
       lobbyName: PropTypes.string,
-      username: PropTypes.string
+      username: PropTypes.string,
+      mode: PropTypes.string
     };
   }
 
@@ -116,6 +117,7 @@ class LobbyEntry extends Component {
         <div className="flex-row">
           <div className="lobby-info">
             <div>{this.props.name}</div>
+            <div className="sub-title">{this.props.mode}{this.props.password ? ", Private" : ""}</div>
             <div className="sub-title padded-bottom">
               {this.props.currentUsers}/{this.props.maxUsers} players
             </div>

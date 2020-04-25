@@ -20,7 +20,8 @@ import AdminDashboard from "../Views/AdminDashboard";
 import {
   CHOICE_RECEIVED,
   CHOICE,
-  USER_NO_VOTE
+  USER_NO_VOTE,
+  TSAR_VOTING
 } from "../../../../../server/socket/messages";
 
 import {
@@ -40,6 +41,7 @@ class SelectionPhase extends Component {
       notVoted: false,
       voted: false,
       setJolly: false,
+      tsarVoting: false,
       error: "",
       timer: USER_CHOICE_TIMEOUT
     };
@@ -55,6 +57,10 @@ class SelectionPhase extends Component {
       }
     });
 
+    this.props.socket.on(TSAR_VOTING, () => {
+      this.setState({ tsarVoting: true });
+    });
+
     this.timeout = setInterval(this.lowerTimer, 1000);
   }
 
@@ -67,6 +73,7 @@ class SelectionPhase extends Component {
     clearInterval(this.timeout);
     this.props.socket.off(CHOICE_RECEIVED);
     this.props.socket.off(USER_NO_VOTE);
+    this.props.socket.off(TSAR_VOTING);
   }
 
   static get propTypes() {
@@ -120,12 +127,14 @@ class SelectionPhase extends Component {
   }
 
   render() {
-    if (this.state.waiting) {
-      return <div className="info-message">Waiting for the Tsar to vote...</div>;
-    } else if (this.state.voted) {
+    if (this.state.notVoted) {
+      return <div className="info-message">Tsar is now voting...</div>;
+    } else if (this.state.waiting) {
       return <div className="info-message">Waiting for others to vote...</div>;
+    } else if (this.state.voted) {
+      return <div className="info-message">You made your choice.</div>;
     } else if (this.state.notVoted) {
-      return <div className="info-message">You haven&apos;t voted in time :/</div>;
+      return <div className="info-message">You haven&apos;t voted in time...</div>;
     }
 
     let hand = this.props.hand;

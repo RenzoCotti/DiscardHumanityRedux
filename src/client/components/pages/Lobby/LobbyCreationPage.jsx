@@ -6,7 +6,7 @@ import Select from "../../modules/input/Select";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getUsername, getLobbyName, updateUserInfo } from "../../../redux/actions";
+import { getUsername, getLobbyName, updateUserInfo, updateLobbyType } from "../../../redux/actions";
 import {
   LOBBY_EXISTS_ALREADY,
   LOBBY_CREATED,
@@ -65,7 +65,8 @@ class LobbyCreationPage extends Component {
   static get propTypes() {
     return {
       socket: PropTypes.object,
-      updateUserInfo: PropTypes.func
+      updateUserInfo: PropTypes.func,
+      updateLobbyType: PropTypes.func
     };
   }
 
@@ -193,6 +194,7 @@ class LobbyCreationPage extends Component {
       delete this.state.errors;
       console.log("creating lobby...");
       this.props.socket.emit(LOBBY_NEW, this.state);
+      this.props.updateLobbyType(this.state.voting);
     } else {
       this.setState({ errors: arr });
     }
@@ -398,6 +400,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateUserInfo: (value) => dispatch(updateUserInfo(value)),
+  updateLobbyType: (value) => dispatch(updateLobbyType(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyCreationPage);

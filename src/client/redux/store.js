@@ -12,7 +12,9 @@ import {
   CLEANUP_STORE,
   SET_USER_INFO,
   SET_TAB_SELECTED,
-  SET_SCORES
+  SET_SCORES,
+  WIPE_CHAT_HISTORY,
+  SET_LOBBY_TYPE
 } from "./actions";
 
 const INITIAL_STATE = {
@@ -23,7 +25,8 @@ const INITIAL_STATE = {
   hand: [],
   selectedCards: [null, null, null],
   tabSelected: null,
-  scores: []
+  scores: [],
+  lobbyType: null
 };
 
 function pushItem(array, item) {
@@ -53,6 +56,10 @@ function reducer(state = INITIAL_STATE, action) {
     newState.chatHistory = pushItem(state.chatHistory, action.message);
     return newState;
 
+  case WIPE_CHAT_HISTORY:
+    newState.chatHistory = [];
+    return newState;
+
   case SET_BLACKCARD:
     newState.blackCard = action.blackCard;
     return newState;
@@ -67,6 +74,10 @@ function reducer(state = INITIAL_STATE, action) {
 
   case SET_SCORES:
     newState.scores = action.scores;
+    return newState;
+  
+  case SET_LOBBY_TYPE:
+    newState.lobbyType = action.lobbyType;
     return newState;
 
   case SET_SELECTED_CARDS:

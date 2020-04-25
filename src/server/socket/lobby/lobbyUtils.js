@@ -105,6 +105,7 @@ exports.getLobbyList = () => {
       name: lobby.name,
       maxUsers: lobby.maxUsers,
       currentUsers: lobby.currentUsers,
+      mode: lobby.gameSettings.tsar ? "Tsar" : "Democracy"
     };
 
     if (lobby.password !== null) {

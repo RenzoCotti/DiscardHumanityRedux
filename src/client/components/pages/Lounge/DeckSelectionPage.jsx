@@ -10,6 +10,7 @@ import {
   NOT_ENOUGH_CARDS,
   GAME_LOUNGE,
   SET_DECKS,
+  LOBBY_LEAVE
 } from "../../../../server/socket/messages";
 import Topbar from "../Game/Views/Topbar";
 
@@ -48,6 +49,9 @@ class DeckSelectionPage extends Component {
   }
 
   componentWillUnmount() {
+    if (!this.state.waiting) {
+      this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
+    }
     this.props.socket.off(NOT_ENOUGH_CARDS);
     this.props.socket.off(GAME_LOUNGE);
   }
