@@ -38,8 +38,12 @@ class VotePhase extends Component {
       timer: TSAR_VOTE_TIMEOUT
     };
 
-    this.props.socket.on(TSAR_VOTING, (arr) => {
+    if (this.state.choices) {
       this.timeout = setInterval(this.lowerTimer, 1000);
+    }
+
+
+    this.props.socket.on(TSAR_VOTING, (arr) => {
       this.setState({ choices: arr });
     });
 
@@ -85,6 +89,7 @@ class VotePhase extends Component {
 
   voteCard() {
     if (this.state.selected === null) {
+      console.log("PLEASE VOTE");
       this.setState({ error: "Please vote a card." });
       return;
     }
@@ -93,11 +98,13 @@ class VotePhase extends Component {
     // console.log("voted ");
     let voted = this.state.choices[this.state.selected];
 
+    console.log(voted);
+
     if (this.props.democracy) {
       this.props.socket.emit(DEMOCRACY_VOTE, {
         lobbyName: this.props.lobbyName,
+        username: this.props.username,
         votedUsername: voted.username,
-        username: this.props.username
       });
     } else {
       this.props.socket.emit(TSAR_VOTE, {
@@ -187,6 +194,7 @@ class VotePhase extends Component {
             <br />
             <br />
             <Button value="Confirm" short={true} fn={this.voteCard} />
+            <div className="error-msg">{this.state.error}</div>
           </div>
         </div>);
     }
