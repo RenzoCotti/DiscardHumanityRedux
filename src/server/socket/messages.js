@@ -25,7 +25,7 @@ exports.DEMOCRACY_CHOICES = "game-democracy-choices";
 exports.TSAR_REDRAW = "game-tsar-redraw-hand";
 exports.NOT_ENOUGH_POINTS = "game-not-enough-points";
 exports.HAND_REDRAWN = "game-hand-redrawn";
-
+exports.NEW_SCORES = "game-new-scores";
 
 exports.CHOICE_RECEIVED = "game-choice-received";
 exports.CHOICE = "game-choice";

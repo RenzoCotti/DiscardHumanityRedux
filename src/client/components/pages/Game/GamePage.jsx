@@ -11,6 +11,8 @@ import {
   updateHand,
   updateBlackCard,
   getBlackCard,
+  updateScores,
+  getScores
 } from "../../../redux/actions";
 
 import {
@@ -26,6 +28,7 @@ import {
   DEMOCRACY_CHOICES,
   IS_ADMIN,
   USER_KICKED,
+  NEW_SCORES
 } from "../../../../server/socket/messages";
 
 import WinRound from "./Phases/WinRound";
@@ -59,6 +62,10 @@ class GamePage extends Component {
       this.props.updateHand(hand);
     });
 
+    this.props.socket.on(NEW_SCORES, (scores) => {
+      this.props.updateScores(scores);
+    });
+
     this.props.socket.on(IS_TSAR, (msg) => {
       // console.log(msg);
       this.setState({ tsar: msg.tsar, redraw: msg.redraw });
@@ -80,19 +87,20 @@ class GamePage extends Component {
       // console.log("nobody voted");
       // console.log(msg);
       this.resetState();
+      this.props.updateScores(msg);
       this.setState({
         winRound: true,
-        nobodyVoted: true,
-        scores: msg,
+        nobodyVoted: true
       });
     });
 
     this.props.socket.on(TSAR_NO_VOTE, (msg) => {
       this.resetState();
+      this.props.updateScores(msg);
+
       this.setState({
         winRound: true,
-        noVote: true,
-        scores: msg,
+        noVote: true
       });
     });
 
@@ -101,11 +109,12 @@ class GamePage extends Component {
       // console.log("round won");
       // console.log(msg);
       this.resetState();
+      this.props.updateScores(msg.scores);
+
       this.setState({
         winRound: true,
         winningCard: msg.winningCard,
         winUsername: msg.username,
-        scores: msg.scores,
         multipleWinners: msg.multipleWinners
       });
     });
@@ -114,9 +123,9 @@ class GamePage extends Component {
       // console.log("game won");
       // console.log(msg);
       this.resetState();
+      this.props.updateScores(msg.scores);
       this.setState({
         winGame: true,
-        scores: msg.scores,
         winner: msg.username,
         winningCard: msg.winningCard
       });
@@ -145,6 +154,7 @@ class GamePage extends Component {
   componentWillUnmount() {
     this.props.socket.off(NEW_BLACK_CARD);
     this.props.socket.off(NEW_HAND);
+    this.props.socket.off(NEW_SCORES);
     this.props.socket.off(IS_TSAR);
     this.props.socket.off(IS_ADMIN);
     this.props.socket.off(DEMOCRACY_CHOICES);
@@ -165,6 +175,8 @@ class GamePage extends Component {
       blackCard: PropTypes.object,
       updateHand: PropTypes.func,
       hand: PropTypes.array,
+      updateScores: PropTypes.func,
+      scores: PropTypes.array
     };
   }
 
@@ -200,12 +212,11 @@ class GamePage extends Component {
           nobodyVoted={this.state.nobodyVoted}
           winningCard={this.state.winningCard}
           winUsername={this.state.winUsername}
-          scores={this.state.scores}
           multipleWinners={this.state.multipleWinners}
         />
       );
     } else if (this.state.winGame) {
-      toReturn = <WinGame scores={this.state.scores} winner={this.state.winner} winningCard={this.state.winningCard} />;
+      toReturn = <WinGame winner={this.state.winner} winningCard={this.state.winningCard} />;
     } else if (this.state.tsar) {
       toReturn = <VotePhase socket={this.props.socket} redraw={this.state.redraw} />;
     } else if (this.state.democracy) {
@@ -232,11 +243,13 @@ const mapStateToProps = (state) => ({
   hand: getHand(state),
   selectedCards: getSelectedCards(state),
   blackCard: getBlackCard(state),
+  scores: getScores(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateHand: (value) => dispatch(updateHand(value)),
   updateBlackCard: (value) => dispatch(updateBlackCard(value)),
+  updateScores: (value) => dispatch(updateScores(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePage);

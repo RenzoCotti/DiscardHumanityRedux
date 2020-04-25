@@ -6,6 +6,7 @@ import {
   getLobbyName,
   getUsername,
   getBlackCard,
+  getScores,
 } from "../../../../redux/actions";
 import Leaderboard from "../Views/Leaderboard";
 
@@ -68,7 +69,7 @@ class WinRound extends Component {
           <br />
           <br />
           <br />
-          <Leaderboard scores={this.props.scores} />
+          <Leaderboard short={true} />
         </div>
       </React.Fragment>
     );
@@ -79,6 +80,7 @@ const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
   username: getUsername(state),
   blackCard: getBlackCard(state),
+  scores: getScores(state)
 });
 
 export default connect(mapStateToProps, null)(WinRound);

@@ -18,11 +18,11 @@
   /* border-radius: 50px 0 0; */
 }
 
-.nav-element::before {
+/* .nav-element::before {
   border-left: 20px solid transparent;
   border-right: 50px solid transparent;
   border-bottom: 100px solid red;
-}
+} */
 
 .nav-element.link.active {
   color: var(--text);
@@ -43,6 +43,7 @@
 
 .nav-element:hover {
   background-color: var(--selected);
+  cursor: pointer;
 }
 
 .home {
@@ -87,4 +88,24 @@
   width: 100%;
   background-color: var(--text);
   color: var(--background);
+}
+
+.lobby-title {
+  text-align: center;
+  flex-grow: 2;
+  width: 100%;
+}
+
+.tab-selected {
+  color: var(--text);
+  background-color: var(--background);
+}
+
+.home-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.side-bar {
+  width: 500px;
 }

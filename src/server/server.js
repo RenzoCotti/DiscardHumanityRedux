@@ -5,6 +5,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const http = require("http"); //.Server(app);
+
 // const session = require("express-session");
 // const MongoStore = require("connect-mongo")(session);
 // const fs = require("fs");
@@ -77,7 +79,6 @@ if (process.env.NODE_ENV === "production") {
 
 let port = process.env.PORT || config.port;
 
-let http = require("http"); //.Server(app);
 let server = http.createServer(app);
 
 server.listen(port, () => console.log(`Server running on port ${port}!`));

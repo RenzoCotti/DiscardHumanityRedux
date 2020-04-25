@@ -10,7 +10,7 @@
 
   height: 700px;
   overflow-y: scroll;
-  width: 500px;
+  /* width: 500px; */
   scrollbar-width: none;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .chat-message {
-  width: 400px;
+  width: 340px;
   overflow-wrap: anywhere;
 }
 
@@ -34,7 +34,7 @@
 
 .chat-textbox {
   color: var(--text);
-  min-width: 395px;
+  min-width: 300px;
   
   /* border-bottom: 1px solid white; */
   /* font-size: 16pt !important; */

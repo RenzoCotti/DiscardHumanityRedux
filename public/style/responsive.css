@@ -47,7 +47,7 @@
     min-width: 100px;
   }
 
-  .chat-container {
+  .side-bar, .tab-switch {
     display: none;
   }
 
@@ -159,6 +159,10 @@
   
   .full-width{
     width: 100%;
+  }
+
+  .main-container{
+    padding: 50px 20px;
   }
 
 }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Chat from "../Game/Views/Chat";
 import { connect } from "react-redux";
-import { getLobbyName, getUsername, updateUserInfo } from "../../../redux/actions";
+import { getLobbyName, getUsername, updateUserInfo, getTabSelected } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -11,12 +11,13 @@ import {
   DECKS_SELECTED,
   CHECK_START,
   USER_CONNECT,
-  LOBBY_LEAVE,
   GAME_LOUNGE,
-  USER_NOT_FOUND
+  USER_NOT_FOUND,
+  LOBBY_LEAVE
 } from "../../../../server/socket/messages";
 import GamePage from "../Game/GamePage";
 import Topbar from "../Game/Views/Topbar";
+import Leaderboard from "../Game/Views/Leaderboard";
 // import DeckSelection from "./DeckSelectionPage";
 
 class LoungePage extends Component {
@@ -34,13 +35,14 @@ class LoungePage extends Component {
       socket: PropTypes.object,
       lobbyName: PropTypes.string,
       username: PropTypes.string,
-      updateUserInfo: PropTypes.func
+      updateUserInfo: PropTypes.func,
+      tabSelected: PropTypes.string
     };
   }
 
   //on page leave, leave lobby
   componentWillUnmount() {
-    console.log("Lounge is unmounting");
+    // console.log("Lounge is unmounting");
     this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
     // console.log("LEAVE");
     this.props.updateUserInfo({ lobbyName: null, username: null });
@@ -109,7 +111,14 @@ class LoungePage extends Component {
         <div className="main-container">
           <div className="lounge-container">
             {div}
-            <Chat socket={this.props.socket} />
+
+            <div className="side-bar">
+              {this.props.tabSelected === "chat" ?
+                <Chat socket={this.props.socket} /> :
+                <Leaderboard />
+              }
+            </div>
+
           </div>
         </div>
       </React.Fragment>
@@ -119,7 +128,8 @@ class LoungePage extends Component {
 
 const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
-  username: getUsername(state)
+  username: getUsername(state),
+  tabSelected: getTabSelected(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

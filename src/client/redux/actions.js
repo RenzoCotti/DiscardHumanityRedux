@@ -1,13 +1,13 @@
-// export const SET_USERNAME = "SET_USERNAME";
-// export const SET_LOBBYNAME = "SET_LOBBYNAME";
 export const SET_USER_INFO = "SET_USER_INFO";
-
 export const ADD_CHAT_MESSAGE = "ADD_CHAT_MESSAGE";
 export const SET_LOGIN = "SET_LOGIN";
 export const SET_HAND = "SET_HAND";
 export const SET_BLACKCARD = "SET_BLACKCARD";
 export const SET_SELECTED_CARDS = "SET_SELECTED_CARDS";
 export const CLEANUP_STORE = "CLEANUP_STORE";
+export const SET_TAB_SELECTED = "SET_TAB_SELECTED";
+export const SET_SCORES = "SET_SCORES";
+
 
 export const updateHand = hand => ({
   type: SET_HAND,
@@ -25,6 +25,24 @@ export const updateBlackCard = blackCard => ({
 
 export function getBlackCard(state) {
   return state.blackCard;
+}
+
+export const updateTabSelected = tab => ({
+  type: SET_TAB_SELECTED,
+  tabSelected: tab
+});
+
+export function getTabSelected(state) {
+  return state.tabSelected;
+}
+
+export const updateScores = scores => ({
+  type: SET_SCORES,
+  scores: scores
+});
+
+export function getScores(state) {
+  return state.scores;
 }
 
 export const updateSelectedCards = (index, value) => ({

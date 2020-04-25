@@ -4,13 +4,15 @@ const {
   log,
   getLobby,
   getUser,
+  getAllScores
 } = require('../internal');
 
 const {
   NEW_HAND,
   NEW_BLACK_CARD,
   IS_TSAR,
-  IS_ADMIN
+  IS_ADMIN,
+  NEW_SCORES
 } = require("../messages");
 
 
@@ -43,6 +45,7 @@ exports.getGameState = (socket, msg) => {
         socket.emit(IS_ADMIN, lobby.gameSettings.admin === socket.id);
       }
 
+      socket.emit(NEW_SCORES, getAllScores(lobby));
       socket.emit(NEW_BLACK_CARD, lobby.gameState.currentBlackCard);
       socket.emit(IS_TSAR, { tsar: (lobby.gameState.tsar.id === socket.id), redraw: lobby.gameSettings.refreshHand });
     } else {

@@ -10,7 +10,9 @@ import {
   SET_HAND,
   SET_SELECTED_CARDS,
   CLEANUP_STORE,
-  SET_USER_INFO
+  SET_USER_INFO,
+  SET_TAB_SELECTED,
+  SET_SCORES
 } from "./actions";
 
 const INITIAL_STATE = {
@@ -19,7 +21,9 @@ const INITIAL_STATE = {
   chatHistory: [],
   blackCard: null,
   hand: [],
-  selectedCards: [null, null, null]
+  selectedCards: [null, null, null],
+  tabSelected: null,
+  scores: []
 };
 
 function pushItem(array, item) {
@@ -55,6 +59,14 @@ function reducer(state = INITIAL_STATE, action) {
 
   case SET_HAND:
     newState.hand = action.hand;
+    return newState;
+
+  case SET_TAB_SELECTED:
+    newState.tabSelected = action.tabSelected;
+    return newState;
+
+  case SET_SCORES:
+    newState.scores = action.scores;
     return newState;
 
   case SET_SELECTED_CARDS:

@@ -5,6 +5,7 @@ import {
   getLobbyName,
   getUsername,
   getBlackCard,
+  getScores,
 } from "../../../../redux/actions";
 import Leaderboard from "../Views/Leaderboard";
 import Card from "../../../modules/Card";
@@ -69,7 +70,7 @@ class WinGame extends Component {
           <br />
           <br />
           {!this.props.winner ?
-            <Leaderboard scores={this.props.scores} />
+            <Leaderboard short={true} />
             : ""}
         </div>
       </React.Fragment>
@@ -81,6 +82,7 @@ const mapStateToProps = (state) => ({
   lobbyName: getLobbyName(state),
   username: getUsername(state),
   blackCard: getBlackCard(state),
+  scores: getScores(state)
 });
 
 export default connect(mapStateToProps, null)(WinGame);
