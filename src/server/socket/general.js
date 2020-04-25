@@ -419,8 +419,8 @@ function roundWon(io, lobby, username, winningCard, multipleWinners) {
       if (lobby.gameSettings.rando.active && lobby.gameSettings.rando.score === lobby.gameSettings.ending.max) {
         end = true;
       }
-      for (let user of lobby.gameState.userState.info) {
-        if (user.score === lobby.gameSettings.ending.max) {
+      for (let user of lobby.userList) {
+        if (user.info.score === lobby.gameSettings.ending.max) {
           end = true;
         }
       }

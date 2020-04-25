@@ -89,7 +89,7 @@ class VotePhase extends Component {
 
   voteCard() {
     if (this.state.selected === null) {
-      console.log("PLEASE VOTE");
+      // console.log("PLEASE VOTE");
       this.setState({ error: "Please vote a card." });
       return;
     }
@@ -98,7 +98,7 @@ class VotePhase extends Component {
     // console.log("voted ");
     let voted = this.state.choices[this.state.selected];
 
-    console.log(voted);
+    // console.log(voted);
 
     if (this.props.democracy) {
       this.props.socket.emit(DEMOCRACY_VOTE, {
