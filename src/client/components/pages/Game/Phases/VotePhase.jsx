@@ -15,6 +15,7 @@ import {
 } from "../../../../redux/actions";
 import Button from "../../../modules/input/Button";
 import Timer from "../Views/Timer";
+import AdminDashboard from "../Views/AdminDashboard";
 // import CardSelected from "./Views/CardSelected";
 // import Button from "../../../modules/input/Button";
 
@@ -67,7 +68,8 @@ class VotePhase extends Component {
       blackCard: PropTypes.object,
       democracyCards: PropTypes.array,
       democracy: PropTypes.bool,
-      redraw: PropTypes.bool
+      redraw: PropTypes.bool,
+      admin: PropTypes.bool
     };
   }
 
@@ -128,14 +130,18 @@ class VotePhase extends Component {
         div = <div className="info-message">Waiting for all users to pick a card combination.</div>;
       } else {
         div = (
-          <React.Fragment>
+          <div className="flex-column flex-horizontal-center">
             <div className="info-message">You&apos;re the Tsar.</div>
-            <Card
-              content={this.props.blackCard.content}
-              colour="card-black"
-              size="card-big"
-            />
-          </React.Fragment>);
+
+            <div className="flex-row">
+              <div>Current card: </div>
+              <Card
+                content={this.props.blackCard.content}
+                colour="card-black"
+                size="card-big"
+              />
+            </div>
+          </div>);
       }
     } else {
       //we have a list of black cards
@@ -193,6 +199,10 @@ class VotePhase extends Component {
       <React.Fragment>
         {div}
         {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
+        {this.props.admin ?
+          <AdminDashboard socket={this.props.socket} /> :
+          ""
+        }
         <div className="errormsg">{this.state.error}</div>
         <div>{this.state.message}</div>
       </React.Fragment>

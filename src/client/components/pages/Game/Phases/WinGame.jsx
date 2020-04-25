@@ -41,7 +41,7 @@ class WinGame extends Component {
       if (this.props.scores.length > 1) {
         if (this.props.scores[0].score === this.props.scores[1].score) {
           //tie
-          winner = "It's a tie!";
+          winner = "Tied.";
         } else {
           winner = this.props.scores[0].username + " won!";
         }
@@ -60,6 +60,7 @@ class WinGame extends Component {
     return (
       <React.Fragment>
         <div className="flex-column">
+          <div className="title padded-bottom">GAME OVER!</div>
           <div className="title padded-bottom">{winner}</div>
           <Card
             content={this.props.blackCard.content}

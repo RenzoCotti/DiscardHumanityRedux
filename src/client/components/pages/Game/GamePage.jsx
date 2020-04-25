@@ -218,9 +218,9 @@ class GamePage extends Component {
     } else if (this.state.winGame) {
       toReturn = <WinGame winner={this.state.winner} winningCard={this.state.winningCard} />;
     } else if (this.state.tsar) {
-      toReturn = <VotePhase socket={this.props.socket} redraw={this.state.redraw} />;
+      toReturn = <VotePhase socket={this.props.socket} redraw={this.state.redraw} admin={this.state.isAdmin} />;
     } else if (this.state.democracy) {
-      toReturn = <VotePhase socket={this.props.socket} democracy={this.state.democracy} />;
+      toReturn = <VotePhase socket={this.props.socket} democracy={this.state.democracy} admin={this.state.isAdmin} />;
     }
     else if (!this.props.hand || !this.props.blackCard) {
       // console.log(this.props);

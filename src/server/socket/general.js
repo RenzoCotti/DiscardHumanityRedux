@@ -509,7 +509,7 @@ exports.endGame = (io, socket, lobbyName) => {
     clearTimeout(lobby.gameState.tsar.tsarTimeout);
     clearTimeout(lobby.gameState.turnTimeout);
 
-    log(lobby.gameSettings.ending);
+    // log(lobby.gameSettings.ending);
     if (lobby.gameSettings.ending.type === "haiku") {
       log("Haiku time!");
 

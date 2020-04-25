@@ -121,11 +121,11 @@ class SelectionPhase extends Component {
 
   render() {
     if (this.state.waiting) {
-      return <div>Waiting for the Tsar to vote...</div>;
+      return <div className="info-message">Waiting for the Tsar to vote...</div>;
     } else if (this.state.voted) {
-      return <div>Waiting for others to vote...</div>;
+      return <div className="info-message">Waiting for others to vote...</div>;
     } else if (this.state.notVoted) {
-      return <div>You haven&apos;t voted in time :/</div>;
+      return <div className="info-message">You haven&apos;t voted in time :/</div>;
     }
 
     let hand = this.props.hand;
@@ -154,7 +154,7 @@ class SelectionPhase extends Component {
           {blackCard}
           <br />
 
-          <div className="flex-column .flex-horizontal-center">
+          <div className="flex-column flex-vertical-center">
             <div className="flex-row flex-vertical-center">
               <CardSelected setJolly={this.state.setJolly} />
             </div>

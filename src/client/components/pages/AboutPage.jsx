@@ -38,6 +38,7 @@ const AboutPage = () => (
           <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons BY-NC-SA 2.0 license{" "}</a>
           . “Cards Against Humanity” is a trademark of Cards Against Humanity LLC.
         </div>
+        <br />
         <div>
           JSON Files used for the database can be found here:
           <a href="http://www.crhallberg.com/cah/json"> JSON Against Humanity</a>.
@@ -50,8 +51,9 @@ const AboutPage = () => (
           <br />
           The Totally Censored Deck is just a censored version of the Official Expansions 4-6, made in order to present the project in front our university :v
         </div>
+        <br />
 
-        <div>P.S. Special thanks to my beta testers Zoss, rx6pe & inqui.</div>
+        <div>P.S. Special thanks to my beta testers Zoss, rx6pe, blackwazaa & inqui.</div>
       </div>
     </div>
   </React.Fragment >
