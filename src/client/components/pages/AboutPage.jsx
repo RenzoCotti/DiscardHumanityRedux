@@ -52,6 +52,10 @@ const AboutPage = () => (
           The Totally Censored Deck is just a censored version of the Official Expansions 4-6, made in order to present the project in front our university :v
         </div>
         <br />
+        <div>
+          The italian version was taken from here: <a href="https://github.com/ilario/Cards-Against-Humanity-ITA">Cards Against Humanity ITA.</a>
+        </div>
+        <br />
 
         <div>P.S. Special thanks to my beta testers Zoss, rx6pe, blackwazaa & inqui.</div>
       </div>

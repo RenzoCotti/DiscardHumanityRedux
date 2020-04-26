@@ -16,6 +16,8 @@ const R2D2 = require("./seeds/seedGoT.js");
 const C3PO = require("./seeds/seedInternet.js");
 const PADME = require("./seeds/seedNostalgia90.js");
 const TRAITOR = require("./seeds/seedScience.js");
+const MANNAGGIA = require("./seeds/seedITA.js");
+const PASTAPIZZA = require("./seeds/seedITAexp.js");
 
 let decks = [
   CHEWBACCA,
@@ -29,7 +31,9 @@ let decks = [
   R2D2,
   C3PO,
   PADME,
-  TRAITOR
+  TRAITOR,
+  MANNAGGIA,
+  PASTAPIZZA
 ];
 
 function formatText(text, arr) {
