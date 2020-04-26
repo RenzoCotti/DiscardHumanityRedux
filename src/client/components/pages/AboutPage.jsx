@@ -19,11 +19,11 @@ const AboutPage = () => (
         <br />
       Original developers of the platform:
         <br />
-        <a href="https://n.ethz.ch/~larabr/index.html">Lara Bruseghini</a>, {" "}
-        <a href="http://atelier.inf.unisi.ch/~burgev">Valerie Burgener</a>, {" "}
+        <a href="https://github.com/larabr">larabr</a>, {" "}
+        <a href="https://github.com/lazy-val-b">Valerie Burgener</a>, {" "}
         <a href="http://www.renzocotti.com">Renzo Cotti</a>, {" "}
         <a href="http://aron.fiechter.gitlab.io/">Aron Fiechter</a>, {" "}
-        <a href="http://atelier.inf.unisi.ch/~zuccha">Amedeo Zucchetti</a>, {" "}
+        <a href="https://github.com/zuccha">Amedeo Zucchetti</a>, {" "}
         <br />
 
         <div style={{ color: "red" }}>
@@ -33,9 +33,9 @@ const AboutPage = () => (
 
         <div>
           <a href="https://www.cardsagainsthumanity.com/">Card against Humanity{" "}</a> used under a
-          <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons BY-NC-SA 2.0 license{" "}</a>
+          <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">{" "}Creative Commons BY-NC-SA 2.0 license</a>
           . Discard Humanity distributed under a
-          <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons BY-NC-SA 2.0 license{" "}</a>
+          <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">{" "}Creative Commons BY-NC-SA 2.0 license</a>
           . “Cards Against Humanity” is a trademark of Cards Against Humanity LLC.
         </div>
         <br />
