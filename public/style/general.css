@@ -20,6 +20,7 @@
   color: var(--background); */
   background-color: var(--background);
   color: var(--text);
+  border-bottom: 1px solid var(--background);
   /* border-radius: 50px 0 0; */
 }
 
@@ -30,8 +31,9 @@
 } */
 
 .nav-element.link.active {
-  color: var(--text);
-  background-color: var(--background);
+  /* color: var(--text);
+  background-color: var(--background); */
+  border-bottom: 1px solid var(--text);
 }
 
 .foot {
@@ -112,8 +114,9 @@
 }
 
 .tab-selected {
-  color: var(--text);
-  background-color: var(--background);
+  /* color: var(--text);
+  background-color: var(--background); */
+  border-bottom: 1px solid var(--text);
 }
 
 .home-icon {
