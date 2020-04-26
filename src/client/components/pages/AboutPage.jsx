@@ -23,7 +23,7 @@ const AboutPage = () => (
         <a href="https://github.com/lazy-val-b">Valerie Burgener</a>, {" "}
         <a href="http://www.renzocotti.com">Renzo Cotti</a>, {" "}
         <a href="http://aron.fiechter.gitlab.io/">Aron Fiechter</a>, {" "}
-        <a href="https://github.com/zuccha">Amedeo Zucchetti</a>, {" "}
+        <a href="https://github.com/zuccha">Amedeo Zucchetti</a>
         <br />
 
         <div style={{ color: "red" }}>

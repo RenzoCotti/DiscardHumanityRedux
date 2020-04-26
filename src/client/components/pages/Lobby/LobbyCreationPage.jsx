@@ -18,6 +18,7 @@ import {
 import DeckSelectionPage from "../Lounge/DeckSelectionPage";
 import { MIN_USERS } from "../../../../server/socket/utils";
 import Navbar from "../../general/Navbar";
+import { Redirect } from "react-router";
 class LobbyCreationPage extends Component {
 
 
@@ -217,6 +218,8 @@ class LobbyCreationPage extends Component {
   render() {
     if (this.state.redirect) {
       return <DeckSelectionPage socket={this.props.socket} />;
+    } else if (this.state.help) {
+      return <Redirect push to="/rules" />;
     }
 
     // console.log(this.state);
@@ -377,11 +380,15 @@ class LobbyCreationPage extends Component {
                 fn={this.handleChange}
                 errors={this.state.errors}
               />
+
               <div className="errormsg" style={{ height: "30px" }}>
                 {this.state.error}
               </div>
 
-              <Button value="Create Lobby" fn={this.onSubmit} />
+              <div className="flex-row flex-wrap flex-horizontal-center">
+                <Button value="Need help?" fn={() => this.setState({ help: true })} />
+                <Button value="Create Lobby" fn={this.onSubmit} />
+              </div>
             </div>
 
 
