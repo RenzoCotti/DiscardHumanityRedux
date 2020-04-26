@@ -58,6 +58,7 @@ class SelectionPhase extends Component {
     });
 
     this.props.socket.on(TSAR_CURRENTLY_VOTING, () => {
+      console.log("tsar is voting");
       this.setState({ tsarVoting: true });
     });
 
@@ -127,7 +128,7 @@ class SelectionPhase extends Component {
   }
 
   render() {
-    if (this.state.notVoted) {
+    if (this.state.tsarVoting) {
       return <div className="info-message">Tsar is now voting...</div>;
     } else if (this.state.waiting) {
       return <div className="info-message">Waiting for others to vote...</div>;

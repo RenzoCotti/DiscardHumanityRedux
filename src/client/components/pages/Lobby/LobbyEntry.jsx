@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getLobbyName, updateUserInfo, getUsername } from "../../../redux/actions";
+import { getLobbyName, updateUserInfo, getUsername, updateLobbyType } from "../../../redux/actions";
 import {
   LOBBY_JOINED,
   LOBBY_LOGIN,
@@ -34,7 +34,8 @@ class LobbyEntry extends Component {
       maxUsers: PropTypes.number,
       lobbyName: PropTypes.string,
       username: PropTypes.string,
-      mode: PropTypes.string
+      mode: PropTypes.string,
+      updateLobbyType: PropTypes.string
     };
   }
 
@@ -55,6 +56,7 @@ class LobbyEntry extends Component {
         lobbyName: this.props.name,
       };
 
+      this.props.updateLobbyType(this.props.mode);
       this.props.updateUserInfo(info);
     });
 
@@ -189,6 +191,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateUserInfo: (value) => dispatch(updateUserInfo(value)),
+  updateLobbyType: (value) => dispatch(updateLobbyType(value))
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LobbyEntry);

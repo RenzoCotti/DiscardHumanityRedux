@@ -12,7 +12,7 @@ import {
   getLobbyType
 } from "../../../../redux/actions";
 import home from "../../../../../../public/images/home.png";
-
+import { capitalise } from "../../../../utility/utility";
 
 class Topbar extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class Topbar extends Component {
           <img className="home-icon" src={home} alt="Home" />
         </NavLink>
         <div className="lobby-title">Lobby {this.props.lobbyName}</div>
-        <div className="lobby-type">{this.props.lobbyType}</div>
+        {/* <div className="lobby-type">{capitalise(this.props.lobbyType)} mode</div> */}
         <div className="flex-row tab-switch">
           <div className={"nav-element link " + (this.props.tabSelected === "chat" ? "tab-selected" : "")} onClick={() => this.props.updateTabSelected("chat")}>Chat</div>
           <div className={"nav-element link " + (this.props.tabSelected === "scores" ? "tab-selected" : "")} onClick={() => this.props.updateTabSelected("scores")}>Scores</div>
