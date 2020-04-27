@@ -203,11 +203,11 @@ class VotePhase extends Component {
     return (
       <React.Fragment>
         {div}
-        {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
-        {this.props.admin ?
-          <AdminDashboard socket={this.props.socket} /> :
-          ""
-        }
+        <div className="flex-row flex-wrap">
+          {this.props.redraw ? <Button value="Redraw hand" fn={this.redrawHand} /> : ""}
+          {this.props.admin ? <AdminDashboard socket={this.props.socket} /> : ""}
+        </div>
+
         <div className="errormsg">{this.state.error}</div>
         <div>{this.state.message}</div>
       </React.Fragment>

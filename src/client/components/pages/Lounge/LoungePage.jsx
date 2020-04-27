@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Chat from "../Game/Views/Chat";
 import { connect } from "react-redux";
-import { getLobbyName, getUsername, updateUserInfo, getTabSelected } from "../../../redux/actions";
+import { getLobbyName, getUsername, updateUserInfo, getTabSelected, wipeChatHistory } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -36,7 +36,8 @@ class LoungePage extends Component {
       lobbyName: PropTypes.string,
       username: PropTypes.string,
       updateUserInfo: PropTypes.func,
-      tabSelected: PropTypes.string
+      tabSelected: PropTypes.string,
+      wipeChatHistory: PropTypes.func
     };
   }
 
@@ -44,6 +45,7 @@ class LoungePage extends Component {
   componentWillUnmount() {
     // console.log("Lounge is unmounting");
     this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
+    this.props.wipeChatHistory();
     // console.log("LEAVE");
     this.props.updateUserInfo({ lobbyName: null, username: null });
     this.props.socket.off(GAME_START);
@@ -75,12 +77,12 @@ class LoungePage extends Component {
 
     this.props.socket.on(LOBBY_NOT_FOUND, () => {
       // console.log("lobby not found: " + msg);
-      this.setState({ home: true });
+      this.setState({ kicked: true });
     });
 
     this.props.socket.on(USER_NOT_FOUND, () => {
       // console.log("user not found: " + msg);
-      this.setState({ home: true });
+      this.setState({ kicked: true });
     });
 
     this.props.socket.on(GAME_LOUNGE, () => {
@@ -96,14 +98,11 @@ class LoungePage extends Component {
   render() {
 
     let div = <div className="info-message">Waiting for players to join...</div>;
-    if (this.state.home) {
+    if (this.state.kicked || !this.props.username && !this.props.lobbyName) {
       return <Redirect push to={"/kicked"} />;
     } else if (this.state.start) {
       div = <GamePage socket={this.props.socket} />;
     }
-    // else {
-    //   div = <DeckSelection socket={this.socket} />;
-    // }
 
     return (
       <React.Fragment>
@@ -134,6 +133,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateUserInfo: (value) => dispatch(updateUserInfo(value)),
+  wipeChatHistory: () => dispatch(wipeChatHistory())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoungePage);

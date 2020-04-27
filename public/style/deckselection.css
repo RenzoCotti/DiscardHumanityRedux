@@ -24,7 +24,15 @@
 .deck-list {
   overflow: scroll;
   overflow-x: hidden;
-  height: 595px;
+  max-height: 600px;
+  margin-bottom: 150px;
+}
+
+.start-game-button{
+  position: fixed;
+  width: 100%;
+  bottom: 100px;
+  padding-left: 25px;
 }
 
 .deck-container {

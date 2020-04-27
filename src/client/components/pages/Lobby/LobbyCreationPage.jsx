@@ -67,7 +67,9 @@ class LobbyCreationPage extends Component {
     return {
       socket: PropTypes.object,
       updateUserInfo: PropTypes.func,
-      updateLobbyType: PropTypes.func
+      updateLobbyType: PropTypes.func,
+      username: PropTypes.string,
+      lobbyName: PropTypes.string
     };
   }
 
@@ -216,7 +218,7 @@ class LobbyCreationPage extends Component {
   }
 
   render() {
-    if (this.state.redirect) {
+    if (this.props.username && this.props.lobbyName) {
       return <DeckSelectionPage socket={this.props.socket} />;
     } else if (this.state.help) {
       return <Redirect push to="/rules" />;
@@ -242,7 +244,7 @@ class LobbyCreationPage extends Component {
                       errors={this.state.errors}
                     />
                     <Input
-                      label="Players (3-20)"
+                      label={"Players (" + MIN_USERS + "-20)"}
                       name="maxUsers"
                       obj={this.state}
                       fn={this.handleChange}

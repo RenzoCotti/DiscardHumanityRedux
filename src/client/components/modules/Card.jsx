@@ -27,7 +27,7 @@ class Card extends Component {
       hover: PropTypes.bool,
       position: PropTypes.string,
       remove: PropTypes.bool,
-      onClick: PropTypes.func,
+      onClick: PropTypes.func
     };
   }
 
@@ -111,6 +111,8 @@ class Card extends Component {
 
       if (s.tag === "i") {
         list.push(<i key={i}>{s.text}</i>);
+      } else if (s.tag === "b") {
+        list.push(<b key={i}>{s.text}</b>);
       } else if (s.tag === "br") {
         list.push(<br key={i} />);
       } else if (s.tag === "text") {
@@ -155,6 +157,9 @@ class Card extends Component {
 
   render() {
     let textArray = this.addCompletions(this.props.content);
+
+
+    // console.log(this.props.content);
     let text = this.generateText(textArray);
     let len = text.length;
 

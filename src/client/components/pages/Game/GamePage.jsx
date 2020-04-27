@@ -121,12 +121,12 @@ class GamePage extends Component {
 
     this.props.socket.on(GAME_WIN, (msg) => {
       // console.log("game won");
-      // console.log(msg);
+      console.log(msg);
       this.resetState();
       this.props.updateScores(msg.scores);
       this.setState({
         winGame: true,
-        winner: msg.username,
+        winner: msg.winner,
         winningCard: msg.winningCard
       });
     });

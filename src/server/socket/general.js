@@ -474,7 +474,7 @@ exports.gameBreak = (io, socket, lobbyName) => {
       lobby.gameState.turnTimeout = setTimeout(() => {
         lobby.gameState.paused = false;
         exports.playTurn(io, lobby);
-      }, BREAK_TIMEOUT);
+      }, BREAK_TIMEOUT * 1000);
 
     } else {
       log("Game already paused.");

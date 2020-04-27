@@ -133,7 +133,21 @@ exports.setDecks = (io, socket, info) => {
         for (let i = 0; i < number; i++) {
           let id = "jolly-card-" + i;
           lobby.whiteCards.push({
-            content: [{ tag: "_", text: "", _id: "jolly-card-" + i + "-content" }],
+            content: [{
+              tag: "b",
+              text: "JOLLY CARD",
+              _id: "jolly-card-" + i + "-content1"
+            },
+            {
+              tag: "br",
+              text: "",
+              _id: "jolly-card-" + i + "-content2"
+            },
+            {
+              tag: "i",
+              text: "Select the card and complete it!",
+              _id: "jolly-card-" + i + "-content3"
+            }],
             _id: id,
             jolly: true
           });

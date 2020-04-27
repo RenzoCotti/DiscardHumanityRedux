@@ -3,7 +3,7 @@ import Button from "../../modules/input/Button";
 import Card from "../../modules/Card";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { getLobbyName, getUsername } from "../../../redux/actions";
+import { getLobbyName, getUsername, updateUserInfo } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
@@ -34,7 +34,8 @@ class DeckSelectionPage extends Component {
     return {
       socket: PropTypes.object,
       lobbyName: PropTypes.string,
-      username: PropTypes.string
+      username: PropTypes.string,
+      updateUserInfo: PropTypes.func
     };
   }
 
@@ -51,6 +52,7 @@ class DeckSelectionPage extends Component {
   componentWillUnmount() {
     if (!this.state.waiting) {
       this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
+      this.props.updateUserInfo({ username: null, lobbyName: null });
     }
     this.props.socket.off(NOT_ENOUGH_CARDS);
     this.props.socket.off(GAME_LOUNGE);
@@ -174,12 +176,13 @@ class DeckSelectionPage extends Component {
         <div className="main-container">
           <div className="flex-column deck-container">
             <div className="title padded-bottom">Select decks</div>
-            <div className="flex-column deck-list margin-bottom">
+            <div className="flex-column deck-list">
               {list.length == 0 ? "Loading decks..." : list}
             </div>
             <div className="errormsg">{this.state.error}</div>
-            <Button value="Start game" fn={this.goToLobby} />
-
+            <div className="start-game-button">
+              <Button value="Start game" fn={this.goToLobby} />
+            </div>
           </div>
 
           <div className="deck-preview">{deckList}</div>
@@ -194,8 +197,8 @@ const mapStateToProps = (state) => ({
   username: getUsername(state)
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   updateLogin: value => dispatch(updateLogin(value))
-// });
+const mapDispatchToProps = dispatch => ({
+  updateUserInfo: value => dispatch(updateUserInfo(value))
+});
 
-export default connect(mapStateToProps, null)(DeckSelectionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(DeckSelectionPage);
