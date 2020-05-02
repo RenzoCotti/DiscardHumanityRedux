@@ -10,8 +10,6 @@ exports.RANDO_USERNAME = "Rando Cardassian";
 exports.MIN_USERS = process.env.MIN_USERS || 2;
 exports.lobbies = [];
 
-
-
 exports.shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
