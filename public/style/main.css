@@ -21,7 +21,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-  display: none !important; 
+  display: none !important;
 }
 
 body {
@@ -32,9 +32,8 @@ body {
   /* height: 100vh; */
 
   color: var(--text);
-
+  z-index: 0;
   position: relative;
-  z-index: -2;
   /* background-position: left top; */
   min-height: 100%;
 }

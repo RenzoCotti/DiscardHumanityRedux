@@ -2,14 +2,15 @@
   display: flex;
   flex-direction: column;
   width: 400px;
+  height: inherit;
 }
 
 .chat-history {
   display: flex;
   flex-direction: column;
-  flex-grow: 2;
+  flex: 2;
 
-  height: 700px;
+  /* height: 700px; */
   overflow-y: scroll;
   /* width: 500px; */
   scrollbar-width: none;

@@ -15,13 +15,13 @@ const http = require("http"); //.Server(app);
 const app = express();
 //try to import the config, on dev there is none
 let config = {};
-if (process.env.WIN === "true") {
+//if (process.env.WIN === "true") {
   try {
     config = require("./config/config");
   } catch (e) {
-    console.log(e);
+    console.log(e)
   }
-}
+//}
 
 
 // var privateKey = fs.readFileSync(

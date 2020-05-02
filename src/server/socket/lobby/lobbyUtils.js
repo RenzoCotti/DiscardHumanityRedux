@@ -9,7 +9,6 @@ let {
 const {
   LOBBY_NOT_FOUND,
   GAME_LOUNGE,
-  DECKS_SELECTED,
   CHAT_MESSAGE,
   NOT_ENOUGH_CARDS,
   USER_EXISTS
@@ -58,7 +57,10 @@ exports.getAllScores = (lobby) => {
   }
 
   if (lobby.gameSettings.rando.active) {
-    scores.push({ username: RANDO_USERNAME, score: lobby.gameSettings.rando.score });
+    scores.push({
+      username: RANDO_USERNAME,
+      score: lobby.gameSettings.rando.score
+    });
   }
 
   return scores.sort(compare);
@@ -119,9 +121,9 @@ exports.getLobbyList = () => {
 
 //this function sets the decks, if the cards are sufficient to support the maximum number of players
 exports.setDecks = (io, socket, info) => {
-  log("Setting decks in lobby " + info.name);
+  log("Setting decks in lobby " + info.lobbyName);
 
-  let lobby = exports.getLobby(info.name);
+  let lobby = exports.getLobby(info.lobbyName);
   if (lobby) {
     if (lobby.maxUsers * 12 <= info.whiteCards.length) {
       lobby.blackCards = info.blackCards;
@@ -134,30 +136,34 @@ exports.setDecks = (io, socket, info) => {
           let id = "jolly-card-" + i;
           lobby.whiteCards.push({
             content: [{
-              tag: "b",
-              text: "JOLLY CARD",
-              _id: "jolly-card-" + i + "-content1"
-            },
-            {
-              tag: "br",
-              text: "",
-              _id: "jolly-card-" + i + "-content2"
-            },
-            {
-              tag: "i",
-              text: "Select the card and complete it!",
-              _id: "jolly-card-" + i + "-content3"
-            }],
+                tag: "b",
+                text: "JOLLY CARD",
+                _id: "jolly-card-" + i + "-content1"
+              },
+              {
+                tag: "br",
+                text: "",
+                _id: "jolly-card-" + i + "-content2"
+              },
+              {
+                tag: "i",
+                text: "Select the card and complete it!",
+                _id: "jolly-card-" + i + "-content3"
+              }
+            ],
             _id: id,
             jolly: true
           });
         }
       }
 
-      log(info.name + ": decks set.");
+      log(info.lobbyName + ": decks set.");
 
-      socket.emit(GAME_LOUNGE, lobby.name);
-      io.in(lobby.name).emit(DECKS_SELECTED);
+      socket.emit(GAME_LOUNGE, {
+        lobbyName: lobby.name,
+        username: info.username
+      });
+      // io.in(lobby.name).emit(DECKS_SELECTED);
     } else {
       //not enough cards
       log("Not enough cards chosen.");

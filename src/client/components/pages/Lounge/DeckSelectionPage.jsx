@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import Button from "../../modules/input/Button";
 import Card from "../../modules/Card";
-import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { getLobbyName, getUsername, updateUserInfo } from "../../../redux/actions";
 import PropTypes from "prop-types";
 
 import {
   NOT_ENOUGH_CARDS,
-  GAME_LOUNGE,
   SET_DECKS,
-  LOBBY_LEAVE
 } from "../../../../server/socket/messages";
-import Topbar from "../Game/Views/Topbar";
+// import Topbar from "../Game/Views/Topbar";
 
 class DeckSelectionPage extends Component {
 
@@ -44,18 +41,14 @@ class DeckSelectionPage extends Component {
       this.setState({ error: "Not enough cards." });
       // console.log("not enough cards");
     });
-    this.props.socket.on(GAME_LOUNGE, () => {
-      this.setState({ waiting: true });
-    });
   }
 
   componentWillUnmount() {
-    if (!this.state.waiting) {
-      this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
-      this.props.updateUserInfo({ username: null, lobbyName: null });
-    }
+    // if (!this.state.waiting) {
+    //   this.props.socket.emit(LOBBY_LEAVE, { lobbyName: this.props.lobbyName, username: this.props.username });
+    //   this.props.updateUserInfo({ username: null, lobbyName: null });
+    // }
     this.props.socket.off(NOT_ENOUGH_CARDS);
-    this.props.socket.off(GAME_LOUNGE);
   }
 
   componentDidMount() {
@@ -92,7 +85,8 @@ class DeckSelectionPage extends Component {
       }
 
       this.props.socket.emit(SET_DECKS, {
-        name: this.props.lobbyName,
+        lobbyName: this.props.lobbyName,
+        username: this.props.username,
         blackCards: blackCards,
         whiteCards: whiteCards,
       });
@@ -118,7 +112,7 @@ class DeckSelectionPage extends Component {
 
   render() {
     if (this.state.waiting) {
-      return <Redirect push to="/lounge" />;
+      return <div className="info-message">Deck Selected.</div>;
     }
 
     // console.log(this.props);
@@ -172,21 +166,20 @@ class DeckSelectionPage extends Component {
     return (
       <React.Fragment>
 
-        <Topbar socket={this.props.socket} />
-        <div className="main-container">
-          <div className="flex-column deck-container">
-            <div className="title padded-bottom">Select decks</div>
-            <div className="flex-column deck-list">
-              {list.length == 0 ? "Loading decks..." : list}
-            </div>
-            <div className="errormsg">{this.state.error}</div>
-            <div className="start-game-button">
-              <Button value="Start game" fn={this.goToLobby} />
-            </div>
+        {/* <div className="main-container"> */}
+        <div className="flex-column deck-container">
+          <div className="title padded-bottom">Select decks</div>
+          <Button value="Confirm" fn={this.goToLobby} />
+          <br />
+          <div className="flex-column deck-list">
+            {list.length == 0 ? "Loading decks..." : list}
           </div>
+          <div className="errormsg">{this.state.error}</div>
 
-          <div className="deck-preview">{deckList}</div>
         </div>
+
+        <div className="deck-preview">{deckList}</div>
+        {/* </div> */}
       </React.Fragment>
     );
   }

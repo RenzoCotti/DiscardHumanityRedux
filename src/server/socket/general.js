@@ -104,8 +104,7 @@ exports.userDemocracyVote = (io, msg) => {
     } else {
       log("User already sent his vote.");
     }
-  }
-  else {
+  } else {
     log("lobby not found");
   }
 };
@@ -166,7 +165,9 @@ function democracyCalculateWinner(io, lobby) {
     let scores = getAllScores(lobby);
 
     if (lobby.gameState.isGameEnding) {
-      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+      io.to(lobby.name).emit(GAME_WIN, {
+        scores: scores
+      });
     } else {
       io.to(lobby.name).emit(NOBODY_VOTED, scores);
       exports.setTimeoutAndPlayTurn(io, lobby);
@@ -208,7 +209,9 @@ exports.sendCardsToVote = (io, lobby) => {
         });
       } else if (user.info.cardsChosen.length === 0) {
         //otherwise tsar is included
-        if (lobby.gameSettings.tsar && user.id === lobby.gameState.tsar.id) { continue; }
+        if (lobby.gameSettings.tsar && user.id === lobby.gameState.tsar.id) {
+          continue;
+        }
         //else user hasn't voted
         user.info.inactivityCounter++;
         checkIfKick(io, lobby, user);
@@ -271,7 +274,9 @@ exports.sendCardsToVote = (io, lobby) => {
     io.to(lobby.name).emit(NOBODY_VOTED, scores);
 
     if (lobby.gameState.isGameEnding) {
-      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+      io.to(lobby.name).emit(GAME_WIN, {
+        scores: scores
+      });
     } else {
       exports.setTimeoutAndPlayTurn(io, lobby);
     }
@@ -305,7 +310,9 @@ exports.sendCardsToVote = (io, lobby) => {
       let scores = getAllScores(lobby);
 
       if (lobby.gameState.isGameEnding) {
-        io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+        io.to(lobby.name).emit(GAME_WIN, {
+          scores: scores
+        });
       } else {
         io.to(lobby.name).emit(TSAR_NO_VOTE, scores);
         exports.setTimeoutAndPlayTurn(io, lobby);
@@ -440,10 +447,19 @@ function roundWon(io, lobby, username, winningCard, multipleWinners) {
 
     if (end) {
       log("Game over!");
+      setGameState(lobby, "game-end");
+
       if (lobby.gameSettings.ending.type === "haiku" && lobby.gameState.isGameEnding) {
-        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winner: username, winningCard: winningCard });
+        io.to(lobby.name).emit(GAME_WIN, {
+          scores: scores,
+          winner: username,
+          winningCard: winningCard
+        });
       } else {
-        io.to(lobby.name).emit(GAME_WIN, { scores: scores, winningCard: winningCard });
+        io.to(lobby.name).emit(GAME_WIN, {
+          scores: scores,
+          winningCard: winningCard
+        });
       }
     } else {
       io.to(lobby.name).emit(ROUND_WIN, {
@@ -519,21 +535,56 @@ exports.endGame = (io, socket, lobbyName) => {
       lobby.gameState.isGameEnding = true;
 
       let haikuCard = {
-        content: [
-          {
+        content: [{
             _id: 'haikuCard0',
             text: 'Make a haiku.',
             tag: 'text'
           },
-          { _id: "haikuCard01", text: '', tag: 'br' },
-          { _id: "haikuCard02", text: '', tag: '_' },
-          { _id: "haikuCard03", text: '.', tag: 'text' },
-          { _id: "haikuCard04", text: '', tag: 'br' },
-          { _id: "haikuCard05", text: '', tag: '_' },
-          { _id: "haikuCard06", text: '.', tag: 'text' },
-          { _id: "haikuCard07", text: '', tag: 'br' },
-          { _id: "haikuCard08", text: '', tag: '_' },
-          { _id: "haikuCard09", text: '.', tag: 'text' }
+          {
+            _id: "haikuCard01",
+            text: '',
+            tag: 'br'
+          },
+          {
+            _id: "haikuCard02",
+            text: '',
+            tag: '_'
+          },
+          {
+            _id: "haikuCard03",
+            text: '.',
+            tag: 'text'
+          },
+          {
+            _id: "haikuCard04",
+            text: '',
+            tag: 'br'
+          },
+          {
+            _id: "haikuCard05",
+            text: '',
+            tag: '_'
+          },
+          {
+            _id: "haikuCard06",
+            text: '.',
+            tag: 'text'
+          },
+          {
+            _id: "haikuCard07",
+            text: '',
+            tag: 'br'
+          },
+          {
+            _id: "haikuCard08",
+            text: '',
+            tag: '_'
+          },
+          {
+            _id: "haikuCard09",
+            text: '.',
+            tag: 'text'
+          }
         ],
         _id: 'haikuCard',
         pick: 3
@@ -559,8 +610,11 @@ exports.endGame = (io, socket, lobbyName) => {
     } else {
       log("GAME OVER");
       //turns, score: send to end screen directly
+      setGameState(lobby, "game-end");
       let scores = getAllScores(lobby);
-      io.to(lobby.name).emit(GAME_WIN, { scores: scores });
+      io.to(lobby.name).emit(GAME_WIN, {
+        scores: scores
+      });
 
     }
   }

@@ -56,6 +56,7 @@ exports.IS_ADMIN = "lobby-is-admin";
 exports.SET_DECKS = "lobby-set-decks";
 exports.DECKS_SELECTED = "lobby-decks-selected";
 exports.NOT_ENOUGH_CARDS = "lobby-not-enough-cards";
+exports.DECK_SELECTION = "lobby-deck-selection";
 
 /**CHAT MESSAGES */
 exports.CHAT_MESSAGE = "chat-message-new";
@@ -66,3 +67,4 @@ exports.LOBBY_FULL = "lobby-full";
 exports.LOBBY_EXISTS_ALREADY = "lobby-exists-already";
 exports.LOBBY_INCORRECT_CREDENTIALS = "lobby-incorrect-credentials";
 exports.LOBBY_NOT_FOUND = "lobby-not-found";
+exports.NOT_ENOUGH_PLAYERS = "lobby-not-enough-players";

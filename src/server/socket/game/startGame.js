@@ -9,14 +9,17 @@ const {
   getUser,
   shuffle,
   setGameState,
-  MIN_USERS
+  MIN_USERS,
+  getAllScores
 } = require('../internal');
 
 const {
   LOBBY_NOT_FOUND,
   GAME_START,
   USER_NOT_FOUND,
-  GAME_READY
+  GAME_READY,
+  NOT_ENOUGH_PLAYERS,
+  GAME_WIN
 } = require("../messages");
 
 
@@ -121,7 +124,10 @@ function checkState(state) {
   // result
   // finished (end screen)
   // init
-  if (state === "deck-selection") { return false; }
+  // game-end
+  if (state === "deck-selection" || state === "game-end") {
+    return false;
+  }
   //deck-selection 
   return true;
 }
@@ -149,6 +155,14 @@ exports.checkStart = (io, socket, msg) => {
           }
         }
 
+      } else if (lobby.state === "game-end") {
+
+        let scores = getAllScores(lobby);
+
+        socket.emit(GAME_WIN, {
+          scores: scores
+        });
+
       } else if (
         lobby.currentUsers >= MIN_USERS &&
         lobby.whiteCards) {
@@ -159,6 +173,8 @@ exports.checkStart = (io, socket, msg) => {
         io.in(lobby.name).emit(GAME_START);
 
         initGame(io, lobby);
+      } else {
+        io.in(lobby.name).emit(NOT_ENOUGH_PLAYERS);
       }
     } else {
       socket.emit(USER_NOT_FOUND);
@@ -171,5 +187,3 @@ exports.checkStart = (io, socket, msg) => {
     socket.emit(LOBBY_NOT_FOUND, msg.lobbyName);
   }
 };
-
-

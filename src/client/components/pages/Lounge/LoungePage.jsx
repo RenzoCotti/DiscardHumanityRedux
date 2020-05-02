@@ -8,24 +8,26 @@ import PropTypes from "prop-types";
 import {
   GAME_START,
   LOBBY_NOT_FOUND,
-  DECKS_SELECTED,
   CHECK_START,
-  USER_CONNECT,
-  GAME_LOUNGE,
   USER_NOT_FOUND,
-  LOBBY_LEAVE
+  LOBBY_LEAVE,
+  DECK_SELECTION,
+  GAME_LOUNGE,
+  NOT_ENOUGH_PLAYERS
 } from "../../../../server/socket/messages";
 import GamePage from "../Game/GamePage";
 import Topbar from "../Game/Views/Topbar";
 import Leaderboard from "../Game/Views/Leaderboard";
-// import DeckSelection from "./DeckSelectionPage";
+import DeckSelection from "./DeckSelectionPage";
+import Button from "../../modules/input/Button";
 
 class LoungePage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {error: ""};
     this.setupSocket();
+    this.checkStartGame = this.checkStartGame.bind(this);
 
     // console.log("props user");
     // console.log(props);
@@ -49,30 +51,15 @@ class LoungePage extends Component {
     // console.log("LEAVE");
     this.props.updateUserInfo({ lobbyName: null, username: null });
     this.props.socket.off(GAME_START);
-    this.props.socket.off(USER_CONNECT);
-    this.props.socket.off(DECKS_SELECTED);
     this.props.socket.off(LOBBY_NOT_FOUND);
     this.props.socket.off(USER_NOT_FOUND);
+    this.props.socket.off(DECK_SELECTION);
     this.props.socket.off(GAME_LOUNGE);
   }
 
   setupSocket() {
     this.props.socket.on(GAME_START, () => {
       this.setState({ start: true });
-    });
-
-    this.props.socket.on(USER_CONNECT, () => {
-      // console.log("user joined");
-      let info = { lobbyName: this.props.lobbyName, username: this.props.username };
-      // console.log(info);
-      this.props.socket.emit(CHECK_START, info);
-    });
-
-    this.props.socket.on(DECKS_SELECTED, () => {
-      // console.log("deck set by admin");
-      let info = { lobbyName: this.props.lobbyName, username: this.props.username };
-      // console.log(info);
-      this.props.socket.emit(CHECK_START, info);
     });
 
     this.props.socket.on(LOBBY_NOT_FOUND, () => {
@@ -85,23 +72,45 @@ class LoungePage extends Component {
       this.setState({ kicked: true });
     });
 
-    this.props.socket.on(GAME_LOUNGE, () => {
+    this.props.socket.on(DECK_SELECTION, () => {
       // console.log("start false");
-      this.setState({ start: false });
+      this.setState({ deckSelection: true });
     });
 
-    //every time we get here, we launch this and check if the game can start
-    // this.props.socket.emit(CHECK_START, { lobbyName: this.props.lobbyName, username: this.props.username });
+    this.props.socket.on(GAME_LOUNGE, () => {
+      this.setState({ waiting: true, deckSelection: false });
+    });
+
+    this.props.socket.on(NOT_ENOUGH_PLAYERS, () => {
+      this.setState({ error: "Not enough players." });
+    });
+
+  }
+
+  checkStartGame(){
+    let info = { lobbyName: this.props.lobbyName, username: this.props.username };
+    this.props.socket.emit(CHECK_START, info);
   }
 
 
   render() {
 
-    let div = <div className="info-message">Waiting for players to join...</div>;
+    let div = 
+    (<div className="lounge-home">
+      <div className="info-message">Waiting for players to join...</div>
+      <br />
+      <br />
+      <Button value="Start game" fn={this.checkStartGame} />
+      <div className="errormsg">{this.state.error}</div>
+    </div>);
+
+
     if (this.state.kicked || !this.props.username && !this.props.lobbyName) {
       return <Redirect push to={"/kicked"} />;
     } else if (this.state.start) {
       div = <GamePage socket={this.props.socket} />;
+    } else if (this.state.deckSelection){
+      div = <DeckSelection socket={this.props.socket} />;
     }
 
     return (

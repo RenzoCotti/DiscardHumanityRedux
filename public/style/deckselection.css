@@ -20,20 +20,22 @@
   flex-wrap: wrap;
   /* margin-left: 300px; */
   width: 1000px;
+  margin: 0 350px;
 }
+
 .deck-list {
   overflow: scroll;
   overflow-x: hidden;
-  max-height: 600px;
+  /* max-height: 600px; */
   margin-bottom: 150px;
 }
 
-.start-game-button{
+/* .start-game-button {
   position: fixed;
   width: 100%;
   bottom: 100px;
   padding-left: 25px;
-}
+} */
 
 .deck-container {
   position: fixed;

@@ -13,7 +13,7 @@ class Leaderboard extends Component {
     let scores = this.props.scores;
 
     // console.log(scores);
-    if (!scores || scores.length === 0) return <div>No scores available.</div>;
+    if (!scores || scores.length === 0) return <div className="text-center">No scores available.</div>;
     else if (scores && this.props.short) scores = scores.slice(0, 3);
 
     return (

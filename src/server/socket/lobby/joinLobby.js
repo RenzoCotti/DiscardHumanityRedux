@@ -16,7 +16,8 @@ const {
   LOBBY_JOINED,
   LOBBY_INCORRECT_CREDENTIALS,
   LOBBY_EXISTS_ALREADY,
-  LOBBY_CREATED
+  LOBBY_CREATED,
+  DECK_SELECTION
 } = require("../messages");
 
 //logins to a new lobby
@@ -93,7 +94,7 @@ exports.createLobby = (io, socket, info) => {
       userList: [{
         username: info.username,
         id: socket.id,
-      },],
+      }, ],
       state: "deck-selection",
     };
 
@@ -130,6 +131,7 @@ exports.createLobby = (io, socket, info) => {
     lobbies.push(lobby);
     log("Lobby " + info.lobbyName + " created.");
     io.to(lobby.gameSettings.admin).emit(LOBBY_CREATED, lobby.name);
+    socket.emit(DECK_SELECTION);
     io.in("general").emit(LOBBY_LIST_UPDATE);
     // log(lobbies);
   }

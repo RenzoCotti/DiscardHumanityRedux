@@ -8,10 +8,12 @@
   flex-wrap: wrap;
   height: 95vh;
   overflow-y: auto;
-
+  z-index: 5;
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
 
   background-color: var(--background);
   /* margin: 0 50px; */
@@ -92,7 +94,8 @@
 .flex-no-shrink {
   flex-shrink: 0;
 }
-.full-width{
+
+.full-width {
   width: 70%;
 }
 
@@ -101,6 +104,6 @@
   flex-wrap: wrap;
 }
 
-.flex-start-vert{
+.flex-start-vert {
   align-items: flex-start;
 }

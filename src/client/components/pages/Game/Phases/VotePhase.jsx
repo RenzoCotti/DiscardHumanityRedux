@@ -191,7 +191,7 @@ class VotePhase extends Component {
               <div className="info-message">You voted.</div> :
               <Button value="Confirm" short={true} fn={this.voteCard} />
             }
-            <div className="error-msg">{this.state.error}</div>
+            <div className="errormsg">{this.state.error}</div>
           </div>
         </div>);
     }

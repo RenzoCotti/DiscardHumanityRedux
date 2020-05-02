@@ -62,7 +62,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
 
 
         //remove user info if game started
-        if (lobby.state) {
+        if (lobby.gameState) {
           //game has started
 
           if (user.info && user.info.hand) {
@@ -77,7 +77,7 @@ exports.disconnectFromLobby = (io, lobbyName, username) => {
         if (lobby.currentUsers === 0) {
           toRemove = i;
           stopGame(lobby);
-        } else if (lobby.currentUsers === 1) {
+        } else if (lobby.currentUsers === 1 && lobby.state !== "deck-selection") {
           log("just one player left, disconnect too");
           stopGame(lobby);
           exports.disconnectFromLobby(io, lobbyName, lobby.userList[0].username);

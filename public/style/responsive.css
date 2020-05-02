@@ -19,13 +19,13 @@
   }
 
   .deck-preview {
-    padding: 0 100px  
+    margin: 0 50px;
   }
 
   .deck-list {
     overflow-y: scroll;
   }
-  
+
   .deck-title {
     width: 250px;
     cursor: pointer;
@@ -39,7 +39,7 @@
     margin-bottom: 20px;
     min-width: 250px;
   }
-  
+
   .lobby-info {
     min-width: 100px;
   }
@@ -54,14 +54,14 @@
     padding-left: 20px;
   }
 
-  
+
   .card-normal {
     min-width: 140px;
     min-height: 220px;
     max-width: 140px;
     max-height: 220px;
   }
-  
+
   .card-big {
     min-width: 180px;
     min-height: 280px;
@@ -70,101 +70,101 @@
   }
 
 
-  .hand{
+  .hand {
     flex-wrap: wrap;
     overflow: auto;
   }
 
 
-  .card0{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+  .card0 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card1{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card1 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card2{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card2 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card3{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card3 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card4{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card4 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card5{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card5 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card6{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card6 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card7{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card7 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card8{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card8 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card9{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card9 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card10{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card10 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card11{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card11 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .full-width{
+
+  .full-width {
     width: 100%;
   }
 
-  .main-container{
+  .main-container {
     padding: 50px 20px;
   }
 
@@ -172,7 +172,7 @@
     /* 40 chars */
     font-size: 18px;
   }
-  
+
   .text-short {
     /* 60 chars */
     font-size: 16px;
@@ -225,14 +225,15 @@
   .deck-preview {
     display: none;
   }
+
   .deck-list {
     overflow-y: scroll;
   }
-  
+
   .deck-container {
     position: inherit;
   }
-  
+
   .deck-title {
     width: 250px;
     cursor: pointer;
@@ -246,23 +247,24 @@
     margin-bottom: 20px;
     min-width: 250px;
   }
-  
+
   .lobby-info {
     min-width: 100px;
   }
 
-  .side-bar, .tab-switch {
+  .side-bar,
+  .tab-switch {
     display: none;
   }
 
-  
+
   .card-normal {
     min-width: 140px;
     min-height: 220px;
     max-width: 140px;
     max-height: 220px;
   }
-  
+
   .card-big {
     min-width: 180px;
     min-height: 280px;
@@ -271,101 +273,101 @@
   }
 
 
-  .hand{
+  .hand {
     flex-wrap: wrap;
     overflow: auto;
   }
 
 
-  .card0{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+  .card0 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card1{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card1 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card2{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card2 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card3{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card3 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card4{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card4 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card5{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card5 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card6{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card6 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card7{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card7 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card8{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card8 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card9{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card9 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card10{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card10 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .card11{
-   position: static;
-   left: auto;
-   margin-bottom: 10px;
-   margin-right: 10px;
+
+  .card11 {
+    position: static;
+    left: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
   }
-  
-  .full-width{
+
+  .full-width {
     width: 100%;
   }
 
-  .main-container{
+  .main-container {
     padding: 50px 20px;
   }
 
@@ -373,9 +375,14 @@
     /* 40 chars */
     font-size: 18px;
   }
-  
+
   .text-short {
     /* 60 chars */
     font-size: 16px;
+  }
+
+
+  .lounge-container {
+    align-items: center;
   }
 }

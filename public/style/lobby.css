@@ -20,7 +20,7 @@
   min-width: 200px;
 }
 
-.lobby-container{
+.lobby-container {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -28,11 +28,19 @@
   flex-wrap: wrap;
 }
 
-.lounge-container{
+.lounge-container {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: 85%;
 }
 
+.lounge-home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

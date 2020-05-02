@@ -15,7 +15,6 @@ import {
 import {
   RANDO_USERNAME
 } from "../../../../server/socket/internal";
-import DeckSelectionPage from "../Lounge/DeckSelectionPage";
 import { MIN_USERS } from "../../../../server/socket/utils";
 import Navbar from "../../general/Navbar";
 import { Redirect } from "react-router";
@@ -219,7 +218,7 @@ class LobbyCreationPage extends Component {
 
   render() {
     if (this.props.username && this.props.lobbyName) {
-      return <DeckSelectionPage socket={this.props.socket} />;
+      return <Redirect push to="/lounge" />;
     } else if (this.state.help) {
       return <Redirect push to="/rules" />;
     }
