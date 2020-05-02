@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 700px;
+    width: 500px;
   }
 
   .game-options {
@@ -46,6 +46,7 @@
 
   .lounge-container {
     align-items: flex-start;
+    margin-right: 400px;
   }
 
   .side-bar {
@@ -202,7 +203,7 @@
 
 
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1300px) {
   .deck-preview {
     position: fixed;
     left: 400px;
@@ -383,6 +384,7 @@
 
 
   .lounge-container {
-    align-items: center;
+    align-items: flex-start;
+    margin-right: 0;
   }
 }

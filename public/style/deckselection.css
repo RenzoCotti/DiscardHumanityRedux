@@ -20,7 +20,8 @@
   flex-wrap: wrap;
   /* margin-left: 300px; */
   width: 1000px;
-  margin: 0 350px;
+  margin: 0 550px;
+  height: 100%;
 }
 
 .deck-list {
